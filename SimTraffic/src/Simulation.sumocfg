@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<configuration>
+	<input>
+		<net-file value="Carrefour.net.xml"/>
+		<route-files value="flows.rou.xml"/>
+	</input>
+	<time>
+		<begin value="000"/>
+		<end value="3600000"/>
+	</time>
+</configuration>

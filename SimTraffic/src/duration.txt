@@ -1,0 +1,6 @@
+Loading net-file from 'Carrefour.net.xml' ... done (62ms).
+Loading done.
+Warning: Ids of internal routes are ignored (vehicle 'flow-15800271_to_708065698#4').
+Error: The edge '-15800271' within the route for vehicle 'flow-15800271_to_708065698#4' is not known.
+ The route can not be build.
+Quitting (on error).
