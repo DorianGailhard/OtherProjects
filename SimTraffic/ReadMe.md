@@ -1,0 +1,1 @@
+SimTraffic, a group project done during the first year at Télécom Paris in collaboration with Lysiane Burel, Ryuto Yokoyama, Clément Teytaud, Reuven Windisch, Mattéo Ratet, Zineb Bouharra and Louis Petitjean. I was tasked with the implementation of the interface (done in Java with Swing).
