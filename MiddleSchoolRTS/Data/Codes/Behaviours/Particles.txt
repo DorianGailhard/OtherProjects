@@ -1,0 +1,108 @@
+global.obj_particles_manager = object_add()
+
+//Create event
+object_event_add(global.obj_particles_manager,ev_create,0,"
+//Variables
+particles_number = 0
+
+particle_creator = ds_list_create()
+particle_alpha = ds_list_create()
+particle_alpha_speed = ds_list_create()
+particle_alpha_min = ds_list_create()
+particle_alpha_min_attained = ds_list_create()
+particle_friction = ds_list_create()
+particle_speed = ds_list_create()
+particle_sprite = ds_list_create()
+particle_image_angle = ds_list_create()
+particle_image_angle_speed = ds_list_create()
+particle_x = ds_list_create()
+particle_y = ds_list_create()
+particle_xscale = ds_list_create()
+particle_yscale = ds_list_create()
+particle_scale_speed = ds_list_create()
+particle_dir = ds_list_create()
+particle_color = ds_list_create()
+particle_bm_mode = ds_list_create()
+")
+
+//Step event
+object_event_add(global.obj_particles_manager,ev_step,ev_step_normal,"
+for (i = 0;i < particles_number;i += 1) {
+if (global.pause == false) {
+//Friction
+ds_list_replace(particle_speed,i,ds_list_find_value(particle_speed,i) - ds_list_find_value(particle_friction,i))
+
+//Moving
+ds_list_replace(particle_x,i,ds_list_find_value(particle_x,i) + lengthdir_x(ds_list_find_value(particle_speed,i),ds_list_find_value(particle_dir,i)))
+ds_list_replace(particle_y,i,ds_list_find_value(particle_y,i) + lengthdir_y(ds_list_find_value(particle_speed,i),ds_list_find_value(particle_dir,i)))
+
+//Scale
+ds_list_replace(particle_xscale,i,ds_list_find_value(particle_xscale,i) + ds_list_find_value(particle_scale_speed,i))
+ds_list_replace(particle_yscale,i,ds_list_find_value(particle_yscale,i) + ds_list_find_value(particle_scale_speed,i))
+
+//Alpha
+if (ds_list_find_value(particle_alpha_min_attained,i) == false) {
+ds_list_replace(particle_alpha,i,min(ds_list_find_value(particle_alpha_min,i),ds_list_find_value(particle_alpha,i) + ds_list_find_value(particle_alpha_speed,i)))
+
+if (ds_list_find_value(particle_alpha,i) == ds_list_find_value(particle_alpha_min,i)) {
+ds_list_replace(particle_alpha_min_attained,i,true)
+}
+} else {
+ds_list_replace(particle_alpha,i,max(0,ds_list_find_value(particle_alpha,i) - ds_list_find_value(particle_alpha_speed,i)))
+}
+
+//Angle
+ds_list_replace(particle_image_angle,i,max(0,ds_list_find_value(particle_image_angle,i) + ds_list_find_value(particle_image_angle_speed,i)))
+}
+
+//Delete useless particles
+if (ds_list_find_value(particle_alpha,i) == 0) {
+ds_list_delete(particle_creator,i)
+ds_list_delete(particle_alpha,i)
+ds_list_delete(particle_alpha_speed,i)
+ds_list_delete(particle_alpha_min,i)
+ds_list_delete(particle_alpha_min_attained,i)
+ds_list_delete(particle_friction,i)
+ds_list_delete(particle_speed,i)
+ds_list_delete(particle_sprite,i)
+ds_list_delete(particle_image_angle,i)
+ds_list_delete(particle_image_angle_speed,i)
+ds_list_delete(particle_x,i)
+ds_list_delete(particle_y,i)
+ds_list_delete(particle_xscale,i)
+ds_list_delete(particle_yscale,i)
+ds_list_delete(particle_scale_speed,i)
+ds_list_delete(particle_dir,i)
+ds_list_delete(particle_color,i)
+ds_list_delete(particle_bm_mode,i)
+
+particles_number -= 1
+i -= 1
+}
+}
+")
+
+object_event_add(global.obj_particles_manager,ev_draw,0,"
+if (obj_minimap.enlarge_state != 90) {
+var a;
+
+for (i = 0;i < particles_number;i += 1) {
+a = false
+
+if (ds_list_find_value(particle_x,i) > view_xview - 75) {
+if (ds_list_find_value(particle_x,i) < view_xview + global.screen_resolution_width + 75) {
+if (ds_list_find_value(particle_y,i) > view_yview - 75) {
+if (ds_list_find_value(particle_y,i) < view_yview + global.screen_resolution_height + 75) {
+a = true
+}}}}
+
+if (a == true) {
+draw_set_blend_mode(ds_list_find_value(particle_bm_mode,i))
+
+draw_sprite_ext(ds_list_find_value(particle_sprite,i),-1,ds_list_find_value(particle_x,i),ds_list_find_value(particle_y,i),ds_list_find_value(particle_xscale,i),ds_list_find_value(particle_yscale,i),ds_list_find_value(particle_image_angle,i),ds_list_find_value(particle_color,i),ds_list_find_value(particle_alpha,i))
+}
+}
+
+draw_set_blend_mode(bm_normal)
+}
+")

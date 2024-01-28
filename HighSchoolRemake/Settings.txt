@@ -1,0 +1,6 @@
+//Screen
+1024 //1920 //Width
+768 //1080 //Height
+
+//Preferences
+Default //Texturepack

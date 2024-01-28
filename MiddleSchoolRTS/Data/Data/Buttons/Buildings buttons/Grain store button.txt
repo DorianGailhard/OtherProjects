@@ -1,0 +1,106 @@
+var obj;
+obj = object_add()
+
+object_set_parent(obj,obj_buildings_button)
+
+//Characteristics of the button
+object_event_add(obj,ev_create,0,"
+//Graphics
+if (obj_manager.spr_grain_store_icon == -1) {
+obj_manager.spr_grain_store_icon = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\In game menu\Icons\Grain store.png',1,false,false,25,25)
+}
+
+//Informations
+sprite_index = obj_manager.spr_grain_store_icon
+name = 126
+
+effects_text = 127.019
+effects_number = 100
+
+detailed_text = 172
+detailed_image = '\In game\Buildings\Grain store image.png'
+
+category = 1 /*Type a number of the following list
+0 : Civil - Administration
+1 : Civil - Agriculture
+2 : Civil - Happiness
+3 : Civil - Trade
+4 : Civil - Culture
+5 : Military - Improvements
+6 : Military - Recruitment
+7 : Research - Advancement
+8 : Research - Spreading
+*/
+
+//Resource cost
+cost_resource_number[0] = 150 //Wood
+
+//Do not touch
+image_alpha = 0
+
+depth = -1002
+enough_resources = false
+alpha_image1 = 0
+alpha_image2 = 0
+alpha_image3 = 0
+mask_index = obj_manager.spr_button_background
+hit = false
+number = global.obj_in_game_menu.buildings_categories_button_count[category]
+x_ = 43 + (number - floor(number/4) * 4) * 55
+y_ = 30 + floor(number/4) * 55
+global.obj_in_game_menu.buildings_categories_button_list[category,global.obj_in_game_menu.buildings_categories_button_count[category]] = id
+global.obj_in_game_menu.buildings_categories_button_count[category] += 1
+")
+
+//Characteristics of the building
+object_event_add(obj,ev_other,ev_user1,"var q;
+q = instance_create(-500,-500,obj_your_buildings)
+q.parent = id
+
+with (q) {
+//Graphics
+//Create sprite
+buildings_parts = 5
+
+if (obj_manager.spr_grain_store == -1) {
+obj_manager.spr_grain_store = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\In game\Buildings\Grain store.png',buildings_parts + 5,false,false,82,82)
+}
+
+sprite_index = obj_manager.spr_grain_store
+obj_manager.spr_grain_store_number += 1
+sprite = 'spr_grain_store'
+
+mask_index = obj_manager.spr_grain_store
+
+spr_shadows = obj_manager.spr_grain_store
+spr_shadows_height = 1
+
+spr_width = sprite_get_width(sprite_index)
+spr_height = sprite_get_height(sprite_index)
+spr_length = max(spr_width,spr_height)
+
+//Variables
+depth = 10
+
+minimap_alpha = 0
+
+max_health_ = 100
+armor_protection = 10
+
+name = parent.name
+obj_action = 2
+
+button_sprite = parent.sprite_index
+button_effects_text = parent.effects_text
+button_effects_number = parent.effects_number
+detailed_text = parent.detailed_text
+detailed_image = parent.detailed_image
+
+time_construction_required = 500
+construction_range = 0
+need_construction_range = true
+type = 1
+}")
+
+//Create the instance
+instance_create(0,0,obj)

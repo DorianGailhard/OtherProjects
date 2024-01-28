@@ -1,0 +1,232 @@
+//Current number : 173
+//Debug
+text[0] = "Images par seconde"
+text[1] = "Heure"
+text[148] = "Moyenne des fps"
+
+//Actions
+text[2] = "En construction."
+text[3] = "Aucun ordre reçu."
+text[4] = "Se déplace."
+text[5] = "Tire sur une unité ennemie."
+text[45] = "Se déplace pour attaquer une unité ennemie."
+text[56] = "Charge une unité ennemie."
+text[59] = "Se bat contre une unité ennemie."
+
+//Interface
+text[6] = "Etat de fatigue : %1"
+text[7] = "Hommes : %1/%2"
+text[8] = "Santé : %1/%2"
+
+text[9] = "Jeu en pause"
+text[10] = "Quitter le jeu"
+text[11] = "Retourner au jeu"
+text[12] = "Sauvegarder"
+text[13] = "Charger"
+text[14] = "Options"
+text[15] = "Retour"
+text[16] = "Supprimer"
+text[83] = "Appliquer"
+text[151] = "Écraser"
+text[170] = "Détruire"
+
+text[149] = "Aucune sauvegarde n'a été trouvée"
+
+text[75] = "Graphismes"
+text[76] = "Son"
+text[77] = "Contrôles"
+text[104] = "Préférences"
+
+text[46] = "Frais"
+text[47] = "Réchauffés"
+text[48] = "Essoufflés"
+text[49] = "Fatigués"
+text[50] = "Epuisés"
+text[51] = "Exténués"
+
+text[60] = "Civil - Administration"
+text[61] = "Civil - Agriculture"
+text[62] = "Civil - Bien-être"
+text[63] = "Civil - Commerce"
+text[64] = "Civil - Culture"
+text[65] = "Militaire - Améliorations"
+text[66] = "Militaire - Recrutement"
+text[67] = "Recherche - Avancement"
+text[68] = "Recherche - Diffusion"
+
+text[69] = "Améliorations"
+text[70] = "Construction de bâtiments"
+text[71] = "Politique"
+
+text[72] = "Formations"
+text[73] = "Ordres"
+text[74] = "Recrutements"
+
+text[78] = "Touches relatives à l'interface :"
+text[81] = "Touches relatives à la caméra :"
+text[82] = "Touches relatives aux unités :"
+
+text[79] = "Mettre le jeu en pause"
+text[80] = "Fermer un menu"
+
+text[84] = "Résolutions de l'écran :"
+text[85] = "Qualités des effets :"
+text[86] = "Qualité des unités :"
+
+text[87] = "Largeur#(en pixels)"
+text[88] = "Hauteur#(en pixels)"
+text[89] = "Ombres du terrain"
+text[96] = "Marge"
+text[97] = "Ombres des soldats"
+text[98] = "Particules"
+text[99] = "Nombre d'apparences"
+text[100] = "Nombre d'animations"
+text[101] = "Durée d'expiration"
+text[152] = "Éclairage"
+
+text[90] = "Très haute"
+text[91] = "Haute"
+text[92] = "Moyenne"
+text[93] = "Basse"
+text[94] = "Très basse"
+text[95] = "Aucune"
+
+text[102] = " px"
+text[103] = " min"
+
+text[105] = "Résolution en largeur de l'écran.##Vous pouvez ajuster plus précisément avec la molette de la souris."
+text[106] = "Résolution en hauteur de l'écran.##Vous pouvez ajuster plus précisément avec la molette de la souris."
+text[107] = "Les éléments du terrain (bâtiments, arbres...) projettent des ombres. Cette option permet de modifier la précision des ombres.##Coût élevé en performance."
+text[108] = "Agrandit la surface de calcul des ombres des bâtiments, ce qui réduit les artéfacts sur les bords de l'écran.##Coût moyen en performance, dépendant de la qualité des ombres des bâtiments."
+text[109] = "Les soldats projettent des ombres. Cette option permet de modifier le taux de rafraîchissement des ombres.##Coût très élevé en performance."
+text[110] = "Permet de modifier le nombre de particules utilisées pour calculer les effets. Une qualité élevée donnera des rendus plus détaillés.##Coût moyen en performance."
+text[111] = "Permet de modifier le nombre maximal d'apparences différentes (différents équipements et couleurs) dans une unité.##Aucun coût en performance, sauf lors du chargement des animations. Réduire ce paramètre permet de l'accélérer."
+text[112] = "Permet de modifier le nombre maximal d'animations différentes pour une action, en particulier dans les combats.##Aucun coût en performance, sauf lors du chargement des animations. Réduire ce paramètre permet de l'accélérer."
+text[113] = "Durée au bout de laquelle les animations inutilisées sont déchargées, ce qui nécessitera de les recharger lorsqu'elles seront nécessaires."
+text[153] = "Active l'éclairage des bâtiments et des éléments du terrain.##Coût moyen en performance."
+
+text[114] = "Fichiers du jeu : "
+text[115] = "Préférences : "
+
+text[116] = "Thème graphique"
+text[117] = "Langue"
+text[118] = "Ombre du curseur"
+text[119] = "Flou du curseur"
+text[120] = "Distance du bord de l'écran pour déplacer la caméra"
+
+text[121] = "Le pack de textures utilisé par le jeu."
+text[122] = "La traduction utilisée par le jeu."
+text[123] = "Le curseur laisse une traînée quand il est déplacé."
+text[124] = "Le curseur projette une ombre."
+text[125] = "Distance entre le curseur et un côté de l'écran nécessaire pour déplacer la caméra vers ce côté."
+
+text[130] = "Caractéristiques"
+text[132] = "Bâtiments construits"
+text[158] = "Travailleurs"
+text[159] = "Garnison"
+
+text[131] = "%0/%1 habitants"
+
+text[160] = "Aucun travailleur"
+text[161] = "Aucune garnison"
+
+text[133] = "Voir le bâtiment"
+text[134] = "Renommer la ville"
+text[135] = "Afficher les propriétés de la ville"
+text[139] = "Nommer la ville"
+
+text[136] = "Centre la vue sur le bâtiment sélectionné."
+text[137] = "Permet de donner un autre nom à la ville."
+text[138] = "Ouvre une page affichant les propriétés de la ville."
+
+text[142] = "Vos unités"
+text[143] = "Unités ennemies"
+text[144] = "Vos bâtiments"
+text[145] = "Bâtiments ennemis"
+text[146] = "Forêt"
+text[147] = "Infos sur les villes"
+
+text[162] = "Propriétés de %0"
+text[163] = "Aperçu général"
+text[164] = "Bâtiments"
+text[165] = "Ressources"
+text[166] = "Garnison"
+
+text[167] = "Afficher les informations détaillées sur le bâtiment"
+text[168] = "Convertir ou améliorer le bâtiment"
+text[169] = "Détruire le bâtiment"
+
+//Separators
+text[128] = "%2, %3"
+text[129] = "%2 et %3"
+
+//Buildings
+text[17] = "Maison du chef du village"
+text[172] = "Test ###############################################o"
+
+text[126] = "Réserve de grain"
+text[156] = "Campement de bûcherons"
+
+//Technologies
+text[18] = "Harpon de pêche"
+text[33] = "Construction"
+
+//Orders
+text[38] = "Annuler les ordres"
+text[39] = "Courir"
+text[41] = "Feu à volonté"
+text[43] = "Formation espacée"
+text[57] = "Mode mêlée"
+
+text[154] = "Construire un campement de bûcherons"
+
+//Resources names
+text[19] = "bois"
+
+//Interface texts
+text[20] = "Coût :"
+text[21] = "Effets :"
+text[22] = "Temps de recherche :"
+
+text[23] = "~%1 secondes"
+text[24] = "%1 %2 (En stock : %3)"
+
+//Effects texts
+text[25] = "Permet de construire %1."
+text[26] = "La pêche est accelerée de %0%."
+text[34] = "des bâtiments dans un rayon de %0 pixels autour de lui"
+text[127] = "Permet de stocker %0 %1 en plus dans le village."
+text[155] = "L'unité va construire un campement de bûcherons à l'endroit désigné et exploitera les bois alentours."
+text[157] = "Permet aux travailleurs d'exploiter les bois alentours."
+
+text[37] = "Annule tous les ordres."
+text[40] = "L'unité se déplace plus vite, en contrepartie d'une fatigue plus importante."
+text[42] = "Autorise l'unité à tirer sur tous les ennemis à portée."
+text[44] = "Les soldats s'écartent, ce qui réduit les pertes lorsque l'unité est sous le feu ennemi, mais la désavantage lorsqu'elle est en situation de combat rapproché."
+text[58] = "Les soldats vont attaquer les cibles ennemies au corps-à-corps."
+
+//Tabs texts
+text[27] = "Bâtiments"
+text[28] = "Recherches"
+text[35] = "Armée"
+text[36] = "Ordres"
+text[54] = "Ville"
+text[55] = "Actions"
+
+//Information texts
+text[29] = "Fin de recherche : %1"
+text[53] = "Fin de construction : %1"
+
+//Messages
+text[30] = 'Voulez-vous vraiment supprimer la sauvegarde " %1 " ?#Cette action est irreversible !'
+text[150] = 'Voulez-vous vraiment écraser la sauvegarde " %1 " ?#Cette action est irreversible !'
+text[171] = 'Voulez-vous vraiment détruire le bâtiment " %1 " ?'
+
+//Description texts
+text[31] = "%1, nos dépenses dans la recherche ont été fructueuses ! Nous avons découvert l'%2, qui a comme effets :#%3"
+text[52] = "%1, la construction de %2 est terminée ! Ce bâtiment a comme effets :#%3"
+text[140] = "%1, comment voulez-vous baptiser cette ville ?"
+text[141] = "%1, comment voulez-vous renommer cette ville ?"
+
+//Titles
+text[32] = "Chef tribal"

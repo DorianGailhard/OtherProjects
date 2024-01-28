@@ -1,0 +1,30 @@
+//Things that may cause bugs
+obj_selection.unit_number_selected = 0
+obj_selection.unit[0] = 100196
+mp_grid_clear_all(global.path_grid)
+
+//Instances and variables of your faction
+var inst;
+
+//Resources
+obj_resources_block.resources[0] = 450
+obj_resources_block.resources2[0] = obj_resources_block.resources[0]
+
+//Technologies
+obj_resources_block.technology_number = -1
+obj_resources_block.technology_number_ = -1
+
+obj_manager.Grain_store_button = 1
+obj_manager.House_of_the_chieftain_button = 1
+
+obj_manager.Construction_button = 1
+obj_manager.Harpoon_of_fishing_button = 1
+
+//Units
+
+//Units controller
+//Next controller
+inst = instance_create(1685,400,obj_your_warriors_units)
+
+inst.men_number_max = 100
+inst.men_number_now = 100

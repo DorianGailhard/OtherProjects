@@ -1,0 +1,515 @@
+//Create event
+global.obj_buttons_tooltip = object_add()
+
+object_event_add(global.obj_buttons_tooltip,ev_create,0,"
+//Variables
+depth = -1003
+
+button = 0
+button2 = 0
+
+height = 0
+height2 = 0
+height_goal = 0
+
+text_alpha = 1
+image_alpha = 0
+
+button_index = 0
+button2_index = 0
+")
+
+//Step event
+object_event_add(global.obj_buttons_tooltip,ev_step,ev_step_normal,"
+//Button
+if (obj_minimap.enlarge == false && !mouse_check_button(mb_left)) {
+if (global.pause == false) {
+//Buildings
+var pos_met,inst;
+pos_met = false
+
+if (global.obj_in_game_menu.select == true && global.obj_in_game_menu.image_alpha == 1) {
+inst = instance_nearest(mouse_x,mouse_y,obj_buildings_button)
+
+if (instance_exists(inst)) {
+if (mouse_x > inst.x - 29 && mouse_x < inst.x + 29 && mouse_y > inst.y - 29 && mouse_y < inst.y + 29) {
+pos_met = position_meeting(mouse_x,mouse_y,inst)
+} else {
+pos_met = false
+}
+
+if (pos_met == true && button != inst) {
+button = inst
+button_index = object_get_parent(button.object_index)
+
+//String
+var a,i,str;
+a = 0
+i = 0
+str = ''
+
+while (a = 0) {
+if (button.cost_resource_number[i] > 0) {
+str += string_replace(string_replace(string_replace(obj_manager.text[24],'%1',string(button.cost_resource_number[i])),'%2',obj_manager.text[19 * (i == 0)]),'%3',string(obj_resources_block.resources2[i]))
+}
+
+if (!variable_local_exists('button.cost_resource_number[' + string(i) + ']')) {
+a = 1
+}
+
+i += 1
+}
+
+//Strings height
+var name_height,cost_height,str_height,effects_height,effects_text_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button.name],-1,190)
+
+draw_set_font(font_objects_name)
+cost_height = string_height_ext(obj_manager.text[20],-1,190)
+
+draw_set_font(font_normal)
+str_height = string_height_ext(str,-1,180)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+effects_text_height = string_height_ext(string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button.effects_text) * 1000])),'%2',obj_manager.text[floor(button.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button.effects_text/1000000000) mod 1000]),'%0',string(button.effects_number)),-1,180)
+
+height_goal = name_height + cost_height + str_height + effects_height + effects_text_height + 45
+height2 = abs(height_goal - height)/20
+}}}
+
+//Technologies
+if ((global.obj_in_game_menu.select2 == true && global.obj_in_game_menu.image_alpha == 1) || mouse_x < view_xview + global.screen_resolution_width - 252) {
+inst = instance_nearest(mouse_x,mouse_y,obj_technologies_button)
+
+if (instance_exists(inst)) {
+if (mouse_x > inst.x - 29 && mouse_x < inst.x + 29 && mouse_y > inst.y - 29 && mouse_y < inst.y + 29) {
+pos_met = position_meeting(mouse_x,mouse_y,inst)
+} else {
+pos_met = false
+}
+
+if (pos_met == true && button != inst) {
+button = inst
+button_index = object_get_parent(button.object_index)
+
+//Strings height
+var name_height,research_time_height,time_height,effects_height,effects_text_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button.name],-1,190)
+
+draw_set_font(font_objects_name)
+research_time_height = string_height_ext(obj_manager.text[22],-1,190)
+
+draw_set_font(font_normal)
+time_height = string_height_ext(string_replace(obj_manager.text[23],'%1',string(round(button.knowledge_cost/5) * 5)),-1,185)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+effects_text_height = string_height_ext(string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button.effects_text) * 1000])),'%2',obj_manager.text[floor(button.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button.effects_text/1000000000) mod 1000]),'%0',string(button.effects_number)),-1,180)
+
+height_goal = name_height + research_time_height + time_height + effects_height + effects_text_height + 45
+height2 = abs(height_goal - height)/20
+}}}
+
+//Orders
+if (global.obj_in_game_menu.select2 == true && (global.obj_in_game_menu.image_alpha2 == 1 || global.obj_in_game_menu.image_alpha3 == 1)) {
+inst = instance_nearest(mouse_x,mouse_y,obj_orders_button)
+
+if (instance_exists(inst)) {
+if (mouse_x > inst.x - 29 && mouse_x < inst.x + 29 && mouse_y > inst.y - 29 && mouse_y < inst.y + 29) {
+pos_met = position_meeting(mouse_x,mouse_y,inst)
+} else {
+pos_met = false
+}
+
+if (pos_met == true && button != inst) {
+button = inst
+button_index = object_get_parent(button.object_index)
+
+//Strings height
+var name_height,effects_height,effects_text_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button.name],-1,190)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+effects_text_height = string_height_ext(string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button.effects_text) * 1000])),'%2',obj_manager.text[floor(button.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button.effects_text/1000000000) mod 1000]),'%0',string(button.effects_number)),-1,180)
+
+height_goal = name_height + effects_height + effects_text_height + 15
+height2 = abs(height_goal - height)/20
+}}}
+
+//City buildings
+if (global.obj_in_game_menu.select == true && global.obj_in_game_menu.image_alpha3 == 1) {
+inst = instance_nearest(mouse_x,mouse_y,obj_city_buildings_button)
+
+if (instance_exists(inst)) {
+if (mouse_x > inst.x - 29 && mouse_x < inst.x + 29 && mouse_y > inst.y - 29 && mouse_y < inst.y + 29) {
+pos_met = position_meeting(mouse_x,mouse_y,inst)
+} else {
+pos_met = false
+}
+
+if (pos_met == true && button != inst) {
+button = inst
+button_index = button.object_index
+
+//Strings height
+var name_height,effects_height,effects_text_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button.name],-1,190)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+effects_text_height = string_height_ext(string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button.effects_text) * 1000])),'%2',obj_manager.text[floor(button.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button.effects_text/1000000000) mod 1000]),'%0',string(button.effects_number)),-1,180)
+
+height_goal = name_height + effects_height + effects_text_height + 15
+height2 = abs(height_goal - height)/20
+}}}
+}
+
+//City properties buildings
+if (instance_exists(obj_city_properties_menu)) {
+inst = instance_nearest(mouse_x,mouse_y,obj_city_properties_button)
+
+if (instance_exists(inst)) {
+if (mouse_x > inst.x - 29 && mouse_x < inst.x + 29 && mouse_y > inst.y - 29 && mouse_y < inst.y + 29) {
+pos_met = position_meeting(mouse_x,mouse_y,inst)
+} else {
+pos_met = false
+}
+
+if (pos_met == true && button != inst) {
+button = inst
+button_index = button.object_index
+
+//Strings height
+draw_set_font(font_objects_name)
+height_goal = string_height_ext(obj_manager.text[button.name],-1,190) + 10
+height2 = abs(height_goal - height)/20
+}}}
+}
+
+
+if (button2 != button) {
+if (image_alpha == 0) {
+button2 = button
+text_alpha = 1
+button2_index = button_index
+}
+
+if (text_alpha == 0) {
+button2 = button
+button2_index = button_index
+}
+}
+
+//Height
+if (height < height_goal) {
+height = min(height + height2,height_goal)
+}
+
+if (height > height_goal) {
+height = max(height - height2,height_goal)
+}
+
+if (image_alpha == 0) {
+height = height_goal
+}
+
+//Alpha
+//Text
+if (button2 == button) {
+text_alpha = min(1,text_alpha + 0.05)
+}
+
+if (button2 != button) {
+text_alpha = max(0,text_alpha - 0.05)
+}
+
+//Box
+if (instance_exists(button)) {
+var a;
+a = false
+
+//Is the correct tab chosen for the button ?
+if ((mouse_check_button(mb_left) || mouse_check_button(mb_right)) && (button.hit == false || mouse_x < view_xview + global.screen_resolution_width - 252)) {
+a = true
+}
+
+if (button_index == obj_buildings_button && (global.obj_in_game_menu.select == false || global.obj_in_game_menu.image_alpha != 1)) {
+a = true
+}
+
+if (button_index == obj_buildings_button) {
+if (global.obj_in_game_menu.buildings_categories_displayed[button.category] == false) {
+a = true
+}
+}
+
+if (button_index == obj_technologies_button) {
+if (global.obj_in_game_menu.technologies_categories_displayed[button.category] == false) {
+a = true
+}
+}
+
+if (button_index == obj_orders_button) {
+if ((button.type == 0 && global.obj_in_game_menu.units_orders_categories_displayed[button.category] == false) || (button.type == 1 && global.obj_in_game_menu.buildings_actions_categories_displayed[button.category] == false)) {
+a = true
+}
+}
+
+if (button_index == obj_technologies_button && (global.obj_in_game_menu.select2 == false || global.obj_in_game_menu.image_alpha != 1) && mouse_x >= view_xview + global.screen_resolution_width - 252) {
+a = true
+}
+
+if ((mouse_y < view_yview + 79 || mouse_y > view_yview + 240) && mouse_x < view_xview + global.screen_resolution_width - 252 && obj_resources_block.technology_number2 > 0) {
+a = true
+}
+
+if (button_index == obj_orders_button) {
+if (global.obj_in_game_menu.select2 == false || ((global.obj_in_game_menu.image_alpha2 != 1 && button.type == 0) || (global.obj_in_game_menu.image_alpha3 != 1 && button.type == 1))) {
+a = true
+}
+}
+
+if (button_index == obj_city_properties_button) {
+if (obj_city_properties_menu.pause_ == true && obj_city_properties_menu.selected == 1 && obj_city_properties_menu.mouse_on == true) {
+a = true
+}} else {
+if (global.pause == false && obj_windows_manager.mouse_on_window == false) {
+a = true
+}
+}
+
+pos_met = false
+
+if (a == true && (!mouse_check_button(mb_left) || button.hit == true)) {
+if (obj_minimap.enlarge == false && obj_selection.is_placing_building == false) {
+if (instance_exists(button)) {
+if (mouse_x > button.x - 29 && mouse_x < button.x + 29 && mouse_y > button.y - 29 && mouse_y < button.y + 29) {
+pos_met = position_meeting(mouse_x,mouse_y,button)
+}
+}
+}
+}
+
+if (pos_met == true) {
+image_alpha = min(1,image_alpha + 0.1)
+}
+
+if (pos_met == false) {
+image_alpha = max(0,image_alpha - 0.1)
+}
+
+} else {
+image_alpha = max(0,image_alpha - 0.1)
+}
+")
+
+//Draw event
+object_event_add(global.obj_buttons_tooltip,ev_draw,0,"
+//Draw
+if (image_alpha != 0 && obj_minimap.enlarge_state != 90) {
+if (height > 200) {
+draw_sprite_part_ext(obj_manager.spr_buttons_tooltip,0,0,0,210,105,min(mouse_x + 10,view_xview + global.screen_resolution_width - 205),mouse_y + 10,1,1,c_white,image_alpha)
+draw_sprite_part_ext(obj_manager.spr_buttons_tooltip,0,0,105,210,105,min(mouse_x + 10,view_xview + global.screen_resolution_width - 205),mouse_y + height - 85,1,1,c_white,image_alpha)
+
+for (i = 0;i * 50 < height - 200;i += 1) {
+draw_sprite_part_ext(obj_manager.spr_buttons_tooltip,0,0,105,210,min(50,height - 200 - i * 50),min(mouse_x + 10,view_xview + global.screen_resolution_width - 205),mouse_y + 115 + i * 50,1,1,c_white,image_alpha)
+}
+
+} else {
+draw_sprite_part_ext(obj_manager.spr_buttons_tooltip,0,0,0,210,5 + height/2,min(mouse_x + 10,view_xview + global.screen_resolution_width - 205),mouse_y + 10,1,1,c_white,image_alpha)
+draw_sprite_part_ext(obj_manager.spr_buttons_tooltip,0,0,205 - height/2,210,5 + height/2,min(mouse_x + 10,view_xview + global.screen_resolution_width - 205),mouse_y + 15 + height/2,1,1,c_white,image_alpha)
+}
+
+if (text_alpha != 0) {
+//Buildings buttons
+if (instance_exists(button2)) {
+
+if (button2_index == obj_buildings_button) {
+//String
+var a,i,str;
+a = 0
+i = 0
+str = ''
+
+while (a = 0) {
+if (button.cost_resource_number[i] > 0) {
+str += string_replace(string_replace(string_replace(obj_manager.text[24],'%1',string(button.cost_resource_number[i])),'%2',obj_manager.text[19 * (i == 0)]),'%3',string(obj_resources_block.resources2[i]))
+}
+
+if (!variable_local_exists('button.cost_resource_number[' + string(i) + ']')) {
+a = 1
+}
+
+i += 1
+}
+
+//Strings height
+var name_height,cost_height,str_height,effects_height,effects_text_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button2.name],-1,190)
+
+draw_set_font(font_objects_name)
+cost_height = string_height_ext(obj_manager.text[20],-1,190)
+
+draw_set_font(font_normal)
+str_height = string_height_ext(str,-1,190)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+//Infos
+draw_set_alpha(text_alpha * image_alpha)
+
+//Building name
+draw_set_halign(fa_center)
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 115,view_xview + global.screen_resolution_width - 100),mouse_y + 20,obj_manager.text[button2.name],-1,190)
+
+//Cost
+draw_set_halign(fa_left)
+draw_text_ext(min(mouse_x + 20,view_xview + global.screen_resolution_width - 195),mouse_y + 20 + name_height,obj_manager.text[20],-1,190)
+
+//Cost infos
+draw_set_font(font_normal)
+draw_text_justified(min(mouse_x + 25,view_xview + global.screen_resolution_width - 190),mouse_y + 23 + name_height + cost_height,str,-1,180,0)
+
+//Effects
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 20,view_xview + global.screen_resolution_width - 195),mouse_y + 45 + name_height + cost_height + str_height,obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+draw_text_justified(min(mouse_x + 25,view_xview + global.screen_resolution_width - 190),mouse_y + 53 + name_height + cost_height + str_height + effects_height,string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button2.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button2.effects_text) * 1000])),'%2',obj_manager.text[floor(button2.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button2.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button2.effects_text/1000000000) mod 1000]),'%0',string(button2.effects_number)),-1,180,0)
+}
+
+//Technologies buttons
+if (button2_index == obj_technologies_button) {
+//Strings height
+var name_height,research_time_height,time_height,effects_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button2.name],-1,190)
+
+draw_set_font(font_objects_name)
+research_time_height = string_height_ext(obj_manager.text[22],-1,190)
+
+draw_set_font(font_normal)
+time_height = string_height_ext(string_replace(obj_manager.text[23],'%1',string(round(button2.knowledge_cost/5) * 5)),-1,190)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+//Infos
+draw_set_alpha(text_alpha * image_alpha)
+
+//Technology name
+draw_set_halign(fa_center)
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 115,view_xview + global.screen_resolution_width - 100),mouse_y + 20,obj_manager.text[button2.name],-1,190)
+
+//Cost
+draw_set_halign(fa_left)
+draw_text_ext(min(mouse_x + 20,view_xview + global.screen_resolution_width - 195),mouse_y + 20 + name_height,obj_manager.text[22],-1,190)
+
+//Cost infos
+draw_set_font(font_normal)
+draw_text_justified(min(mouse_x + 25,view_xview + global.screen_resolution_width - 190),mouse_y + 23 + name_height + research_time_height,string_replace(obj_manager.text[23],'%1',string(round(button2.knowledge_cost/5) * 5)),-1,180,0)
+
+//Effects
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 20,view_xview + global.screen_resolution_width - 195),mouse_y + 45 + name_height + research_time_height + time_height,obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+draw_text_justified(min(mouse_x + 25,view_xview + global.screen_resolution_width - 190),mouse_y + 53 + name_height + research_time_height + time_height + effects_height,string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button2.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button2.effects_text) * 1000])),'%2',obj_manager.text[floor(button2.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button2.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button2.effects_text/1000000000) mod 1000]),'%0',string(button2.effects_number)),-1,180,0)
+}
+
+//Orders buttons
+if (button2_index == obj_orders_button) {
+//Strings height
+var name_height,effects_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button2.name],-1,190)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+//Infos
+draw_set_alpha(text_alpha * image_alpha)
+
+//Order name
+draw_set_halign(fa_center)
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 115,view_xview + global.screen_resolution_width - 100),mouse_y + 20,obj_manager.text[button2.name],-1,190)
+
+//Effects
+draw_set_halign(fa_left)
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 20,view_xview + global.screen_resolution_width - 195),mouse_y + 20 + name_height,obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+draw_text_justified(min(mouse_x + 25,view_xview + global.screen_resolution_width - 190),mouse_y + 23 + name_height + effects_height,string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button2.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button2.effects_text) * 1000])),'%2',obj_manager.text[floor(button2.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button2.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button2.effects_text/1000000000) mod 1000]),'%0',string(button2.effects_number)),-1,180,0)
+}
+
+//City buildings buttons
+if (button2_index == obj_city_buildings_button) {
+//Strings height
+var name_height,effects_height,effects_text_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[button2.name],-1,190)
+
+draw_set_font(font_objects_name)
+effects_height = string_height_ext(obj_manager.text[21],-1,190)
+
+//Infos
+draw_set_alpha(text_alpha * image_alpha)
+
+//Building name
+draw_set_halign(fa_center)
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 115,view_xview + global.screen_resolution_width - 100),mouse_y + 20,obj_manager.text[button2.name],-1,190)
+
+//Effects
+draw_set_halign(fa_left)
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 20,view_xview + global.screen_resolution_width - 195),mouse_y + 20 + name_height,obj_manager.text[21],-1,190)
+
+draw_set_font(font_normal)
+draw_text_justified(min(mouse_x + 25,view_xview + global.screen_resolution_width - 190),mouse_y + 23 + name_height + effects_height,string_replace(string_replace(string_replace(string_replace(string_replace(obj_manager.text[floor(button2.effects_text) mod 1000],'%1',string(obj_manager.text[frac(button2.effects_text) * 1000])),'%2',obj_manager.text[floor(button2.effects_text/1000) mod 1000]),'%3',obj_manager.text[floor(button2.effects_text/1000000) mod 1000]),'%4',obj_manager.text[floor(button2.effects_text/1000000000) mod 1000]),'%0',string(button2.effects_number)),-1,180,0)
+}
+
+if (button2_index == obj_city_properties_button) {
+//Infos
+draw_set_alpha(text_alpha * image_alpha)
+
+//Building name
+draw_set_halign(fa_center)
+draw_set_font(font_objects_name)
+draw_text_ext(min(mouse_x + 115,view_xview + global.screen_resolution_width - 100),mouse_y + 20,obj_manager.text[button2.name],-1,190)
+}
+
+}
+
+}
+
+}
+")

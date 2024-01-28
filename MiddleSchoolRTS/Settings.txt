@@ -1,0 +1,28 @@
+//Screen resolution
+global.screen_resolution_width = 1920
+global.screen_resolution_height = 1080
+
+//User preferences
+global.texturepack = 'Default'
+global.language = 'Francais'
+global.view_scrolling_borders = 10
+global.minimap_side = 0
+
+//Graphics settings
+//Preferences
+global.show_cursor_shadow = 1
+global.blur_cursor = 1
+global.building_reset_view = 1
+
+//Graphics quality
+//Effects
+global.units_shadows_quality = 1
+global.land_shadows_quality = 1
+global.land_shadows_margin = 100
+global.particles_quality = 1
+global.lighting_quality = 1
+
+//Units
+global.unit_diversity = 5
+global.animation_diversity = 5
+global.keep_animations_loaded_time = 18000

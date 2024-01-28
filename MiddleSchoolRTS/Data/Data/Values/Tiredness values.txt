@@ -1,0 +1,6 @@
+tiredness[0] = - 0.0015 //Idle
+tiredness[1] = - 0.0005 //Walking
+tiredness[2] = + 0.0015 //Running
+tiredness[3] = + 0.001 //Shooting
+tiredness[4] = + 0.003 //Charging
+tiredness[5] = + 0.0015 //Fighting

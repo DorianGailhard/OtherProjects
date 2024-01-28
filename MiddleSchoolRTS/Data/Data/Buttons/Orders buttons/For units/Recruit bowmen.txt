@@ -1,0 +1,132 @@
+var obj;
+obj = object_add()
+
+object_set_parent(obj,obj_orders_button)
+
+//Characteristics of the button
+object_event_add(obj,ev_create,0,"
+//Graphics
+if (obj_manager.spr_cancel_orders_icon == -1) {
+obj_manager.spr_cancel_orders_icon = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\In game menu\Icons\Cancel orders icon.png',1,false,false,25,25)
+}
+
+//Informations
+sprite_index = obj_manager.spr_cancel_orders_icon
+name = 2
+
+category = 2 /*Type a number of the following list
+0 : Formations
+1 : Orders
+2 : Recruitments
+*/
+
+type = 0
+effects_text = 37
+effects_number = 0
+need_countdown = true
+show_countdown = true
+can_rightclick = true
+id_ = 0 //only if need_countdown is true, make sure no orders buttons already use this id
+
+//Do not touch
+dont_show = true
+depth = -1002
+image_alpha = 0
+alpha_image1 = 0
+alpha_image2 = 0
+alpha_image3 = 0
+mask_index = obj_manager.spr_button_background
+hit = false
+activated = false
+replay_creation_code = true
+destroy = false
+can_use = true
+number = 0
+x_ = 0
+y_ = 0
+countdown_alpha[0] = 1
+countdown_number = 0
+countdown_number_alpha = 0
+countdown_number_text_alpha = 0
+countdown_number_length = 0
+countdown_alpha_units = 0
+units_selected = obj_selection.unit_number_selected
+old_button = false
+
+//Codes
+//What to do at the end of the countdown
+countdown_end_code = 'if (countdown_number[number_] > 0) {
+countdown_number[number_] -= 1
+
+if (countdown_number[number_] >= 1) {
+countdown[number_] = 0
+obj_resources_block.resources2[0] += 150
+} else {
+countdown_[number_] = 0
+obj_resources_block.resources2[0] += 150
+}
+
+} else {
+countdown[number_] = 0
+countdown_[number_] = 0
+}
+'
+")
+
+//Conditions to fulfill to use the button
+object_event_add(obj,ev_step,ev_step_begin,"
+if (obj_resources_block.resources[0] >= 150) {
+can_use = true
+} else {
+can_use = false
+}")
+
+//What to do at the creation of the button
+object_event_add(obj,ev_other,ev_user0,"
+/*with (obj_selection.unit[0]) {
+if (!variable_local_exists('can_recruit_bowmen')) {
+other.destroy = true
+}
+}*/")
+
+//What left click on it does
+object_event_add(obj,ev_other,ev_user1,"if (can_use == true) {
+for (i = 0;i < obj_selection.unit_number_selected;i += 1) {
+countdown_alpha[i] = 1
+countdown_alpha_units += 1
+
+with (obj_selection.unit[i]) {
+var a;
+a = variable_local_array_get('countdown_',other.id_)
+
+if (a == 0) {
+current_countdowns = max(other.id_,current_countdowns)
+countdown_number[other.id_] = 1
+countdown_number_length[other.id_] = 0
+countdown_number_text_alpha[other.id_] = 1
+
+countdown[other.id_] = 0
+countdown_[other.id_] = 200
+countdown_end_code[other.id_] = other.countdown_end_code
+} else {
+old_countdown_number[other.id_] = countdown_number[other.id_]
+countdown_number[other.id_] += 1
+}
+}
+}
+}")
+
+//What right click on it does
+object_event_add(obj,ev_other,ev_user2,"var a;
+for (i = 0;i < obj_selection.unit_number_selected;i += 1) {
+with (obj_selection.unit[i]) {
+a = variable_local_array_get('countdown_',other.id_)
+
+if (a != 0) {
+countdown_number[other.id_] -= 1
+}
+}
+}")
+
+//Create the instance
+instance_create(0,0,obj)

@@ -1,0 +1,128 @@
+var obj;
+obj = object_add()
+
+object_set_parent(obj,obj_orders_button)
+
+//Characteristics of the button
+object_event_add(obj,ev_create,0,"
+//Graphics
+if (obj_manager.spr_cancel_orders_icon == -1) {
+obj_manager.spr_cancel_orders_icon = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\In game menu\Icons\Cancel orders icon.png',1,false,false,25,25)
+}
+
+//Informations
+sprite_index = obj_manager.spr_cancel_orders_icon
+name = 38
+
+category = 1 /*Type a number of the following list
+0 : Formations
+1 : Orders
+2 : Recruitments
+*/
+
+type = 0
+effects_text = 37
+effects_number = 0
+need_countdown = false
+show_countdown = false
+can_rightclick = false
+
+//Do not touch
+dont_show = true
+depth = -1002
+image_alpha = 0
+alpha_image1 = 0
+alpha_image2 = 0
+alpha_image3 = 0
+mask_index = obj_manager.spr_button_background
+hit = false
+activated = false
+replay_creation_code = true
+destroy = false
+can_use = true
+number = 0
+x_ = 0
+y_ = 0
+countdown_alpha[0] = 0
+countdown_number = 0
+countdown_number_alpha = 0
+countdown_number_text_alpha = 0
+countdown_number_length = 0
+countdown_alpha_units = 0
+units_selected = obj_selection.unit_number_selected
+old_button = false")
+
+//Codes
+//Conditions to fulfill to use the button
+object_event_add(obj,ev_step,ev_step_begin,"
+")
+
+//What to do at the creation of the button
+object_event_add(obj,ev_other,ev_user0,"
+")
+
+//What left click on it does
+object_event_add(obj,ev_other,ev_user1,"for (a = 0;a < obj_selection.unit_number_selected;a += 1) {
+
+with (obj_selection.unit[a]) {
+//Stop the movement
+if ((obj_action == 4 || obj_action == 45 || obj_action == 56) && path_action != 1) {
+var len;
+len = point_distance(warriors[0].x,warriors[0].y,warriors[men_number_now - 1].x,warriors[men_number_now - 1].y)
+formation_line_length = point_distance(warriors[0].x,warriors[0].y,warriors[men_number_now - 1].x,warriors[men_number_now - 1].y)
+
+while (formation_line_length^2 + (ceil(men_number_now/max(1,floor(formation_line_length/space_between_men + 1)) - 1) * space_between_men)^2 > len^2) {
+formation_line_length -= 1
+}
+
+var length,dir;
+length = ceil(men_number_now/max(1,floor(formation_line_length/space_between_men + 1)) - 1) * space_between_men
+dir = point_direction(warriors[0].x,warriors[0].y,warriors[men_number_now - 1].x,warriors[men_number_now - 1].y) - 90 + radtodeg(arccos(formation_line_length/len))
+
+formation_angle = point_direction(warriors[0].x,warriors[0].y,warriors[men_number_now - 1].x + lengthdir_x(length,dir),warriors[men_number_now - 1].y + lengthdir_y(length,dir))
+formation_angle_ = formation_angle + 180
+
+path_men_now = 0.1
+front_position_ = front_position_2
+
+if (front_position_ == 0) {
+front_position = 0
+} else {
+front_position = min(men_number_now - 1,floor(formation_line_length/space_between_men))
+}
+
+line_position = 0
+adaptable_space = 0
+adaptable_space2 = 0
+
+mouse_x_3 = mouse_x_
+mouse_y_3 = mouse_y_
+mouse_x_4 = mouse_x_2
+mouse_y_4 = mouse_y_2
+
+mouse_x_ = warriors[0].x
+mouse_y_ = warriors[0].y
+mouse_x_2 = mouse_x_ + lengthdir_x(formation_line_length,formation_angle)
+mouse_y_2 = mouse_y_ + lengthdir_y(formation_line_length,formation_angle)
+
+if (show_path_alpha != 0) {
+show_path_alpha3 = show_path_alpha - 0.05
+show_path_alpha = 0
+}
+
+shoot_speed_ = shoot_speed
+
+path_action = 1
+obj_action = 4
+}
+
+}
+
+}")
+
+//What right click on it does
+object_event_add(obj,ev_other,ev_user2,"
+")
+
+//Create the instance
+instance_create(0,0,obj)

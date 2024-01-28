@@ -1,0 +1,481 @@
+global.obj_pause = object_add()
+
+//Create event
+object_event_add(global.obj_pause,ev_create,0,"
+//Variables
+pause_ = false
+image_alpha = 0
+
+depth = -1003
+y_ = 0
+
+sprite_index = obj_manager.spr_pause_menu_button
+
+select = 0
+
+alpha_image1 = 0
+alpha_image2 = 0
+alpha_image3 = 0
+
+alpha_image4 = 0
+alpha_image5 = 0
+alpha_image6 = 0
+
+alpha_image7 = 0
+alpha_image8 = 0
+alpha_image9 = 0
+
+alpha_image10 = 0
+alpha_image11 = 0
+alpha_image12 = 0
+
+alpha_image13 = 0
+alpha_image14 = 0
+alpha_image15 = 0
+")
+
+//Step events
+object_event_add(global.obj_pause,ev_step,ev_step_normal,"
+var pos_met;
+pos_met = false
+
+if (mouse_x > x - 135 && mouse_x < x + 135 && mouse_y > y - 25 && mouse_y < y + 25 && image_alpha == 1) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}
+
+//Put game on pause
+if (obj_minimap.enlarge == false) {
+if (global.pause == false) {
+if (keyboard_check_pressed(obj_manager.key[0]) && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu)) {
+global.pause = true
+pause_ = true
+obj_selection.can_select = false
+}
+} else {
+if (keyboard_check_pressed(obj_manager.key[1]) && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && pause_ == true) {
+global.pause = false
+pause_ = false
+}
+}
+}
+
+//Main object
+//Select
+if (pos_met == false && mouse_check_button_pressed(mb_left)) {
+select = 0
+}
+
+//Position
+x = view_xview + global.screen_resolution_width/2
+
+//Alpha
+if (pause_ == true && image_alpha < 1) {
+image_alpha += 0.1
+}
+
+if (pause_ == false && image_alpha > 0) {
+image_alpha -= 0.1
+
+if (image_alpha == 0) {
+alpha_image1 = 0
+alpha_image2 = 0
+alpha_image3 = 0
+
+alpha_image4 = 0
+alpha_image5 = 0
+alpha_image6 = 0
+
+alpha_image7 = 0
+alpha_image8 = 0
+alpha_image9 = 0
+
+alpha_image10 = 0
+alpha_image11 = 0
+alpha_image12 = 0
+
+alpha_image13 = 0
+alpha_image14 = 0
+alpha_image15 = 0
+}
+}
+
+//Position
+if (pause_ == true) {
+y_ = round(y_ + (global.screen_resolution_height/2 - 129 - y_)/10)
+}
+
+//Reinitialize
+if (pause_ == false && image_alpha == 0) {
+pause_ = false
+y_ = 0
+}
+
+if (image_alpha > 0) {
+//Buttons
+//Return to the game
+//Alpha (subtract)
+if ((!mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || !(mouse_y > view_yview + y_ + 33 && mouse_y < view_yview + y_ + 83)) && !mouse_check_button(mb_left)) {
+alpha_image3 = max(0,alpha_image3 - 0.05)
+}
+
+if (alpha_image2 == 1 || mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || pos_met == false || !(mouse_y > view_yview + y_ + 33 && mouse_y < view_yview + y_ + 83)) {
+alpha_image1 = max(0,alpha_image1 - 0.05)
+}
+
+
+if ((mouse_y > view_yview + y_ + 33 && mouse_y < view_yview + y_ + 83) || (select == 1 && mouse_check_button(mb_left))) {
+
+//Select
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+select = 1
+}
+
+//Return to game
+if (select == 1 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && image_alpha > 0 && pos_met == true && mouse_check_button_released(mb_left)) {
+global.pause = false
+pause_ = false
+}
+
+//Position
+y = view_yview + y_ + 63
+
+if (mouse_x > x - 135 && mouse_x < x + 135 && mouse_y > y - 25 && mouse_y < y + 25 && image_alpha == 1) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}
+
+//Alpha (add)
+if (select == 1 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && alpha_image2 == 0 && pos_met == true && !mouse_check_button(mb_left)) {
+alpha_image1 = min(1,alpha_image1 + 0.05)
+}
+
+if (alpha_image1 >= 1) {
+alpha_image2 = 1
+}
+
+if (alpha_image1 <= 0) {
+alpha_image2 = 0
+}
+
+if (select == 1 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && mouse_check_button(mb_left)) {
+alpha_image3 = min(0.5,alpha_image3 + 0.05)
+}
+}
+
+//Save the game
+//Alpha (subtract)
+if ((!mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || !(mouse_y > view_yview + y_ + 93 && mouse_y < view_yview + y_ + 133)) && !mouse_check_button(mb_left)) {
+alpha_image6 = max(0,alpha_image6 - 0.05)
+}
+
+if (alpha_image5 == 1 || mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || pos_met == false || !(mouse_y > view_yview + y_ + 93 && mouse_y < view_yview + y_ + 133)) {
+alpha_image4 = max(0,alpha_image4 - 0.05)
+}
+
+
+if (mouse_y > view_yview + y_ + 93 && mouse_y < view_yview + y_ + 133 || (select == 2 && mouse_check_button(mb_left))) {
+
+//Select
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+select = 2
+}
+
+//Save the game
+if (select == 2 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && image_alpha > 0 && pos_met == true && mouse_check_button_released(mb_left)) {
+instance_create(0,0,global.obj_pause_save_and_load_menu)
+global.obj_pause_save_and_load_menu.action = 0
+}
+
+//Position
+y = view_yview + y_ + 113
+
+if (mouse_x > x - 135 && mouse_x < x + 135 && mouse_y > y - 25 && mouse_y < y + 25 && image_alpha == 1) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}
+
+//Alpha (add)
+if (select == 2 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && alpha_image5 == 0 && pos_met == true && !mouse_check_button(mb_left)) {
+alpha_image4 = min(1,alpha_image4 + 0.05)
+}
+
+if (alpha_image4 >= 1) {
+alpha_image5 = 1
+}
+
+if (alpha_image4 <= 0) {
+alpha_image5 = 0
+}
+
+if (select == 2 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && mouse_check_button(mb_left)) {
+alpha_image6 = min(0.5,alpha_image6 + 0.05)
+}
+
+}
+
+//Load a save
+//Alpha (subtract)
+if ((!mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || !(mouse_y > view_yview + y_ + 143 && mouse_y < view_yview + y_ + 183)) && !mouse_check_button(mb_left)) {
+alpha_image9 = max(0,alpha_image9 - 0.05)
+}
+
+if (alpha_image8 == 1 || mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || pos_met == false || !(mouse_y > view_yview + y_ + 143 && mouse_y < view_yview + y_ + 183)) {
+alpha_image7 = max(0,alpha_image7 - 0.05)
+}
+
+
+if (mouse_y > view_yview + y_ + 143 && mouse_y < view_yview + y_ + 183 || (select == 3 && mouse_check_button(mb_left))) {
+//Select
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+select = 3
+}
+
+//Load a save
+if (select = 3 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && image_alpha > 0 && pos_met == true && mouse_check_button_released(mb_left))  {
+instance_create(0,0,global.obj_pause_save_and_load_menu)
+global.obj_pause_save_and_load_menu.action = 1
+}
+
+//Position
+y = view_yview + y_ + 163
+
+if (mouse_x > x - 135 && mouse_x < x + 135 && mouse_y > y - 25 && mouse_y < y + 25 && image_alpha == 1) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}
+
+//Alpha (add)
+if (select == 3 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && alpha_image8 == 0 && pos_met == true && !mouse_check_button(mb_left)) {
+alpha_image7 = min(1,alpha_image7 + 0.05)
+}
+
+if (alpha_image7 >= 1) {
+alpha_image8 = 1
+}
+
+if (alpha_image7 <= 0) {
+alpha_image8 = 0
+}
+
+if (select == 3 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && mouse_check_button(mb_left)) {
+alpha_image9 = min(0.5,alpha_image9 + 0.05)
+}
+
+}
+
+//Setting
+//Alpha (subtract)
+if (!mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || !(mouse_y > view_yview + y_ + 193 && mouse_y < view_yview + y_ + 233) && !mouse_check_button(mb_left)) {
+alpha_image12 = max(0,alpha_image12 - 0.05)
+}
+
+if (alpha_image11 == 1 || mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || pos_met == false || !(mouse_y > view_yview + y_ + 193 && mouse_y < view_yview + y_ + 233)) {
+alpha_image10 = max(0,alpha_image10 - 0.05)
+}
+
+
+if (mouse_y > view_yview + y_ + 193 && mouse_y < view_yview + y_ + 233 || (select == 4 && mouse_check_button(mb_left))) {
+//Select
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+select = 4
+}
+
+//Settings
+if (select == 4 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && image_alpha > 0 && pos_met == true && mouse_check_button_released(mb_left)) {
+instance_create(0,0,obj_settings_menu)
+}
+
+//Position
+y = view_yview + y_ + 213
+
+if (mouse_x > x - 135 && mouse_x < x + 135 && mouse_y > y - 25 && mouse_y < y + 25 && image_alpha == 1) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}
+
+//Alpha (add)
+if (select == 4 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && alpha_image11 = 0 && pos_met == true && !mouse_check_button(mb_left)) {
+alpha_image10 = min(1,alpha_image10 + 0.05)
+}
+
+if (alpha_image10 >= 1) {
+alpha_image11 = 1
+}
+
+if (alpha_image10 <= 0) {
+alpha_image11 = 0
+}
+
+if (select == 4 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && mouse_check_button(mb_left)) {
+alpha_image12 = min(0.5,alpha_image12 + 0.05)
+}
+
+}
+
+//Quit the game
+//Alpha (subtract)
+if ((!mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || !(mouse_y > view_yview + y_ + 243 && mouse_y < view_yview + y_ + 283)) && !mouse_check_button(mb_left)) {
+alpha_image15 = max(0,alpha_image15 - 0.05)
+}
+
+if (alpha_image14 = 1 || mouse_check_button(mb_left) || instance_exists(global.obj_pause_save_and_load_menu) || pos_met == false || !(mouse_y > view_yview + y_ + 243 && mouse_y < view_yview + y_ + 283)) {
+alpha_image13 = max(0,alpha_image13 - 0.05)
+}
+
+
+if (mouse_y > view_yview + y_ + 243 && mouse_y < view_yview + y_ + 283 || (select == 5 && mouse_check_button(mb_left))) {
+//Select
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+select = 5
+}
+
+//Quit the game
+if (select == 5 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && image_alpha > 0 && pos_met == true && mouse_check_button_released(mb_left)) {
+game_end()
+}
+
+//Position
+y = view_yview + y_ + 263
+
+if (mouse_x > x - 135 && mouse_x < x + 135 && mouse_y > y - 25 && mouse_y < y + 25 && image_alpha == 1) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}
+
+//Alpha (add)
+if (select == 5 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && alpha_image14 = 0 && pos_met == true && !mouse_check_button(mb_left)) {
+alpha_image13 = min(1,alpha_image13 + 0.05)
+}
+
+if (alpha_image13 >= 1) {
+alpha_image14 = 1
+}
+
+if (alpha_image13 <= 0) {
+alpha_image14 = 0
+}
+
+if (select == 5 && !instance_exists(global.obj_pause_save_and_load_menu) && !instance_exists(obj_settings_menu) && mouse_check_button(mb_left)) {
+alpha_image15 = min(0.5,alpha_image15 + 0.05)
+}
+
+}
+
+}
+")
+
+//Draw event
+object_event_add(global.obj_pause,ev_draw,0,"
+//Draw
+if (image_alpha > 0) {
+draw_sprite_ext(obj_manager.spr_pause_menu_background,-1,view_xview + global.screen_resolution_width/2,view_yview + y_,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+draw_set_halign(fa_center)
+draw_set_font(font_menu)
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 5,obj_manager.text[9])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 4,obj_manager.text[9])
+
+draw_set_alpha(1)
+
+//Buttons
+//Return to game
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 63,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 53,obj_manager.text[11])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 52,obj_manager.text[11])
+
+draw_set_alpha(1)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button_flashing,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 63,1,1,0,c_white,alpha_image1 * image_alpha)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 63,1,1,0,c_black,alpha_image3 * image_alpha)
+
+
+//Save the game
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 113,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 103,obj_manager.text[12])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 102,obj_manager.text[12])
+
+draw_set_alpha(1)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button_flashing,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 113,1,1,0,c_white,alpha_image4 * image_alpha)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 113,1,1,0,c_black,alpha_image6 * image_alpha)
+
+
+//Load a save
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 163,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 153,obj_manager.text[13])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 152,obj_manager.text[13])
+
+draw_set_alpha(1)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button_flashing,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 163,1,1,0,c_white,alpha_image7 * image_alpha)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 163,1,1,0,c_black,alpha_image9 * image_alpha)
+
+
+//Setting
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 213,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 203,obj_manager.text[14])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 202,obj_manager.text[14])
+
+draw_set_alpha(1)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button_flashing,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 213,1,1,0,c_white,alpha_image10 * image_alpha)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 213,1,1,0,c_black,alpha_image12 * image_alpha)
+
+
+//Quit the game
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 263,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 253,obj_manager.text[10])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 252,obj_manager.text[10])
+
+draw_set_alpha(1)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button_flashing,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 263,1,1,0,c_white,alpha_image13 * image_alpha)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_button,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 263,1,1,0,c_black,alpha_image15 * image_alpha)
+}
+")

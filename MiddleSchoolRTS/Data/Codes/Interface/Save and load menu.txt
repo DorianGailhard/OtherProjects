@@ -1,0 +1,900 @@
+global.obj_pause_save_and_load_menu = object_add()
+
+//Create event
+object_event_add(global.obj_pause_save_and_load_menu,ev_create,0,"
+//Sprites
+obj_manager.spr_save_and_load_menu_background = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\Menu of pause\Save and load menu\Background.png',1,false,false,205,5)
+sprite_collision_mask(obj_manager.spr_save_and_load_menu_background,false,0,0,0,0,0,0,254)
+
+obj_manager.spr_save_and_load_menu_text_block = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\Menu of pause\Save and load menu\Text block.png',1,false,false,155,20)
+sprite_collision_mask(obj_manager.spr_save_and_load_menu_text_block,false,0,0,0,0,0,0,254)
+
+obj_manager.spr_save_and_load_menu_saves_list = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\Menu of pause\Save and load menu\Saves list.png',1,false,false,205,15)
+sprite_collision_mask(obj_manager.spr_save_and_load_menu_saves_list,false,0,0,0,0,0,0,254)
+
+obj_manager.spr_save_and_load_menu_delete_button = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\Menu of pause\Save and load menu\Delete button.png',1,false,false,15,15)
+sprite_collision_mask(obj_manager.spr_save_and_load_menu_delete_button,false,0,0,0,0,0,0,254)
+
+obj_manager.spr_save_and_load_menu_scrolling_button = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\Menu of pause\Save and load menu\Scrolling button.png',1,false,false,7,11)
+sprite_collision_mask(obj_manager.spr_save_and_load_menu_scrolling_button,false,0,0,0,0,0,0,254)
+
+obj_manager.spr_save_and_load_menu_scroll_bar = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\Menu of pause\Save and load menu\Scroll bar.png',1,false,false,23,0)
+sprite_collision_mask(obj_manager.spr_save_and_load_menu_scroll_bar,false,0,0,0,0,0,0,254)
+
+//Variables
+pause_ = true
+image_alpha = 0
+alpha_image = 0
+alpha_image1 = 0
+alpha_image2 = 0
+alpha_image3 = 0
+alpha_image4 = 0
+alpha_image5 = 0
+alpha_image6 = 0
+
+depth = -1005
+y_ = 0
+
+text_alpha = 0
+text_alpha_ = 0
+
+selected = 0
+
+sprite_index = obj_manager.spr_save_and_load_menu_text_block
+text = ''
+text2 = ''
+text_select = false
+str_char = 1000000000
+key_press = 0
+text_select_x = 0
+text_alpha2 = 0
+
+stop = false
+
+height = -1
+
+surf_menu = surface_create(400,278)
+
+surface_set_target(surf_menu)
+draw_clear_alpha(0,0)
+surface_reset_target()
+
+htarget = -1
+scroll = 0
+pressed = false
+mouse_position = 0
+
+keyboard_pressed = 0.1
+backspace_string = ''
+backspace = 2
+")
+
+object_event_add(global.obj_pause_save_and_load_menu,ev_step,ev_step_begin,"
+//Surface
+surface_set_target(surf_menu)
+draw_clear_alpha(0,0)
+surface_reset_target()
+")
+
+//Step event
+object_event_add(global.obj_pause_save_and_load_menu,ev_step,ev_step_normal,"
+//Confirmation popup test
+var popup;
+popup = true
+
+if (instance_exists(global.obj_confirmation_popup)) {
+if (global.obj_confirmation_popup.delete == true) {
+popup = false
+}} else {
+popup = false
+}
+
+var pos_met;
+pos_met = false
+
+if (position_meeting(mouse_x,mouse_y,self)) {
+pos_met = true
+}
+
+if (pos_met == false && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+selected = 0
+}
+
+if (height <= 278 && alpha_image > 0) {
+alpha_image -= 0.1
+}
+
+if (!surface_exists(surf_menu)) {
+surf_menu = surface_create(400,278)
+
+surface_set_target(surf_menu)
+draw_clear_alpha(0,0)
+surface_reset_target()
+}
+
+//Text alpha
+if (text_alpha_ == 1 || text_select == false || popup == true) {
+text_alpha = max(0,text_alpha - 0.05)
+}
+
+text_alpha2 = min(text_alpha2 + 0.05,1)
+
+//Buttons
+if (!mouse_check_button(mb_left) || selected != 3) {
+alpha_image1 = max(0,alpha_image1 - 0.05)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || popup == true || !(mouse_y > view_yview + y_ + 381 && mouse_x < view_xview + global.screen_resolution_width/2)) {
+alpha_image2 = max(0,alpha_image2 - 0.025)
+}
+
+if (!mouse_check_button(mb_left) || selected != 4) {
+alpha_image3 = max(0,alpha_image3 - 0.05)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || popup == true || !(mouse_y > view_yview + y_ + 381 && mouse_x > view_xview + global.screen_resolution_width/2)) {
+alpha_image4 = max(0,alpha_image4 - 0.025)
+}
+
+alpha_image5 = max(0,alpha_image5 - (0.025 * (1 - pressed)))
+
+if (pos_met == false || mouse_check_button(mb_left) || popup == true || !(mouse_y < view_yview + y_ + 348)) {
+alpha_image6 = max(0,alpha_image6 - 0.025)
+}
+
+//Position
+y_ = round(y_ + (global.screen_resolution_height/2 - 255 - y_)/10)
+
+if (popup == false) {
+if (keyboard_check_released(obj_manager.key[1])) {
+pause_ = false
+}
+
+//Scroll bar
+if (height <= 278) {
+alpha_image = max(0,alpha_image - 0.1)
+}
+
+//Saves list
+var i;
+
+if (file_exists(global.save_directory + file_find_first(global.save_directory + '*.wts',-1)) && stop == false) {
+i = instance_create(0,0,global.obj_pause_save_and_load_save_list)
+i.name = string_replace(file_find_first(global.save_directory + '*.wts',-1),'.wts','')
+i.number = 0
+} else { stop = true }
+
+//Others
+var o,j;
+j = 1
+
+while (stop == false) {
+
+o = file_find_next()
+
+if (file_exists(global.save_directory + o)) {
+
+i = instance_create(0,0,global.obj_pause_save_and_load_save_list)
+i.name = string_replace_all(o,'.wts','')
+i.number = j
+
+j += 1
+
+if (height > 277) {
+alpha_image = 1
+}
+
+}
+
+if (!file_exists(global.save_directory + o)) {
+stop = true
+file_find_close()
+}
+
+}
+
+//Text alpha
+if (mouse_check_button_pressed(mb_left) && (pos_met == false || mouse_y > view_yview + y_ + 381)) {
+text_select = false
+}
+
+//Scroll
+if (mouse_x > view_xview + global.screen_resolution_width/2 - 205 && mouse_x < view_xview + global.screen_resolution_width/2 + 205 && mouse_y > view_yview + global.obj_pause_save_and_load_menu.y_ + 31 && mouse_y < view_yview + global.obj_pause_save_and_load_menu.y_ + 309) {
+if (mouse_wheel_up()) {
+scroll = max(0,scroll - 30)
+htarget = -1
+}
+
+if (mouse_wheel_down()) {
+scroll = min(258,scroll + 30)
+htarget = -1
+}
+}
+
+//Scrolling button
+if (mouse_y < view_yview + y_ + 348 || pressed == true) {
+x = view_xview + global.screen_resolution_width/2 + 186
+y = view_yview + y_ + 42 + scroll
+sprite_index = obj_manager.spr_save_and_load_menu_scrolling_button
+
+pos_met = false
+
+if (mouse_x > x - 7 && mouse_x < x + 7 && mouse_y > y - 11 && mouse_y < y + 11 && !mouse_check_button(mb_left)) {
+if (position_meeting(mouse_x,mouse_y,self)){
+pos_met = true
+}}
+
+if (mouse_check_button_released(mb_left)) {
+pressed = false
+}
+
+if (pos_met == true) {
+selected = 1
+}
+
+if (mouse_check_button_pressed(mb_left) && selected == 1) {
+pressed = true
+mouse_position = mouse_y - y
+}
+
+//Alpha 5
+alpha_image5 = min(0.25,alpha_image5 + (0.025 * selected * pressed))
+
+//Alpha 6
+alpha_image6 = min(0.25,alpha_image6 + (0.025 * pos_met * !mouse_check_button(mb_left)))
+
+//When you hit the scroll
+if (pressed == true) {
+scroll = max(0,min(258,mouse_y - (view_yview + y_ + 42) - mouse_position))
+htarget = -1
+}
+
+//When you hit somewhere in the scrolling bar
+if (mouse_x > view_xview + global.screen_resolution_width/2 + 179 && mouse_x < view_xview + global.screen_resolution_width/2 + 200 && mouse_y > view_yview + y_ + 32 && mouse_y < view_yview + y_ + 310) {
+if (mouse_check_button_released(mb_left)) {
+if (selected == 5) {
+htarget = max(0,min(258,mouse_y - view_yview - y_ - 41))
+}
+}
+
+if (!mouse_check_button(mb_left) && pos_met == false) {
+x = view_xview + global.screen_resolution_width/2 + 200
+y = view_yview + y_ + 31
+sprite_index = obj_manager.spr_save_and_load_menu_scroll_bar
+
+if (position_meeting(mouse_x,mouse_y,self)) {
+selected = 5
+}}
+}
+
+if (htarget != -1) {
+if (scroll > htarget) {
+scroll = max(scroll - 30,htarget)
+}
+
+if (scroll < htarget) {
+scroll = min(scroll + 30,htarget)
+}
+
+if (scroll == htarget) {
+htarget = -1
+}
+}
+}
+
+//Text block
+if (text_alpha_ == 0 && text_select == true) {
+text_alpha = min(1,text_alpha + 0.05)
+}
+
+if (text_alpha >= 1) {
+text_alpha_ = 1
+}
+
+if (text_alpha <= 0) {
+text_alpha_ = 0
+}
+
+if (action == 0) {
+
+//Text
+//Arrows
+if (text_select == true && keyboard_check(vk_left) && !keyboard_check(vk_right) && str_char > 0 && (key_press == 0 || (key_press > 30 && key_press mod 5 == 0))) {
+str_char -= 1
+backspace_string = string_copy(text,str_char + 1,1)
+text_select_x = 0
+}
+
+if (text_select == true && keyboard_check(vk_right) && !keyboard_check(vk_left) && str_char < string_length(text) && (key_press == 0 || (key_press > 30 && key_press mod 5 == 0))) {
+str_char += 1
+text_select_x = 8
+}
+
+//Select
+if (mouse_check_button_released(mb_left) && mouse_x > x - 155 && mouse_x < x + 155 && mouse_y > y - 20 && mouse_y < y + 20 && selected == 2 && (text_select_x == 4 || text_select = false)) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+var p;
+p = 0
+
+draw_set_font(font_menu)
+
+for (i = 0;p == 0;i += 1) {
+if (string_width(string_copy(text,0,i)) + 4 * (string_width(string_copy(text,0,str_char)) < mouse_x - (view_xview + global.screen_resolution_width/2 - 148)) >= mouse_x - (view_xview + global.screen_resolution_width/2 - 148) || i == string_length(text)) {
+if (string_width(string_copy(text,0,i - 1)) + string_width(string_copy(text,i - 1,1))/2 + 4 * (string_width(string_copy(text,0,str_char)) < mouse_x - (view_xview + global.screen_resolution_width/2 - 148)) > mouse_x - (view_xview + global.screen_resolution_width/2 - 148)) {
+i -= 1
+}
+
+//Actualize the cursor
+//Left
+if (str_char > i) {
+text_select_x = 0
+backspace_string = string_copy(text,i + 1,str_char - i)
+}
+
+//Right
+if (str_char < i) {
+text_select_x = 8
+backspace_string = string_copy(text,str_char + 1,i - str_char)
+}
+
+str_char = i
+p = 1
+}
+
+}
+
+text_select = true
+keyboard_string = ''
+}
+}
+
+//Write text
+if (text_select == true && (key_press == 0 || (key_press > 30 && key_press mod 5 = 0))) {
+
+//Letters and digits
+draw_set_font(font_menu)
+if (string_width(text) + 11 < 290 && string_length(string_replace(keyboard_string,'#','')) > 0) {
+text = string_insert(string_copy(string_replace(keyboard_string,'#',''),0,1),text,str_char + 1)
+
+keyboard_pressed = 1
+str_char += 1
+text_select_x = 8
+}
+
+//Backspace
+if (backspace != 2 && keyboard_pressed == 0.1) {
+backspace = 2
+}
+
+if ((keyboard_pressed == 0.1 && text_select_x == 4) || keyboard_pressed == 0) {
+backspace_string = ''
+backspace = 0
+}
+
+if (keyboard_key == vk_backspace && str_char > 0 && (key_press == 0 || (key_press > 30 && key_press mod 5 = 0))) {
+backspace_string = string_copy(text,str_char,1)
+backspace = 1
+text = string_copy(text,0,str_char - 1) + string_copy(text,str_char + 1,string_length(text))
+
+str_char -= 1
+keyboard_pressed = -1
+text_select_x = -1
+}
+
+keyboard_string = ''
+}
+
+//Key press
+if (string_length(string_lettersdigits(chr(keyboard_key))) > 0 || keyboard_check(vk_left) || keyboard_check(vk_right) || keyboard_check(vk_backspace) || keyboard_check(vk_space)) {
+key_press += 1
+}
+
+if (keyboard_key == 0) {
+key_press = 0
+}
+
+//Key press detection
+if (keyboard_pressed > 0.1) {
+keyboard_pressed = max(0.1,keyboard_pressed - 0.1)
+}
+
+if (keyboard_pressed < 0.1) {
+keyboard_pressed = min(0.1,keyboard_pressed + 0.1)
+}
+}
+
+//Animations
+if (text_select_x > 4 && text_select == true) {
+text_select_x = max(4,text_select_x - 0.4)
+}
+
+if (text_select_x < 4 && text_select == true) {
+text_select_x = min(4,text_select_x + 0.4)
+}
+
+text_select_x = max(0,text_select_x - 0.4 * (1 - text_select))
+
+if (text_select_x == 0 && text_select == false) {
+str_char = string_length(text) + 1
+}
+
+//Select
+if (mouse_y > view_yview + y_ + 348 && mouse_y < view_yview + y_ + 381) {
+
+if (mouse_x > x - 155 && mouse_x < x + 155 && mouse_y > y - 20 && mouse_y < y + 20 && !mouse_check_button(mb_left)) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+selected = 2
+}
+}
+
+//Sprite
+sprite_index = obj_manager.spr_save_and_load_menu_text_block
+
+x = view_xview + global.screen_resolution_width/2
+y = view_yview + y_ + 365
+
+//Cursor
+if (mouse_x > x - 155 && mouse_x < x + 155 && mouse_y > y - 20 && mouse_y < y + 20 && action == 0 && (!mouse_check_button(mb_left) || selected == 2) && pause_ == true) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+obj_cursor.cursor_normal_alpha = max(0,obj_cursor.cursor_normal_alpha - 0.2)
+obj_cursor.cursor_text_alpha = min(1,obj_cursor.cursor_text_alpha + 0.2)
+}
+}
+
+}
+
+if (mouse_y > view_yview + y_ + 381) {
+
+//Save
+if (mouse_x < view_xview + global.screen_resolution_width/2) {
+
+if (mouse_x > x - 100 && mouse_x < x + 100 && mouse_y > y - 20 && mouse_y < y + 20 && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+selected = 3
+}
+}
+
+//Save button
+if (popup == false) {
+
+sprite_index = obj_manager.spr_pause_menu_small_button
+
+//Save
+if (mouse_check_button_released(mb_left) && mouse_x > x - 100 && mouse_x < x + 100 && mouse_y > y - 20 && mouse_y < y + 20 && selected == 3) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+if (string_length(text) != 0) {
+if (action == 0) {
+var b;
+b = -1
+
+with (global.obj_pause_save_and_load_save_list) {
+if (name == other.text) {
+b = id
+}
+}
+
+if (b == -1) {
+save_game(text)
+pause_ = false
+} else {
+var a;
+a = instance_create(0,0,global.obj_confirmation_popup)
+a.parent = b
+a.text = 30
+a.button_text = 151
+a.xx = global.screen_resolution_width/2
+a.yy = global.screen_resolution_height/2
+a.action = 'save_game(parent.name)
+global.obj_pause_save_and_load_menu.pause_ = false'
+}
+}
+
+if (action == 1) {
+load_game(text)
+pause_ = false
+}
+}
+
+}
+}
+
+//X and Y
+x = view_xview + global.screen_resolution_width/2 - 97
+y = view_yview + y_ + 423
+
+//Alpha 1
+if (selected == 3) {
+alpha_image1 = min(0.5,alpha_image1 + (0.05 * mouse_check_button(mb_left)))
+}
+
+//Alpha 2
+if (mouse_x > x - 100 && mouse_x < x + 100 && mouse_y > y - 20 && mouse_y < y + 20) {
+alpha_image2 = min(0.25,alpha_image2 + (0.025 * position_meeting(mouse_x,mouse_y,self) * !mouse_check_button(mb_left)))
+}
+}
+
+}
+
+//Cancel
+if (mouse_x > view_xview + global.screen_resolution_width/2) {
+
+if (mouse_x > x - 100 && mouse_x < x + 100 && mouse_y > y - 20 && mouse_y < y + 20 && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+selected = 4
+}
+}
+
+//Save button
+if (popup == false) {
+sprite_index = obj_manager.spr_pause_menu_small_button
+
+//Cancel
+if (mouse_check_button_released(mb_left) && position_meeting(mouse_x,mouse_y,self) && selected == 4) {
+pause_ = false
+}
+
+//X and Y
+x = view_xview + global.screen_resolution_width/2 + 97
+y = view_yview + y_ + 423
+
+//Alpha 3
+if (selected == 4) {
+alpha_image3 = min(0.5,alpha_image3 + (0.05 * mouse_check_button(mb_left)))
+}
+
+//Alpha 4
+if (mouse_x > x - 100 && mouse_x < x + 100 && mouse_y > y - 20 && mouse_y < y + 20) {
+alpha_image4 = min(0.25,alpha_image4 + (0.025 * position_meeting(mouse_x,mouse_y,self) * !mouse_check_button(mb_left)))
+}
+}
+
+}
+
+}
+
+//Return to the menu
+if (keyboard_check_pressed(obj_manager.key[1])) {
+pause_ = false
+}
+
+//Alpha
+image_alpha = min(1,image_alpha + (0.05 * pause_))
+
+image_alpha = max(0,image_alpha - (0.1 * (1 - pause_)))
+
+//Reinitialize
+if (pause_ == false && image_alpha == 0) {
+instance_destroy()
+}
+
+//Shortcuts
+if (keyboard_check_released(obj_manager.key[2])) {
+if (string_length(text) != 0) {
+if (action == 0) {
+var b;
+b = -1
+
+with (global.obj_pause_save_and_load_save_list) {
+if (name == other.text) {
+b = id
+}
+}
+
+if (b == -1) {
+save_game(text)
+pause_ = false
+} else {
+var a;
+a = instance_create(0,0,global.obj_confirmation_popup)
+a.parent = b
+}
+}
+
+if (action == 1) {
+load_game(text)
+pause_ = false
+}
+}
+}
+}
+")
+
+object_event_add(global.obj_pause_save_and_load_menu,ev_destroy,0,"
+sprite_delete(obj_manager.spr_save_and_load_menu_background)
+obj_manager.spr_save_and_load_menu_background = -1
+
+sprite_delete(obj_manager.spr_save_and_load_menu_text_block)
+obj_manager.spr_save_and_load_menu_text_block = -1
+
+sprite_delete(obj_manager.spr_save_and_load_menu_saves_list)
+obj_manager.spr_save_and_load_menu_saves_list = -1
+
+sprite_delete(obj_manager.spr_save_and_load_menu_delete_button)
+obj_manager.spr_save_and_load_menu_delete_button = -1
+
+sprite_delete(obj_manager.spr_save_and_load_menu_scrolling_button)
+obj_manager.spr_save_and_load_menu_scrolling_button = -1
+
+sprite_delete(obj_manager.spr_save_and_load_menu_scroll_bar)
+obj_manager.spr_save_and_load_menu_scroll_bar = -1
+
+surface_free(surf_menu)
+")
+
+object_event_add(global.obj_pause_save_and_load_menu,ev_draw,0,"
+//Draw
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_background,-1,view_xview + global.screen_resolution_width/2,view_yview + y_,1,1,0,c_white,image_alpha)
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_text_block,-1,view_xview + global.screen_resolution_width/2,view_yview + y_ + 365,1,1,0,c_white,image_alpha)
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_scroll_bar,0,view_xview + global.screen_resolution_width/2 + 200,view_yview + y_ + 31,alpha_image,1,0,c_white,image_alpha)
+
+if (text_alpha2 == 1) {
+
+if (text_select_x < 4 && !text_select == false) {
+
+//Backspace animation
+if (string_length(backspace_string) <= 1) {
+draw_set_font(font_menu)
+draw_set_halign(fa_left)
+
+draw_sprite_ext(global.text_cursor,0,view_xview + global.screen_resolution_width/2 + sprite_get_xoffset(global.text_cursor) - 148 + string_width(string_copy(text,0,str_char)) + string_width(backspace_string) - (max(0,text_select_x)/4 * string_width(backspace_string)),view_yview + y_ + sprite_get_yoffset(global.text_cursor) + 353,1,1,0,c_white,text_alpha * (text_select_x/4 * (1 - text_select) + text_select) * image_alpha)
+
+draw_set_alpha(image_alpha)
+draw_set_color(c_white)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 354,string_copy(text,0,str_char))
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char)) + string_width(backspace_string) - (max(0,text_select_x + 0.4)/4 * string_width(backspace_string)) * min(1,abs(backspace - 2)),view_yview + y_ + 354,string_copy(text,str_char + max(0,backspace),string_length(text) - str_char))
+
+draw_set_color(c_black)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 353,string_copy(text,0,str_char))
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char)) + string_width(backspace_string) - (max(0,text_select_x + 0.4)/4 * string_width(backspace_string)) * min(1,abs(backspace - 2)),view_yview + y_ + 353,string_copy(text,str_char + max(0,backspace),string_length(text) - str_char))
+
+if (keyboard_pressed < 0.1) {
+draw_set_alpha(abs(keyboard_pressed - 0.2) * image_alpha)
+} else { draw_set_alpha(image_alpha * (backspace/2)) }
+
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2 - 148 + string_width(string_copy(text,0,str_char)) + max(0,(text_select_x + 0.4) * min(2,1 + round(key_press/30))),view_yview + y_ + 354,backspace_string)
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2 - 148 + string_width(string_copy(text,0,str_char)) + max(0,(text_select_x + 0.4) * min(2,1 + round(key_press/30))),view_yview + y_ + 353,backspace_string)
+
+draw_set_alpha(1)
+}
+
+//Cursor animation
+if (string_length(backspace_string) > 1) {
+draw_set_font(font_menu)
+draw_set_halign(fa_left)
+
+draw_sprite_ext(global.text_cursor,0,view_xview + global.screen_resolution_width/2 + sprite_get_xoffset(global.text_cursor) - 148 + string_width(string_copy(text,0,str_char + string_length(backspace_string))) - (text_select_x/4 * string_width(backspace_string)),view_yview + y_ + sprite_get_yoffset(global.text_cursor) + 353,1,1,0,c_white,text_alpha * (text_select_x/4 * (1 - text_select) + text_select) * image_alpha)
+
+draw_set_alpha(image_alpha)
+draw_set_color(c_white)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 354,string_copy(text,0,str_char))
+draw_text(view_xview + global.screen_resolution_width/2 - 148 + string_width(string_copy(text,0,str_char)) + text_select_x,view_yview + y_ + 354,backspace_string)
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char)) + string_width(backspace_string),view_yview + y_ + 354,string_copy(text,str_char + string_length(backspace_string) + 1,string_length(text) - str_char - string_length(backspace_string)))
+
+draw_set_color(c_black)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 353,string_copy(text,0,str_char))
+draw_text(view_xview + global.screen_resolution_width/2 - 148 + string_width(string_copy(text,0,str_char)) + text_select_x,view_yview + y_ + 353,backspace_string)
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char)) + string_width(backspace_string),view_yview + y_ + 353,string_copy(text,str_char + string_length(backspace_string) + 1,string_length(text) - str_char - string_length(backspace_string)))
+}
+
+}
+
+
+if (text_select_x == 4 || text_select == false) {
+draw_set_font(font_menu)
+draw_set_halign(fa_left)
+
+draw_sprite_ext(global.text_cursor,0,view_xview + global.screen_resolution_width/2 + sprite_get_xoffset(global.text_cursor) - 144 + string_width(string_copy(text,0,str_char)) - max(0,text_select_x),view_yview + y_ + sprite_get_yoffset(global.text_cursor) + 353,1,1,0,c_white,text_alpha * (text_select_x/4 * (1 - text_select) + text_select) * image_alpha)
+
+draw_set_alpha(image_alpha)
+draw_set_color(c_white)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 354,string_copy(text,0,str_char))
+draw_text(view_xview + global.screen_resolution_width/2 - 148 + string_width(string_copy(text,0,str_char)) + max(0,text_select_x),view_yview + y_ + 354,string_copy(text,str_char + 1,string_length(text) - str_char))
+
+draw_set_color(c_black)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 353,string_copy(text,0,str_char))
+draw_text(view_xview + global.screen_resolution_width/2 - 148 + string_width(string_copy(text,0,str_char)) + max(0,text_select_x),view_yview + y_ + 353,string_copy(text,str_char + 1,string_length(text) - str_char))
+
+draw_set_alpha(1)
+}
+
+
+if (text_select_x > 4) {
+
+//Key animation
+if (string_length(backspace_string) <= 1) {
+draw_set_font(font_menu)
+draw_set_halign(fa_left)
+
+draw_sprite_ext(global.text_cursor,0,view_xview + global.screen_resolution_width/2 - 148 + sprite_get_xoffset(global.text_cursor) + string_width(string_copy(text,0,str_char - 1)) + string_width(string_copy(text,str_char,1)) - ((max(0,text_select_x) - 4)/4 * string_width(string_copy(text,str_char,1))),view_yview + y_ + sprite_get_yoffset(global.text_cursor) + 353,1,1,0,c_white,text_alpha * (max(0,text_select_x)/4 * (1 - text_select) + text_select) * image_alpha )
+
+draw_set_alpha(image_alpha)
+draw_set_color(c_white)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 354,string_copy(text,0,str_char - 1))
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char - 1)) + string_width(string_copy(text,str_char,1)) - (max(0,text_select_x)/8 * string_width(string_copy(text,str_char,1))) * abs(keyboard_pressed - 0.1),view_yview + y_ + 354,string_copy(text,str_char + 1,string_length(text) - str_char))
+
+draw_set_color(c_black)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 353,string_copy(text,0,str_char - 1))
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char - 1)) + string_width(string_copy(text,str_char,1)) - (max(0,text_select_x)/8 * string_width(string_copy(text,str_char,1))) * abs(keyboard_pressed - 0.1),view_yview + y_ + 353,string_copy(text,str_char + 1,string_length(text) - str_char))
+
+if (keyboard_pressed = 0.1) {
+draw_set_alpha(image_alpha)
+}
+
+if (keyboard_pressed > 0.1) {
+draw_set_alpha((1 - keyboard_pressed) * image_alpha)
+}
+
+draw_set_color(c_white)
+draw_set_halign(fa_left)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 152 + string_width(string_copy(text,0,str_char - 1)) + max(0,text_select_x - ((text_select_x - 4)/4 * min(2,1 + round(key_press/30)))),view_yview + y_ + 354,string_copy(text,str_char,1))
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2 - 152 + string_width(string_copy(text,0,str_char - 1)) + max(0,text_select_x - ((text_select_x - 4)/4 * min(2,1 + round(key_press/30)))),view_yview + y_ + 353,string_copy(text,str_char,1))
+
+draw_set_alpha(1)
+}
+
+//Cursor animation
+if (string_length(backspace_string) > 1) {
+draw_set_font(font_menu)
+draw_set_halign(fa_left)
+
+draw_sprite_ext(global.text_cursor,0,view_xview + global.screen_resolution_width/2 - 148 + sprite_get_xoffset(global.text_cursor) + string_width(string_copy(text,0,str_char)) - ((text_select_x - 4)/4 * string_width(string_copy(text,str_char - string_length(backspace_string) + 1,string_length(backspace_string)))),view_yview + y_ + sprite_get_yoffset(global.text_cursor) + 353,1,1,0,c_white,text_alpha * (text_select_x/4 * (1 - text_select) + text_select) * image_alpha)
+
+draw_set_alpha(image_alpha)
+draw_set_color(c_white)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 354,string_copy(text,0,str_char - string_length(backspace_string)))
+draw_text(view_xview + global.screen_resolution_width/2 - 152 + text_select_x + string_width(string_copy(text,0,str_char - string_length(backspace_string))),view_yview + y_ + 354,string_copy(text,str_char - string_length(backspace_string) + 1,string_length(backspace_string)))
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char - string_length(backspace_string))) + string_width(string_copy(text,str_char - string_length(backspace_string) + 1,string_length(backspace_string))),view_yview + y_ + 354,string_copy(text,str_char + 1,string_length(text) - str_char))
+
+draw_set_color(c_black)
+
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 353,string_copy(text,0,str_char - string_length(backspace_string)))
+draw_text(view_xview + global.screen_resolution_width/2 - 152 + text_select_x + string_width(string_copy(text,0,str_char - string_length(backspace_string))),view_yview + y_ + 353,string_copy(text,str_char - string_length(backspace_string) + 1,string_length(backspace_string)))
+draw_text(view_xview + global.screen_resolution_width/2 - 144 + string_width(string_copy(text,0,str_char - string_length(backspace_string))) + string_width(string_copy(text,str_char - string_length(backspace_string) + 1,string_length(backspace_string))),view_yview + y_ + 353,string_copy(text,str_char + 1,string_length(text) - str_char))
+}
+
+}
+
+}
+
+if (text_alpha2 < 1) {
+//New text then old text
+draw_set_font(font_menu)
+draw_set_halign(fa_left)
+
+draw_set_color(c_white)
+draw_set_alpha(text_alpha2 * image_alpha)
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 354,text)
+
+draw_set_alpha((1 - text_alpha2) * image_alpha)
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 354,text2)
+
+draw_set_color(c_black)
+draw_set_alpha(text_alpha2 * image_alpha)
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 353,text)
+
+draw_set_alpha((1 - text_alpha2) * image_alpha)
+draw_text(view_xview + global.screen_resolution_width/2 - 148,view_yview + y_ + 353,text2)
+}
+
+draw_set_alpha(image_alpha)
+draw_set_halign(fa_center)
+draw_set_font(font_menu)
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 5,obj_manager.text[12 + action])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 4,obj_manager.text[12 + action])
+
+draw_set_alpha(1)
+
+//Surface
+draw_set_alpha(image_alpha)
+draw_surface(surf_menu,view_xview + global.screen_resolution_width/2 - 199,view_yview + y_ + 32)
+draw_set_alpha(1)
+
+//Scroll
+//Draw
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_scrolling_button,-1,view_xview + global.screen_resolution_width/2 + 186,view_yview + y_ + 42 + scroll,alpha_image,1,0,c_white,alpha_image * image_alpha)
+
+draw_set_blend_mode(bm_add)
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_scrolling_button,-1,view_xview + global.screen_resolution_width/2 + 186,view_yview + y_ + 42 + scroll,alpha_image,1,0,c_white,alpha_image6 * image_alpha)
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_scrolling_button,-1,view_xview + global.screen_resolution_width/2 + 186,view_yview + y_ + 42 + scroll,alpha_image,1,0,c_black,alpha_image5 * image_alpha)
+
+//Save
+//Draw
+draw_sprite_ext(obj_manager.spr_pause_menu_small_button,-1,view_xview + global.screen_resolution_width/2 - 97,view_yview + y_ + 423,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+draw_set_halign(fa_center)
+
+draw_set_font(font_menu)
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2 - 97,view_yview + y_ + 411,obj_manager.text[12 + action])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2 - 97,view_yview + y_ + 410,obj_manager.text[12 + action])
+
+draw_set_alpha(1)
+
+draw_set_blend_mode(bm_add)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_small_button,-1,view_xview + global.screen_resolution_width/2 - 97,view_yview + y_ + 423,1,1,0,c_white,alpha_image2 * image_alpha)
+
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_small_button,-1,view_xview + global.screen_resolution_width/2 - 97,view_yview + y_ + 423,1,1,0,c_black,alpha_image1 * image_alpha)
+
+//Cancel
+//Draw
+draw_sprite_ext(obj_manager.spr_pause_menu_small_button,-1,view_xview + global.screen_resolution_width/2 + 97,view_yview + y_ + 423,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(image_alpha)
+
+draw_set_font(font_menu)
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2 + 97,view_yview + y_ + 411,obj_manager.text[15])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2 + 97,view_yview + y_ + 410,obj_manager.text[15])
+
+draw_set_alpha(1)
+
+draw_set_blend_mode(bm_add)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_small_button,-1,view_xview + global.screen_resolution_width/2 + 97,view_yview + y_ + 423,1,1,0,c_white,alpha_image4 * image_alpha)
+
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_ext(obj_manager.spr_pause_menu_small_button,-1,view_xview + global.screen_resolution_width/2 + 97,view_yview + y_ + 423,1,1,0,c_black,alpha_image3 * image_alpha)
+
+var a,b;
+a = false
+b = false
+
+if (!instance_exists(global.obj_pause_save_and_load_save_list)) {
+a = true
+} else {
+if (instance_number(global.obj_pause_save_and_load_save_list) == 1) {
+if (global.obj_pause_save_and_load_save_list.delete == true) {
+a = true
+b = true
+}
+}
+}
+
+if (a == true) {
+if (b == true) {
+draw_set_alpha((1 - global.obj_pause_save_and_load_save_list.alpha_image2) * image_alpha)
+} else {
+draw_set_alpha(image_alpha)
+}
+
+draw_set_halign(fa_center)
+draw_set_valign(fa_middle)
+draw_set_font(font_menu)
+draw_set_color(c_white)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 158,obj_manager.text[149])
+
+draw_set_color(c_black)
+draw_text(view_xview + global.screen_resolution_width/2,view_yview + y_ + 157,obj_manager.text[149])
+
+draw_set_halign(fa_left)
+draw_set_valign(fa_top)
+}")

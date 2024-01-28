@@ -1,0 +1,216 @@
+global.obj_missile_manager = object_add()
+
+//Create event
+object_event_add(global.obj_missile_manager,ev_create,0,"
+//Variables
+missiles_number = 0
+
+missile_unit = ds_list_create()
+missile_speed = ds_list_create()
+missile_damages = ds_list_create()
+missile_col_object = ds_list_create()
+missile_shockwave = ds_list_create()
+missile_sprite = ds_list_create()
+missile_height = ds_list_create()
+missile_height_loss = ds_list_create()
+missile_direction = ds_list_create()
+missile_x = ds_list_create()
+missile_y = ds_list_create()
+")
+
+//Step event
+object_event_add(global.obj_missile_manager,ev_step,ev_step_normal,"
+var a,b,c,inst,unit,shockwave;
+
+for (i = 0;i < missiles_number;i += 1) {
+if (ds_list_find_value(missile_height,i) != 0) {
+if (global.pause == false) {
+//Moving
+ds_list_replace(missile_x,i,ds_list_find_value(missile_x,i) + lengthdir_x(ds_list_find_value(missile_speed,i),ds_list_find_value(missile_direction,i)))
+ds_list_replace(missile_y,i,ds_list_find_value(missile_y,i) + lengthdir_y(ds_list_find_value(missile_speed,i),ds_list_find_value(missile_direction,i)))
+
+ds_list_replace(missile_height,i,max(0,ds_list_find_value(missile_height,i) - ds_list_find_value(missile_height_loss,i)))
+
+if (ds_list_find_value(missile_height,i) == 0) {
+if (ds_list_find_value(missile_x,i) > view_xview && ds_list_find_value(missile_x,i) < view_xview + global.screen_resolution_width && ds_list_find_value(missile_y,i) > view_yview && ds_list_find_value(missile_y,i) < view_yview + global.screen_resolution_height && global.particles_quality < 3) {
+
+with (global.obj_particles_manager) {
+//Dust
+ds_list_add(particle_creator,other.id)
+ds_list_add(particle_alpha,1)
+ds_list_add(particle_alpha_speed,0.01)
+ds_list_add(particle_alpha_min,1)
+ds_list_add(particle_alpha_min_attained,false)
+ds_list_add(particle_friction,0.01)
+ds_list_add(particle_speed,1)
+ds_list_add(particle_sprite,obj_manager.spr_dust_particle)
+ds_list_add(particle_image_angle,ds_list_find_value(other.missile_direction,other.i))
+ds_list_add(particle_image_angle_speed,random_range(-2,2))
+ds_list_add(particle_x,ds_list_find_value(other.missile_x,other.i))
+ds_list_add(particle_y,ds_list_find_value(other.missile_y,other.i))
+ds_list_add(particle_xscale,0.2)
+ds_list_add(particle_yscale,0.2)
+ds_list_add(particle_scale_speed,0.01)
+ds_list_add(particle_dir,ds_list_find_value(other.missile_direction,other.i))
+ds_list_add(particle_color,c_maroon)
+ds_list_add(particle_bm_mode,bm_normal)
+
+particles_number += 1
+}
+
+ds_list_replace(missile_speed,i,0)
+}
+}
+
+if (ds_list_find_value(missile_height,i) < 1) {
+a = false
+b = false
+
+if (object_get_parent(ds_list_find_value(missile_col_object,i).object_index) == obj_your_warriors) {
+a = true
+c = instance_nearest(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),obj_your_warriors)
+
+if (ds_list_find_value(missile_x,i) > c.x - c.unit.soldier_sprite_length/2 && ds_list_find_value(missile_x,i) < c.x + c.unit.soldier_sprite_length/2 && ds_list_find_value(missile_y,i) > c.y - c.unit.soldier_sprite_length/2 && ds_list_find_value(missile_y,i) < c.y + c.unit.soldier_sprite_length/2) {
+if (position_meeting(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),c)) {
+b = true
+}}} else {
+if (object_get_parent(ds_list_find_value(missile_col_object,i).object_index) == obj_other_warriors) {
+a = true
+c = instance_nearest(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),obj_other_warriors)
+
+if (ds_list_find_value(missile_x,i) > c.x - c.unit.soldier_sprite_length/2 && ds_list_find_value(missile_x,i) < c.x + c.unit.soldier_sprite_length/2 && ds_list_find_value(missile_y,i) > c.y - c.unit.soldier_sprite_length/2 && ds_list_find_value(missile_y,i) < c.y + c.unit.soldier_sprite_length/2) {
+if (position_meeting(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),c)) {
+b = true
+}}} else {
+if (ds_list_find_value(missile_col_object,i).object_index == obj_your_buildings) {
+c = instance_nearest(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),obj_your_buildings)
+
+if (ds_list_find_value(missile_x,i) > c.x - c.spr_length/2 && ds_list_find_value(missile_x,i) < c.x + c.spr_length/2 && ds_list_find_value(missile_y,i) > c.y - c.spr_length/2 && ds_list_find_value(missile_y,i) < c.y + c.spr_length/2) {
+if (position_meeting(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),c)) {
+b = true
+}}} else {
+if (ds_list_find_value(missile_col_object,i).object_index == obj_other_buildings) {
+c = instance_nearest(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),obj_your_buildings)
+
+if (ds_list_find_value(missile_x,i) > c.x - c.spr_length/2 && ds_list_find_value(missile_x,i) < c.x + c.spr_length/2 && ds_list_find_value(missile_y,i) > c.y - c.spr_length/2 && ds_list_find_value(missile_y,i) < c.y + c.spr_length/2) {
+if (position_meeting(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),c)) {
+b = true
+}}}}}}
+
+if (b == true) {
+//Health
+inst = instance_nearest(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),ds_list_find_value(missile_col_object,i))
+
+if (a == true) {
+if (random(1) > inst.unit.unit_shield_block_chance/(1 + inst.unit.tiredness/10)/(1 + (get_side(inst.image_angle,ds_list_find_value(missile_direction,i)) == left_side || get_side(inst.image_angle,ds_list_find_value(missile_direction,i)) == right_side)) || get_side(inst.image_angle,ds_list_find_value(missile_direction,i)) == front) {
+switch (get_side(inst.image_angle,ds_list_find_value(missile_direction,i))) {
+    case front : inst.health_ -= (max(0,ds_list_find_value(missile_damages,i) - inst.unit.unit_armor) + ds_list_find_value(missile_damages,i)/10) * random_range(1,1.5); break;
+    case left_side : inst.health_ -= (max(0,ds_list_find_value(missile_damages,i) - inst.unit.unit_armor) + ds_list_find_value(missile_damages,i)/10) * random_range(1,1.75); break;
+    case right_side : inst.health_ -= (max(0,ds_list_find_value(missile_damages,i) - inst.unit.unit_armor) + ds_list_find_value(missile_damages,i)/10) * random_range(1,1.75); break;
+    case back : inst.health_ -= (max(0,ds_list_find_value(missile_damages,i) - inst.unit.unit_armor) + ds_list_find_value(missile_damages,i)/10) * random_range(1,3); break;
+    }
+
+unit = ds_list_find_value(missile_unit,i)
+
+if (inst.health_ <= 0) {
+//Skill
+if (instance_exists(ds_list_find_value(missile_unit,i))) {
+unit.now_skill += unit.skill_improvement * (inst.unit.men_number_now/unit.men_number_now)
+
+if (ds_list_find_value(missile_unit,i).now_skill >= ds_list_find_value(missile_unit,i).skill_for) {
+unit.now_skill -= unit.skill_for
+unit.skill_for += unit.skill_for/2
+
+unit.skill += 1
+}
+}
+
+with (inst) {
+event_perform(ev_other,ev_user0)
+}
+}
+
+//Death
+shockwave = ds_list_find_value(missile_shockwave,i)
+
+inst.knockback_speed = ds_list_find_value(other.missile_shockwave,other.i)
+inst.knockback_dir = ds_list_find_value(other.missile_direction,other.i)
+}
+} else {
+inst.health_ -= (ds_list_find_value(missile_damages,i)/inst.armor_protection) * random_range(1,1.5)
+
+unit = ds_list_find_value(missile_unit,i)
+
+//Skill
+if (instance_exists(ds_list_find_value(missile_unit,i))) {
+unit.now_skill += unit.skill_improvement/2
+
+if (ds_list_find_value(missile_unit,i).now_skill >= ds_list_find_value(missile_unit,i).skill_for) {
+unit.now_skill -= unit.skill_for
+unit.skill_for += unit.skill_for/2
+
+unit.skill += 1
+}
+}
+}
+
+ds_list_replace(missile_speed,i,0)
+} else {
+if (position_meeting(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),obj_your_buildings)) {
+b = true
+} else {
+if (position_meeting(ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),obj_other_buildings)) {
+b = true
+}
+}
+
+if (b == true) {
+ds_list_replace(missile_speed,i,0)
+}
+}
+}
+}
+} else {
+c = false
+
+if (ds_list_find_value(missile_x,i) < view_xview) {
+c = true
+} else {
+if (ds_list_find_value(missile_x,i) > view_xview + global.screen_resolution_width) {
+c = true
+} else {
+if (ds_list_find_value(missile_y,i) < view_yview) {
+c = true
+} else {
+if (ds_list_find_value(missile_y,i) > view_yview + global.screen_resolution_height) {
+c = true
+}}}}
+
+if (c == true) {
+ds_list_delete(missile_unit,i)
+ds_list_delete(missile_speed,i)
+ds_list_delete(missile_damages,i)
+ds_list_delete(missile_col_object,i)
+ds_list_delete(missile_shockwave,i)
+ds_list_delete(missile_sprite,i)
+ds_list_delete(missile_height,i)
+ds_list_delete(missile_height_loss,i)
+ds_list_delete(missile_direction,i)
+ds_list_delete(missile_x,i)
+ds_list_delete(missile_y,i)
+
+missiles_number -= 1
+i -= 1
+}
+}
+}")
+
+object_event_add(global.obj_missile_manager,ev_draw,0,"
+if (obj_minimap.enlarge_state != 90) {
+for (i = 0;i < missiles_number;i += 1) {
+if (ds_list_find_value(missile_x,i) > view_xview && ds_list_find_value(missile_x,i) < view_xview + global.screen_resolution_width && ds_list_find_value(missile_y,i) > view_yview && ds_list_find_value(missile_y,i) < view_yview + global.screen_resolution_height) {
+draw_sprite_ext(ds_list_find_value(missile_sprite,i),-1,ds_list_find_value(missile_x,i),ds_list_find_value(missile_y,i),1,1,ds_list_find_value(missile_direction,i),c_white,image_alpha)
+}
+}
+}
+")

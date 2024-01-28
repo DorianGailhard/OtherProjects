@@ -1,0 +1,232 @@
+global.obj_pause_save_and_load_save_list = object_add()
+
+//Create event
+object_event_add(global.obj_pause_save_and_load_save_list,ev_create,0,"
+//Variables
+sprite_index = obj_manager.spr_save_and_load_menu_saves_list
+name = ''
+
+depth = -1006
+
+selected = 3
+
+image_alpha = 0
+alpha_image = 0
+
+alpha_image2 = 1
+alpha_image3 = 0
+
+alpha_image4 = 0
+alpha_image5 = 0
+
+delete = false
+
+global.obj_pause_save_and_load_menu.height += 31
+")
+
+//Step event
+object_event_add(global.obj_pause_save_and_load_save_list,ev_step,ev_step_normal,"
+//Confirmation popup test
+var popup;
+popup = true
+
+if (instance_exists(global.obj_confirmation_popup)) {
+if (global.obj_confirmation_popup.delete == true) {
+popup = false
+}} else {
+popup = false
+}
+
+//Destroy
+if (!instance_exists(global.obj_pause_save_and_load_menu)) {
+instance_destroy()
+} else {
+var pos_met;
+pos_met = false
+
+if (mouse_x > x - 204 && mouse_x < x + 204 && mouse_y > y - 15 && mouse_y < y + 15) {
+if (position_meeting(mouse_x,mouse_y,self)){
+pos_met = true
+}}
+
+//Alpha (subtract)
+if (!mouse_check_button(mb_left) || delete == true || selected != 1 || popup == true) {
+alpha_image3 = max(0,alpha_image3 - 0.025)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || delete == true || !(mouse_y > view_yview + global.obj_pause_save_and_load_menu.y_ + 31 && mouse_y < view_yview + global.obj_pause_save_and_load_menu.y_ + 309) || popup == true || sprite_index == obj_manager.spr_save_and_load_menu_delete_button) {
+alpha_image = max(0,alpha_image - 0.025)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || delete == true || !(mouse_y > view_yview + global.obj_pause_save_and_load_menu.y_ + 31 && mouse_y < view_yview + global.obj_pause_save_and_load_menu.y_ + 309) || popup == true || sprite_index == obj_manager.spr_save_and_load_menu_saves_list) {
+alpha_image4 = max(0,alpha_image4 - 0.05)
+}
+
+if (!mouse_check_button(mb_left) || delete == true || selected != 2 || popup == true) {
+alpha_image5 = max(0,alpha_image5 - 0.025)
+}
+
+//Y
+y = view_yview + global.obj_pause_save_and_load_menu.y_ + 47 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258))))
+
+if (y > view_yview + global.obj_pause_save_and_load_menu.y_ + 16 && y < view_yview + global.obj_pause_save_and_load_menu.y_ + 334) {
+pos_met = false
+
+if (mouse_x > x - 204 && mouse_x < x + 204 && mouse_y > y - 15 && mouse_y < y + 15) {
+if (position_meeting(mouse_x,mouse_y,self)){
+pos_met = true
+}}
+
+if (delete == true) {
+alpha_image2 -= 0.1
+global.obj_pause_save_and_load_menu.height -= 3.1
+
+with (global.obj_pause_save_and_load_save_list) {
+
+if (number > other.number) {
+number -= 0.1
+}
+
+}
+
+}
+
+if (alpha_image2 == 0) {
+instance_destroy()
+}
+
+//Selected 2
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left) && sprite_index == obj_manager.spr_save_and_load_menu_saves_list) {
+selected = 1
+}
+
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left) && sprite_index == obj_manager.spr_save_and_load_menu_delete_button) {
+selected = 2
+}
+
+if (pos_met == false && mouse_check_button_pressed(mb_left)) {
+selected = 3
+}
+
+//Surface
+if (31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))) > -30 && 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))) < 278) {
+surface_set_target(global.obj_pause_save_and_load_menu.surf_menu)
+draw_set_halign(fa_left)
+
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_saves_list,-1,204,15 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),1,1,0,c_white,alpha_image2 * global.obj_pause_save_and_load_menu.image_alpha)
+
+//Text
+draw_set_alpha(alpha_image2 * global.obj_pause_save_and_load_menu.image_alpha)
+
+draw_set_font(font_menu)
+draw_set_color(c_white)
+draw_text(7,4 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),name)
+
+draw_set_color(c_black)
+draw_text(7,3 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),name)
+
+draw_set_alpha(1)
+
+//Draw
+draw_set_blend_mode(bm_add)
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_saves_list,-1,204,15 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),1,1,0,c_white,alpha_image2 * alpha_image * global.obj_pause_save_and_load_menu.image_alpha)
+draw_set_blend_mode_ext(bm_one,bm_inv_src_alpha)
+
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_saves_list,-1,204,15 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),1,1,0,c_black,alpha_image2 * alpha_image3 * global.obj_pause_save_and_load_menu.image_alpha)
+
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_delete_button,-1,378 - 15 * global.obj_pause_save_and_load_menu.alpha_image,15 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),1,1,0,c_white,alpha_image2 * global.obj_pause_save_and_load_menu.image_alpha)
+
+draw_set_blend_mode(bm_add)
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_delete_button,-1,378 - 15 * global.obj_pause_save_and_load_menu.alpha_image,15 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),1,1,0,c_white,alpha_image2 * alpha_image4 * global.obj_pause_save_and_load_menu.image_alpha)
+draw_set_blend_mode_ext(bm_one,bm_inv_src_alpha)
+
+draw_sprite_ext(obj_manager.spr_save_and_load_menu_delete_button,-1,378 - 15 * global.obj_pause_save_and_load_menu.alpha_image,15 + 31 * number - (max(0,global.obj_pause_save_and_load_menu.height * (global.obj_pause_save_and_load_menu.scroll/258) - (278 * (global.obj_pause_save_and_load_menu.scroll/258)))),1,1,0,c_black,alpha_image2 * (alpha_image5 + alpha_image3) * global.obj_pause_save_and_load_menu.image_alpha)
+
+draw_set_blend_mode(bm_normal)
+surface_reset_target()
+}
+
+//When pop-up doesn't exist
+if (popup == false) {
+
+if (instance_exists(global.obj_pause_save_and_load_menu)) {
+//Sprite && X
+sprite_index = obj_manager.spr_save_and_load_menu_delete_button
+x = view_xview + global.screen_resolution_width/2 + 179 - 15 * global.obj_pause_save_and_load_menu.alpha_image
+
+pos_met = false
+
+if (mouse_x > x - 17 && mouse_x < x + 17 && mouse_y > y - 15 && mouse_y < y + 15) {
+if (position_meeting(mouse_x,mouse_y,self)){
+pos_met = true
+}}
+
+if (pos_met == false) {
+sprite_index = obj_manager.spr_save_and_load_menu_saves_list
+x = view_xview + global.screen_resolution_width/2 + 6
+
+pos_met = false
+
+if (mouse_x > x - 204 && mouse_x < x + 204 && mouse_y > y - 15 && mouse_y < y + 15) {
+if (position_meeting(mouse_x,mouse_y,self)){
+pos_met = true
+}}
+}
+
+//Delete
+if (selected == 2 && pos_met == true && mouse_check_button_released(mb_left) && sprite_index == obj_manager.spr_save_and_load_menu_delete_button) {
+var i;
+i = instance_create(0,0,global.obj_confirmation_popup)
+i.parent = id
+i.text = 30
+i.button_text = 16
+i.xx = global.screen_resolution_width/2
+i.yy = global.screen_resolution_height/2
+i.action = 'parent.delete = true
+file_delete(global.save_directory + parent.name + ' + chr(39) + '.wts' + chr(39) + ')'
+}
+
+//Select save
+if (mouse_y > view_yview + global.obj_pause_save_and_load_menu.y_ + 31 && mouse_y < view_yview + global.obj_pause_save_and_load_menu.y_ + 309) {
+
+//Alpha (add)
+if (selected == 1) {
+
+if (sprite_index = obj_manager.spr_save_and_load_menu_saves_list && mouse_check_button_released(mb_left) && pos_met == true) {
+global.obj_pause_save_and_load_menu.text2 = global.obj_pause_save_and_load_menu.text
+global.obj_pause_save_and_load_menu.text = text
+global.obj_pause_save_and_load_menu.text_alpha2 = 0
+}
+
+if (mouse_check_button(mb_left) && delete == false && sprite_index == obj_manager.spr_save_and_load_menu_saves_list) {
+alpha_image3 = min(0.25,alpha_image3 + 0.025)
+}
+
+if (pos_met == true && !mouse_check_button(mb_left) && delete == false) {
+alpha_image = min(0.25,alpha_image + 0.025)
+}
+
+}
+
+if (selected == 2) {
+
+if (pos_met == true && !mouse_check_button(mb_left) && delete == false) {
+alpha_image4 = min(0.5,alpha_image4 + 0.05)
+}
+
+if (mouse_check_button(mb_left) && delete == false && sprite_index == obj_manager.spr_save_and_load_menu_delete_button) {
+alpha_image5 = min(0.25,alpha_image5 + 0.025)
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+")

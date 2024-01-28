@@ -1,0 +1,77 @@
+var obj;
+obj = object_add()
+
+object_set_parent(obj,obj_orders_button)
+
+//Characteristics of the button
+object_event_add(obj,ev_create,0,"
+//Graphics
+if (obj_manager.spr_destroy_building_icon == -1) {
+obj_manager.spr_destroy_building_icon = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\In game menu\Icons\Destroy building icon.png',1,false,false,25,25)
+}
+
+//Informations
+sprite_index = obj_manager.spr_destroy_building_icon
+name = 169
+
+category = 1 /*Type a number of the following list
+0 : Formations
+1 : Orders
+2 : Recruitments
+*/
+
+type = 1
+effects_text = 169
+effects_number = 0
+need_countdown = false
+show_countdown = false
+can_rightclick = false
+
+//Do not touch
+dont_show = true
+depth = -1002
+image_alpha = 0
+alpha_image1 = 0
+alpha_image2 = 0
+alpha_image3 = 0
+mask_index = obj_manager.spr_button_background
+hit = false
+activated = false
+replay_creation_code = true
+destroy = false
+can_use = true
+number = 0
+x_ = 0
+y_ = 0
+countdown_alpha[0] = 0
+countdown_number = 0
+countdown_number_alpha = 0
+countdown_number_text_alpha = 0
+countdown_number_length = 0
+countdown_alpha_units = 0
+units_selected = obj_selection.unit_number_selected
+old_button = false")
+
+//Codes
+//Conditions to fulfill to use the button
+object_event_add(obj,ev_step,ev_step_begin,"
+")
+
+//What to do at the creation of the button
+object_event_add(obj,ev_other,ev_user0,"
+")
+
+//What left click on it does
+object_event_add(obj,ev_other,ev_user1,"for (a = 0;a < obj_selection.unit_number_selected;a += 1) {
+
+with (obj_selection.unit[a]) {
+}
+
+}")
+
+//What right click on it does
+object_event_add(obj,ev_other,ev_user2,"
+")
+
+//Create the instance
+instance_create(0,0,obj)

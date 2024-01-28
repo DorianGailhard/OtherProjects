@@ -1,0 +1,1405 @@
+global.obj_in_game_menu = object_add()
+
+//Create event
+object_event_add(global.obj_in_game_menu,ev_create,0,"
+sprite_index = obj_manager.spr_chosen_tab
+
+//Menu
+depth = -1000
+
+//Variables
+unit_selection_id = 0
+categories_number_reset = false
+need_reset = false
+
+//Tabs
+image_alpha = 1
+
+//Buildings tab
+alpha_image = 1
+alpha_image2 = 1
+
+//Research tab
+alpha_image3 = 0
+alpha_image4 = 0
+
+//Units tabs
+image_alpha2 = 0
+
+//Army tab
+alpha_image5 = 0
+
+//Orders tab
+alpha_image6 = 0
+
+//Buildings tabs
+image_alpha3 = 0
+
+//City tab
+alpha_image7 = 0
+
+//Actions tab
+alpha_image8 = 0
+
+select = true
+select2 = false
+
+//Categories
+//Buildings
+buildings_categories_selected = -1
+
+for (i = 0;i < 9;i += 1) {
+buildings_categories_button_count[i] = 0
+buildings_categories_alpha[i] = 0
+buildings_categories_highlight[i] = 0
+buildings_categories_press_alpha[i] = 0
+buildings_categories_displayed[i] = true
+buildings_categories_displayed_alpha[i] = 0
+buildings_categories_button_list[i,0] = 0
+buildings_categories_y[i] = 0
+}
+
+//Technologies
+technologies_categories_selected = -1
+
+for (i = 0;i < 9;i += 1) {
+technologies_categories_button_count[i] = 0
+technologies_categories_alpha[i] = 0
+technologies_categories_highlight[i] = 0
+technologies_categories_press_alpha[i] = 0
+technologies_categories_displayed[i] = true
+technologies_categories_displayed_alpha[i] = 0
+technologies_categories_button_list[i,0] = 0
+technologies_categories_y[i] = 0
+}
+
+//Units orders
+units_orders_categories_selected = -1
+
+for (i = 0;i < 9;i += 1) {
+units_orders_categories_button_count[i] = 0
+units_orders_categories_alpha[i] = 0
+units_orders_categories_highlight[i] = 0
+units_orders_categories_press_alpha[i] = 0
+units_orders_categories_displayed[i] = true
+units_orders_categories_displayed_alpha[i] = 0
+units_orders_categories_button_list[i,0] = 0
+units_orders_categories_y[i] = 0
+}
+
+//City characteristics
+city_categories_selected = -1
+
+for (i = 0;i < 4;i += 1) {
+city_categories_button_count[i] = 0
+city_categories_highlight[i] = 0
+city_categories_press_alpha[i] = 0
+city_categories_displayed[i] = true
+city_categories_displayed_alpha[i] = 0
+city_categories_button_list[i,0] = 0
+city_categories_y[i] = 0
+}
+
+//Buildings actions
+buildings_actions_categories_selected = -1
+
+for (i = 0;i < 9;i += 1) {
+buildings_actions_categories_button_count[i] = 0
+buildings_actions_categories_alpha[i] = 0
+buildings_actions_categories_highlight[i] = 0
+buildings_actions_categories_press_alpha[i] = 0
+buildings_actions_categories_displayed[i] = true
+buildings_actions_categories_displayed_alpha[i] = 0
+buildings_actions_categories_button_list[i,0] = 0
+buildings_actions_categories_y[i] = 0
+}
+")
+
+//Step event
+object_event_add(global.obj_in_game_menu,ev_step,ev_step_normal,"
+var pos_met;
+pos_met = false
+
+if (obj_windows_manager.mouse_on_window == true) {
+pos_met = -1
+}
+
+//Tabs
+sprite_index = obj_manager.spr_chosen_tab
+
+if (obj_selection.unit_number_selected == 0) {
+
+if (image_alpha == 0) {
+select = true
+select2 = false
+}
+
+image_alpha = min(1,image_alpha + 0.1)
+image_alpha2 = max(0,image_alpha2 - 0.1)
+image_alpha3 = max(0,image_alpha3 - 0.1)
+}
+
+//Changes in units selection
+if (alpha_image6 == 0 && alpha_image8 == 0 && obj_selection.unit_number_selected == 0) {
+with (obj_orders_button) {
+if (old_button == true) {
+destroy = true
+}
+}
+}
+
+if (obj_selection.unit_number_selected == 0 && unit_selection_id != 0) {
+unit_selection_id = 0
+}
+
+if (object_get_parent(obj_selection.unit[0].object_index) == obj_your_warriors_units && obj_selection.unit_number_selected != 0) {
+if (image_alpha2 == 0) {
+select = true
+select2 = false
+}
+
+if (unit_selection_id != obj_selection.unit[0]) {
+//Variables
+var button,button_,n;
+button = ''
+button_ = true
+n = 0
+
+while (button_ == true) {
+
+if (button == '') {
+button = file_find_first(working_directory + '\Data\Data\Buttons\Orders buttons\For units\*.txt',fa_hidden)
+} else { button = file_find_next() }
+
+if (file_exists(working_directory + '\Data\Data\Buttons\Orders buttons\For units\' + button)) {
+execute_file(working_directory + '\Data\Data\Buttons\Orders buttons\For units\' + button)
+
+variable_local_set(string_replace_all(string_replace_all(button,' ','_'),'.txt',''),true)
+
+n += 1
+} else {
+button_ = false
+file_find_close()
+}
+
+}
+
+unit_selection_id = obj_selection.unit[0]
+}
+
+image_alpha = max(0,image_alpha - 0.1)
+image_alpha2 = min(1,image_alpha2 + 0.1)
+image_alpha3 = max(0,image_alpha3 - 0.1)
+
+if (alpha_image6 == 0 && categories_number_reset == true) {
+for (i = 0;i < 9;i += 1) {
+units_orders_categories_button_count[i] = 0
+}
+
+categories_number_reset = false
+
+with (obj_orders_button) {
+event_perform(ev_other,ev_user3)
+}
+}
+}
+
+
+if (obj_selection.unit[0].object_index == obj_your_buildings && obj_selection.unit_number_selected != 0) {
+if (image_alpha3 == 0) {
+select = true
+select2 = false
+}
+
+if (unit_selection_id != obj_selection.unit[0]) {
+//Variables
+var button,button_,n;
+button = ''
+button_ = true
+n = 0
+
+while (button_ == true) {
+
+if (button == '') {
+button = file_find_first(working_directory + '\Data\Data\Buttons\Orders buttons\For buildings\*.txt',fa_hidden)
+} else { button = file_find_next() }
+
+if (file_exists(working_directory + '\Data\Data\Buttons\Orders buttons\For buildings\' + button)) {
+execute_file(working_directory + '\Data\Data\Buttons\Orders buttons\For buildings\' + button)
+
+variable_local_set(string_replace_all(string_replace_all(button,' ','_'),'.txt',''),true)
+
+n += 1
+} else {
+button_ = false
+file_find_close()
+}
+
+}
+
+unit_selection_id = obj_selection.unit[0]
+}
+
+image_alpha = max(0,image_alpha - 0.1)
+image_alpha2 = max(0,image_alpha2 - 0.1)
+image_alpha3 = min(1,image_alpha3 + 0.1)
+
+if (alpha_image8 == 0 && categories_number_reset == true) {
+for (i = 0;i < 9;i += 1) {
+buildings_actions_categories_button_count[i] = 0
+}
+
+categories_number_reset = false
+
+with (obj_orders_button) {
+event_perform(ev_other,ev_user3)
+}
+}
+}
+
+//Tabs
+if (select == false) {
+alpha_image = max(0,alpha_image - 0.05)
+}
+
+if (select == true) {
+alpha_image = min(1,alpha_image + 0.05)
+}
+
+if (select2 == false) {
+alpha_image3 = max(0,alpha_image3 - 0.05)
+}
+
+if (select2 == true) {
+alpha_image3 = min(1,alpha_image3 + 0.05)
+}
+
+if (mouse_x < view_xview + global.screen_resolution_width - 129) {
+
+//X and Y
+x = view_xview + global.screen_resolution_width - 260
+y = view_yview
+
+if (pos_met == false) {
+if (mouse_x > x && mouse_x < x + 131 && mouse_y > y && mouse_y < y + 31) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}} else {
+pos_met = -1
+}
+
+//Highlight
+if (pos_met == true && global.pause == false && obj_minimap.enlarge == false && select == false && !mouse_check_button(mb_left) && !mouse_check_button(mb_right)) {
+alpha_image = min(0.5,alpha_image + 0.1)
+}
+
+//Select
+if (mouse_check_button_pressed(mb_left) && !mouse_check_button(mb_right) && pos_met == true && global.pause == false && obj_minimap.enlarge == false) {
+select = true
+select2 = false
+}
+
+}
+
+if (mouse_x > view_xview + global.screen_resolution_width - 129) {
+
+//X and Y
+x = view_xview + global.screen_resolution_width - 134
+y = view_yview
+
+if (pos_met == false) {
+if (mouse_x > x && mouse_x < x + 131 && mouse_y > y && mouse_y < y + 31) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}} else {
+pos_met = -1
+}
+
+//highlight
+if (pos_met == true && global.pause == false && obj_minimap.enlarge == false && select2 == false && !mouse_check_button(mb_left) && !mouse_check_button(mb_right) && obj_selection.is_placing_building == false) {
+alpha_image3 = min(0.5,alpha_image3 + 0.1)
+}
+
+//Select
+if (mouse_check_button_pressed(mb_left) && !mouse_check_button(mb_right) && pos_met == true && global.pause == false && obj_minimap.enlarge == false && obj_selection.is_placing_building == false) {
+select2 = true
+select = false
+
+if (obj_selection.unit[0].object_index == obj_your_warriors_units && obj_selection.unit_number_selected != 0) {
+if (alpha_image6 == 0 && categories_number_reset == true) {
+for (i = 0;i < 9;i += 1) {
+units_orders_categories_button_count[i] = 0
+}
+
+categories_number_reset = false
+
+with (obj_orders_button) {
+event_perform(ev_other,ev_user3)
+}
+}}
+
+if (obj_selection.unit[0].object_index == obj_your_buildings && obj_selection.unit_number_selected != 0) {
+if (alpha_image8 == 0 && categories_number_reset == true) {
+for (i = 0;i < 9;i += 1) {
+buildings_actions_categories_button_count[i] = 0
+}
+
+categories_number_reset = false
+
+with (obj_orders_button) {
+event_perform(ev_other,ev_user3)
+}
+}}
+}
+
+}
+
+if (global.pause == false && obj_minimap.enlarge == false && obj_selection.is_placing_building == false && mouse_x >= view_xview + global.screen_resolution_width - 256 && mouse_y < view_yview + 541) {
+if (mouse_wheel_down()) {
+select = true
+select2 = false
+}
+
+if (mouse_wheel_up()) {
+select = false
+select2 = true
+
+if (obj_selection.unit[0].object_index == obj_your_warriors_units && obj_selection.unit_number_selected != 0) {
+if (alpha_image6 == 0 && categories_number_reset == true) {
+for (i = 0;i < 9;i += 1) {
+units_orders_categories_button_count[i] = 0
+}
+
+categories_number_reset = false
+
+with (obj_orders_button) {
+event_perform(ev_other,ev_user3)
+}
+}}
+
+if (obj_selection.unit[0].object_index == obj_your_buildings && obj_selection.unit_number_selected != 0) {
+if (alpha_image8 == 0 && categories_number_reset == true) {
+for (i = 0;i < 9;i += 1) {
+buildings_actions_categories_button_count[i] = 0
+}
+
+categories_number_reset = false
+
+with (obj_orders_button) {
+event_perform(ev_other,ev_user3)
+}
+}}
+
+}}
+
+//Buildings tab
+if (select == false || obj_selection.unit_number_selected != 0){
+alpha_image2 = max(0,alpha_image2 - 0.1)
+}
+
+if (select == true && obj_selection.unit_number_selected == 0) {
+alpha_image2 = min(1,alpha_image2 + 0.1)
+}
+
+//Research tab
+if (select2 == false || obj_selection.unit_number_selected != 0) {
+alpha_image4 = max(0,alpha_image4 - 0.1)
+}
+
+if (select2 == true && obj_selection.unit_number_selected == 0) {
+alpha_image4 = min(1,alpha_image4 + 0.1)
+}
+
+//Army tab
+if (select == false || object_get_parent(obj_selection.unit[0].object_index) != obj_your_warriors_units || obj_selection.unit_number_selected == 0 || need_reset == true){
+alpha_image5 = max(0,alpha_image5 - 0.1)
+}
+
+if (select == true && object_get_parent(obj_selection.unit[0].object_index) == obj_your_warriors_units && obj_selection.unit_number_selected != 0 && need_reset == false) {
+alpha_image5 = min(1,alpha_image5 + 0.1)
+}
+
+//Orders tab
+if (select2 == false || object_get_parent(obj_selection.unit[0].object_index) != obj_your_warriors_units || obj_selection.unit_number_selected == 0){
+alpha_image6 = max(0,alpha_image6 - 0.1)
+}
+
+if (select2 == true && object_get_parent(obj_selection.unit[0].object_index) == obj_your_warriors_units && obj_selection.unit_number_selected != 0) {
+alpha_image6 = min(1,alpha_image6 + 0.1)
+}
+
+//City tab
+if (select == false || obj_selection.unit[0].object_index != obj_your_buildings || obj_selection.unit_number_selected == 0 || need_reset == true){
+alpha_image7 = max(0,alpha_image7 - 0.1)
+}
+
+if (select == true && obj_selection.unit[0].object_index == obj_your_buildings && obj_selection.unit_number_selected != 0 && need_reset == false) {
+alpha_image7 = min(1,alpha_image7 + 0.1)
+}
+
+//Actions tab
+if (select2 == false || obj_selection.unit[0].object_index != obj_your_buildings || obj_selection.unit_number_selected == 0){
+alpha_image8 = max(0,alpha_image8 - 0.1)
+}
+
+if (select2 == true && obj_selection.unit[0].object_index == obj_your_buildings && obj_selection.unit_number_selected != 0) {
+alpha_image8 = min(1,alpha_image8 + 0.1)
+}
+
+//Categories
+//Buildings
+if ((!mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) || select == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 1) {
+buildings_categories_selected = -1
+}
+
+if (alpha_image2 > 0) {
+sprite_index = obj_manager.spr_categories_background
+
+for (i = 0;i < 9;i += 1) {
+//X and Y
+if (buildings_categories_button_count[i] != 0) {
+var l;
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[60]); break;
+    case 1: l = string_width(obj_manager.text[61]); break;
+    case 2: l = string_width(obj_manager.text[62]); break;
+    case 3: l = string_width(obj_manager.text[63]); break;
+    case 4: l = string_width(obj_manager.text[64]); break;
+    case 5: l = string_width(obj_manager.text[65]); break;
+    case 6: l = string_width(obj_manager.text[66]); break;
+    case 7: l = string_width(obj_manager.text[67]); break;
+    case 8: l = string_width(obj_manager.text[68]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+
+if (mouse_x > view_xview + global.screen_resolution_width - 240) {
+x = max(view_xview + global.screen_resolution_width - 502 + l,min(mouse_x - 10,view_xview + global.screen_resolution_width - 466 + l))
+} else {
+x = view_xview + global.screen_resolution_width - 260
+}
+
+if (i == 0) {
+buildings_categories_y[i] = 10
+} else {
+if (buildings_categories_button_count[i - 1] != 0) {
+if ((buildings_categories_button_list[i - 1,buildings_categories_button_count[i - 1] - 1].number - floor(buildings_categories_button_list[i - 1,buildings_categories_button_count[i - 1] - 1].number/4) * 4) != 0) {
+buildings_categories_y[i] = buildings_categories_y[i - 1] + (30 + (24 + buildings_categories_button_list[i - 1,buildings_categories_button_count[i - 1] - 1].y_) * (1 - buildings_categories_displayed_alpha[i - 1] * 4)) * buildings_categories_alpha[i - 1]
+} else {
+buildings_categories_y[i] = buildings_categories_y[i - 1] + (30 + (24 + buildings_categories_button_list[i - 1,buildings_categories_button_count[i - 1] - 1].y_ - 55 * (1 - buildings_categories_button_list[i - 1,buildings_categories_button_count[i - 1] - 1].image_alpha)) * (1 - buildings_categories_displayed_alpha[i - 1] * 4)) * buildings_categories_alpha[i - 1]
+}
+} else {
+buildings_categories_y[i] = buildings_categories_y[i - 1]
+}
+}
+
+y = view_yview + 26 + buildings_categories_y[i]
+
+if (pos_met == false) {
+if (mouse_x > x && mouse_x < x + 262 && mouse_y > y && mouse_y < y + 30 && obj_selection.is_placing_building == false) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}} else {
+pos_met = -1
+}
+
+if (select == true) {
+if (global.pause == false && obj_minimap.enlarge == false && image_alpha == 1) {
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left) && !mouse_check_button(mb_right)) {
+buildings_categories_selected = i
+}
+
+if (mouse_check_button_released(mb_left) && buildings_categories_selected == i && pos_met == true && buildings_categories_alpha[i] == 1) {
+buildings_categories_displayed[i] = !buildings_categories_displayed[i]
+}
+
+//Alpha
+//Click
+if (buildings_categories_selected == i) {
+buildings_categories_press_alpha[i] = min(0.25,buildings_categories_press_alpha[i] + (0.025 * mouse_check_button(mb_left)))
+}
+
+//Hightlight
+buildings_categories_highlight[i] = min(0.25,buildings_categories_highlight[i] + (0.025 * pos_met * !mouse_check_button(mb_left) * !mouse_check_button(mb_right)))
+}
+}
+
+//Alpha
+buildings_categories_displayed_alpha[i] = min(0.25,buildings_categories_displayed_alpha[i] + (0.025 * !buildings_categories_displayed[i]))
+}
+
+buildings_categories_displayed_alpha[i] = max(0,buildings_categories_displayed_alpha[i] - (0.025 * buildings_categories_displayed[i]))
+
+if (buildings_categories_button_count[i] != 0) {
+buildings_categories_alpha[i] = min(1,buildings_categories_alpha[i] + 0.1)
+} else {
+buildings_categories_alpha[i] = max(0,buildings_categories_alpha[i] - 0.1)
+
+if (i == 0) {
+buildings_categories_y[i] = 10
+} else {
+buildings_categories_y[i] = buildings_categories_y[i - 1]
+}
+}
+
+if (!mouse_check_button(mb_left) || buildings_categories_selected != i || select == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 1) {
+buildings_categories_press_alpha[i] = max(0,buildings_categories_press_alpha[i] - 0.025)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || mouse_check_button(mb_right) || select == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 1) {
+buildings_categories_highlight[i] = max(0,buildings_categories_highlight[i] - 0.025)
+}
+
+}
+} else {
+for (i = 0;i < 9;i += 1) {
+if (buildings_categories_button_count[i] != 0) {
+buildings_categories_alpha[i] = 1
+} else {
+buildings_categories_alpha[i] = 0
+}
+}
+}
+
+//Technologies
+if ((!mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 1) {
+technologies_categories_selected = -1
+}
+
+if (alpha_image4 > 0) {
+sprite_index = obj_manager.spr_categories_background
+
+for (i = 0;i < 9;i += 1) {
+//X and Y
+if (technologies_categories_button_count[i] != 0) {
+var l;
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[69]); break;
+    case 1: l = string_width(obj_manager.text[70]); break;
+    case 2: l = string_width(obj_manager.text[71]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+
+if (mouse_x > view_xview + global.screen_resolution_width - 240) {
+x = max(view_xview + global.screen_resolution_width - 502 + l,min(mouse_x - 10,view_xview + global.screen_resolution_width - 466 + l))
+} else {
+x = view_xview + global.screen_resolution_width - 260
+}
+
+if (i == 0) {
+technologies_categories_y[i] = 10
+} else {
+if (technologies_categories_button_count[i - 1] != 0) {
+if ((technologies_categories_button_list[i - 1,technologies_categories_button_count[i - 1] - 1].number - floor(technologies_categories_button_list[i - 1,technologies_categories_button_count[i - 1] - 1].number/4) * 4) != 0) {
+technologies_categories_y[i] = technologies_categories_y[i - 1] + (30 + (24 + technologies_categories_button_list[i - 1,technologies_categories_button_count[i - 1] - 1].y_) * (1 - technologies_categories_displayed_alpha[i - 1] * 4)) * technologies_categories_alpha[i - 1]
+} else {
+technologies_categories_y[i] = technologies_categories_y[i - 1] + (30 + (24 + technologies_categories_button_list[i - 1,technologies_categories_button_count[i - 1] - 1].y_ - 55 * (1 - technologies_categories_button_list[i - 1,technologies_categories_button_count[i - 1] - 1].image_alpha)) * (1 - technologies_categories_displayed_alpha[i - 1] * 4)) * technologies_categories_alpha[i - 1]
+}
+} else {
+technologies_categories_y[i] = technologies_categories_y[i - 1]
+}
+}
+
+y = view_yview + 26 + technologies_categories_y[i]
+
+if (pos_met == false) {
+if (mouse_x > x && mouse_x < x + 262 && mouse_y > y && mouse_y < y + 30 && obj_selection.is_placing_building == false) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}} else {
+pos_met = -1
+}
+
+if (select2 == true) {
+if (global.pause == false && obj_minimap.enlarge == false && image_alpha == 1) {
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left) && !mouse_check_button(mb_right)) {
+technologies_categories_selected = i
+}
+
+if (mouse_check_button_released(mb_left) && technologies_categories_selected == i && pos_met == true && technologies_categories_alpha[i] == 1) {
+technologies_categories_displayed[i] = !technologies_categories_displayed[i]
+}
+
+//Alpha
+//Click
+if (technologies_categories_selected == i) {
+technologies_categories_press_alpha[i] = min(0.25,technologies_categories_press_alpha[i] + (0.025 * mouse_check_button(mb_left)))
+}
+
+//Hightlight
+technologies_categories_highlight[i] = min(0.25,technologies_categories_highlight[i] + (0.025 * pos_met * !mouse_check_button(mb_left) * !mouse_check_button(mb_right)))
+}
+}
+
+//Alpha
+technologies_categories_displayed_alpha[i] = min(0.25,technologies_categories_displayed_alpha[i] + (0.025 * !technologies_categories_displayed[i]))
+}
+
+technologies_categories_displayed_alpha[i] = max(0,technologies_categories_displayed_alpha[i] - (0.025 * technologies_categories_displayed[i]))
+
+if (technologies_categories_button_count[i] != 0) {
+if (technologies_categories_button_count[i] != 1 || technologies_categories_button_list[i,0].choosed == false) {
+technologies_categories_alpha[i] = min(1,technologies_categories_alpha[i] + 0.1)
+} else {
+if (technologies_categories_button_list[i,0].choosed == true) {
+if (obj_resources_block.now_knowledge[technologies_categories_button_list[i,0].technology_number] < technologies_categories_button_list[i,0].knowledge_cost) {
+technologies_categories_alpha[i] = min(1,technologies_categories_alpha[i] + 0.1)
+}
+}
+}
+} else {
+technologies_categories_alpha[i] = max(0,technologies_categories_alpha[i] - 0.1)
+
+if (i == 0) {
+technologies_categories_y[i] = 10
+} else {
+technologies_categories_y[i] = technologies_categories_y[i - 1]
+}
+}
+
+if (technologies_categories_button_count[i] == 1) {
+if (technologies_categories_button_list[i,0].choosed == true) {
+if (obj_resources_block.now_knowledge[technologies_categories_button_list[i,0].technology_number] >= technologies_categories_button_list[i,0].knowledge_cost) {
+technologies_categories_alpha[i] = max(0,technologies_categories_alpha[i] - 0.1)
+}
+}
+}
+
+if (!mouse_check_button(mb_left) || technologies_categories_selected != i || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 1) {
+technologies_categories_press_alpha[i] = max(0,technologies_categories_press_alpha[i] - 0.025)
+}
+
+if (!pos_met || mouse_check_button(mb_left) || mouse_check_button(mb_right) || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 1) {
+technologies_categories_highlight[i] = max(0,technologies_categories_highlight[i] - 0.025)
+}
+
+}
+} else {
+for (i = 0;i < 9;i += 1) {
+if (technologies_categories_button_count[i] != 0) {
+technologies_categories_alpha[i] = 1
+} else {
+technologies_categories_alpha[i] = 0
+}
+
+if (technologies_categories_button_count[i] == 1) {
+if (technologies_categories_button_list[i,0].choosed == true) {
+if (obj_resources_block.now_knowledge[technologies_categories_button_list[i,0].technology_number] >= technologies_categories_button_list[i,0].knowledge_cost) {
+technologies_categories_alpha[i] = 0
+}
+}
+}
+}
+}
+
+//Units orders
+if ((!mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+units_orders_categories_selected = -1
+}
+
+if (alpha_image6 > 0) {
+sprite_index = obj_manager.spr_categories_background
+
+for (i = 0;i < 9;i += 1) {
+//X and Y
+if (units_orders_categories_button_count[i] != 0) {
+var l;
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[72]); break;
+    case 1: l = string_width(obj_manager.text[73]); break;
+    case 2: l = string_width(obj_manager.text[74]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+
+if (mouse_x > view_xview + global.screen_resolution_width - 240) {
+x = max(view_xview + global.screen_resolution_width - 502 + l,min(mouse_x - 10,view_xview + global.screen_resolution_width - 466 + l))
+} else {
+x = view_xview + global.screen_resolution_width - 260
+}
+
+if (i == 0) {
+units_orders_categories_y[i] = 10
+} else {
+if (units_orders_categories_button_count[i - 1] != 0) {
+if ((units_orders_categories_button_list[i - 1,units_orders_categories_button_count[i - 1] - 1].number - floor(units_orders_categories_button_list[i - 1,units_orders_categories_button_count[i - 1] - 1].number/4) * 4) != 0) {
+units_orders_categories_y[i] = units_orders_categories_y[i - 1] + (30 + (24 + units_orders_categories_button_list[i - 1,units_orders_categories_button_count[i - 1] - 1].y_) * (1 - units_orders_categories_displayed_alpha[i - 1] * 4)) * units_orders_categories_alpha[i - 1]
+} else {
+units_orders_categories_y[i] = units_orders_categories_y[i - 1] + (30 + (24 + units_orders_categories_button_list[i - 1,units_orders_categories_button_count[i - 1] - 1].y_ - 55 * (1 - units_orders_categories_button_list[i - 1,units_orders_categories_button_count[i - 1] - 1].image_alpha) * (unit_selection_id != 0 && object_get_index(unit_selection_id) != obj_your_buildings)) * (1 - units_orders_categories_displayed_alpha[i - 1] * 4)) * units_orders_categories_alpha[i - 1]
+}
+} else {
+units_orders_categories_y[i] = units_orders_categories_y[i - 1]
+}
+}
+
+y = view_yview + 26 + units_orders_categories_y[i]
+
+if (pos_met == false) {
+if (mouse_x > x && mouse_x < x + 262 && mouse_y > y && mouse_y < y + 30 && obj_selection.is_placing_building == false) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}} else {
+pos_met = -1
+}
+
+if (select2 == true) {
+if (global.pause == false && obj_minimap.enlarge == false && image_alpha == 0) {
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left) && !mouse_check_button(mb_right)) {
+units_orders_categories_selected = i
+}
+
+if (mouse_check_button_released(mb_left) && units_orders_categories_selected == i && pos_met == true && units_orders_categories_alpha[i] == 1) {
+units_orders_categories_displayed[i] = !units_orders_categories_displayed[i]
+}
+
+//Alpha
+//Click
+if (units_orders_categories_selected == i) {
+units_orders_categories_press_alpha[i] = min(0.25,units_orders_categories_press_alpha[i] + (0.025 * mouse_check_button(mb_left)))
+}
+
+//Hightlight
+units_orders_categories_highlight[i] = min(0.25,units_orders_categories_highlight[i] + (0.025 * pos_met * !mouse_check_button(mb_left) * !mouse_check_button(mb_right)))
+}
+}
+
+//Alpha
+units_orders_categories_displayed_alpha[i] = min(0.25,units_orders_categories_displayed_alpha[i] + (0.025 * !units_orders_categories_displayed[i]))
+}
+
+units_orders_categories_displayed_alpha[i] = max(0,units_orders_categories_displayed_alpha[i] - (0.025 * units_orders_categories_displayed[i]))
+
+if (units_orders_categories_button_count[i] != 0) {
+if (units_orders_categories_button_count[i] != 1 || units_orders_categories_button_list[i,0].destroy == false) {
+units_orders_categories_alpha[i] = min(1,units_orders_categories_alpha[i] + 0.1)
+}
+} else {
+units_orders_categories_alpha[i] = max(0,units_orders_categories_alpha[i] - 0.1)
+
+if (i == 0) {
+units_orders_categories_y[i] = 10
+} else {
+units_orders_categories_y[i] = units_orders_categories_y[i - 1]
+}
+}
+
+if (units_orders_categories_button_count[i] == 1 && unit_selection_id != 0) {
+if (unit_selection_id.object_index != obj_your_buildings) {
+if (units_orders_categories_button_list[i,0].destroy == true) {
+units_orders_categories_alpha[i] = max(0,units_orders_categories_alpha[i] - 0.1)
+}
+}
+}
+
+if (!mouse_check_button(mb_left) || units_orders_categories_selected != i || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+units_orders_categories_press_alpha[i] = max(0,units_orders_categories_press_alpha[i] - 0.025)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || mouse_check_button(mb_right) || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+units_orders_categories_highlight[i] = max(0,units_orders_categories_highlight[i] - 0.025)
+}
+
+}
+} else {
+for (i = 0;i < 9;i += 1) {
+if (units_orders_categories_button_count[i] != 0) {
+units_orders_categories_alpha[i] = 1
+} else {
+units_orders_categories_alpha[i] = 0
+}
+
+if (units_orders_categories_button_count[i] == 1) {
+if (instance_exists(units_orders_categories_button_list[i,0])) {
+if (units_orders_categories_button_list[i,0].destroy == true) {
+units_orders_categories_alpha[i] = 0
+}
+}
+}
+}
+}
+
+//City characteristics
+if ((!mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) || select == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+city_categories_selected = -1
+}
+
+if (alpha_image7 > 0) {
+sprite_index = obj_manager.spr_categories_background
+
+var unit;
+unit = obj_selection.unit[0]
+
+if (unit.object_index != obj_your_buildings || need_reset == true) {
+unit = obj_selection.old_unit[0]
+}
+
+if (unit.object_index == obj_your_buildings) {
+var infos_height,workers_height,garnison_height,str,str1,str2;
+str = ''
+str1 = ''
+str2 = ''
+
+str += string_replace(string_replace(obj_manager.text[131],'%0',string(unit.city_centre_building.city_population)),'%1',string(unit.city_centre_building.city_population_max))
+str1 += obj_manager.text[160]
+str2 += obj_manager.text[161]
+
+for (i = 0;i < 4;i += 1) {
+//X and Y
+var l;
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[130]); break;
+    case 1: l = string_width(obj_manager.text[132]); break;
+    case 2: l = string_width(obj_manager.text[158]); break;
+    case 3: l = string_width(obj_manager.text[159]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+
+if (mouse_x > view_xview + global.screen_resolution_width - 240) {
+x = max(view_xview + global.screen_resolution_width - 502 + l,min(mouse_x - 10,view_xview + global.screen_resolution_width - 466 + l))
+} else {
+x = view_xview + global.screen_resolution_width - 260
+}
+
+draw_set_font(font_normal)
+infos_height = string_height(str)
+workers_height = string_height(str1)
+garnison_height = string_height(str2)
+
+if (i == 0) {
+city_categories_y[i] = 25 + unit.city_centre_building.city_name_height
+} else {
+if (i == 1) {
+city_categories_y[i] = city_categories_y[i - 1] + 30 + (5 + infos_height) * (1 - city_categories_displayed_alpha[i - 1] * 4)
+} else {
+if (city_categories_button_count[i - 1] != 0) {
+if ((city_categories_button_list[i - 1,city_categories_button_count[i - 1] - 1].number - floor(city_categories_button_list[i - 1,city_categories_button_count[i - 1] - 1].number/4) * 4) != 0) {
+city_categories_y[i] = city_categories_y[i - 1] + 30 + (24 + city_categories_button_list[i - 1,city_categories_button_count[i - 1] - 1].y_) * (1 - city_categories_displayed_alpha[i - 1] * 4)
+} else {
+city_categories_y[i] = city_categories_y[i - 1] + 30 + (24 + city_categories_button_list[i - 1,city_categories_button_count[i - 1] - 1].y_ - 55 * (1 - city_categories_button_list[i - 1,city_categories_button_count[i - 1] - 1].image_alpha) * (unit_selection_id != 0 && object_get_index(unit_selection_id) != obj_your_buildings)) * (1 - city_categories_displayed_alpha[i - 1] * 4)
+}
+} else {
+city_categories_y[i] = city_categories_y[i - 1] + 30 + (5 + workers_height * (i == 2) + garnison_height * (i ==3)) * (1 - city_categories_displayed_alpha[i - 1] * 4)
+}}}
+
+y = view_yview + 26 + city_categories_y[i]
+
+if (pos_met == false) {
+if (mouse_x > x && mouse_x < x + 262 && mouse_y > y && mouse_y < y + 30 && obj_selection.is_placing_building == false) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}} else {
+pos_met = -1
+}
+
+if (select == true) {
+if (global.pause == false && obj_minimap.enlarge == false && image_alpha == 0) {
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left) && !mouse_check_button(mb_right)) {
+city_categories_selected = i
+}
+
+if (mouse_check_button_released(mb_left) && city_categories_selected == i && pos_met == true) {
+city_categories_displayed[i] = !city_categories_displayed[i]
+}
+
+//Alpha
+//Click
+if (city_categories_selected == i) {
+city_categories_press_alpha[i] = min(0.25,city_categories_press_alpha[i] + (0.025 * mouse_check_button(mb_left)))
+}
+
+//Hightlight
+city_categories_highlight[i] = min(0.25,city_categories_highlight[i] + (0.025 * pos_met * !mouse_check_button(mb_left) * !mouse_check_button(mb_right)))
+}
+}
+
+//Alpha
+city_categories_displayed_alpha[i] = min(0.25,city_categories_displayed_alpha[i] + (0.025 * !city_categories_displayed[i]))
+
+city_categories_displayed_alpha[i] = max(0,city_categories_displayed_alpha[i] - (0.025 * city_categories_displayed[i]))
+
+if (!mouse_check_button(mb_left) || city_categories_selected != i || select == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+city_categories_press_alpha[i] = max(0,city_categories_press_alpha[i] - 0.025)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || mouse_check_button(mb_right) || select == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+city_categories_highlight[i] = max(0,city_categories_highlight[i] - 0.025)
+}
+
+}
+}
+}
+
+//Buildings actions
+if ((!mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+buildings_actions_categories_selected = -1
+}
+
+if (alpha_image8 > 0) {
+sprite_index = obj_manager.spr_categories_background
+
+for (i = 0;i < 9;i += 1) {
+//X and Y
+if (buildings_actions_categories_button_count[i] != 0) {
+var l;
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[72]); break;
+    case 1: l = string_width(obj_manager.text[73]); break;
+    case 2: l = string_width(obj_manager.text[74]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+
+if (mouse_x > view_xview + global.screen_resolution_width - 240) {
+x = max(view_xview + global.screen_resolution_width - 502 + l,min(mouse_x - 10,view_xview + global.screen_resolution_width - 466 + l))
+} else {
+x = view_xview + global.screen_resolution_width - 260
+}
+
+if (i == 0) {
+buildings_actions_categories_y[i] = 10
+} else {
+if (buildings_actions_categories_button_count[i - 1] != 0) {
+if ((buildings_actions_categories_button_list[i - 1,buildings_actions_categories_button_count[i - 1] - 1].number - floor(buildings_actions_categories_button_list[i - 1,buildings_actions_categories_button_count[i - 1] - 1].number/4) * 4) != 0) {
+buildings_actions_categories_y[i] = buildings_actions_categories_y[i - 1] + (30 + (24 + buildings_actions_categories_button_list[i - 1,buildings_actions_categories_button_count[i - 1] - 1].y_) * (1 - buildings_actions_categories_displayed_alpha[i - 1] * 4)) * buildings_actions_categories_alpha[i - 1]
+} else {
+buildings_actions_categories_y[i] = buildings_actions_categories_y[i - 1] + (30 + (24 + buildings_actions_categories_button_list[i - 1,buildings_actions_categories_button_count[i - 1] - 1].y_ - 55 * (1 - buildings_actions_categories_button_list[i - 1,buildings_actions_categories_button_count[i - 1] - 1].image_alpha) * (unit_selection_id != 0 && object_get_index(unit_selection_id) != obj_your_warriors_units)) * (1 - buildings_actions_categories_displayed_alpha[i - 1] * 4)) * buildings_actions_categories_alpha[i - 1]
+}
+} else {
+buildings_actions_categories_y[i] = buildings_actions_categories_y[i - 1]
+}
+}
+
+y = view_yview + 26 + buildings_actions_categories_y[i]
+
+if (pos_met == false) {
+if (mouse_x > x && mouse_x < x + 262 && mouse_y > y && mouse_y < y + 30 && obj_selection.is_placing_building == false) {
+pos_met = position_meeting(mouse_x,mouse_y,self)
+} else {
+pos_met = false
+}} else {
+pos_met = -1
+}
+
+if (select2 == true) {
+if (global.pause == false && obj_minimap.enlarge == false && image_alpha == 0) {
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left) && !mouse_check_button(mb_right)) {
+buildings_actions_categories_selected = i
+}
+
+if (mouse_check_button_released(mb_left) && buildings_actions_categories_selected == i && pos_met == true && buildings_actions_categories_alpha[i] == 1) {
+buildings_actions_categories_displayed[i] = !buildings_actions_categories_displayed[i]
+}
+
+//Alpha
+//Click
+if (buildings_actions_categories_selected == i) {
+buildings_actions_categories_press_alpha[i] = min(0.25,buildings_actions_categories_press_alpha[i] + (0.025 * mouse_check_button(mb_left)))
+}
+
+//Hightlight
+buildings_actions_categories_highlight[i] = min(0.25,buildings_actions_categories_highlight[i] + (0.025 * pos_met * !mouse_check_button(mb_left) * !mouse_check_button(mb_right)))
+}
+}
+
+//Alpha
+buildings_actions_categories_displayed_alpha[i] = min(0.25,buildings_actions_categories_displayed_alpha[i] + (0.025 * !buildings_actions_categories_displayed[i]))
+}
+
+buildings_actions_categories_displayed_alpha[i] = max(0,buildings_actions_categories_displayed_alpha[i] - (0.025 * buildings_actions_categories_displayed[i]))
+
+if (buildings_actions_categories_button_count[i] != 0) {
+if (buildings_actions_categories_button_count[i] != 1 || buildings_actions_categories_button_list[i,0].destroy == false) {
+buildings_actions_categories_alpha[i] = min(1,buildings_actions_categories_alpha[i] + 0.1)
+}
+} else {
+buildings_actions_categories_alpha[i] = max(0,buildings_actions_categories_alpha[i] - 0.1)
+
+if (i == 0) {
+buildings_actions_categories_y[i] = 10
+} else {
+buildings_actions_categories_y[i] = buildings_actions_categories_y[i - 1]
+}
+}
+
+if (buildings_actions_categories_button_count[i] == 1 && unit_selection_id != 0) {
+if (unit_selection_id.object_index != obj_your_warriors_units) {
+if (buildings_actions_categories_button_list[i,0].destroy == true) {
+buildings_actions_categories_alpha[i] = max(0,buildings_actions_categories_alpha[i] - 0.1)
+}
+}
+}
+
+if (!mouse_check_button(mb_left) || buildings_actions_categories_selected != i || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+buildings_actions_categories_press_alpha[i] = max(0,buildings_actions_categories_press_alpha[i] - 0.025)
+}
+
+if (pos_met == false || mouse_check_button(mb_left) || mouse_check_button(mb_right) || select2 == false || global.pause == true || obj_minimap.enlarge == true || image_alpha != 0) {
+buildings_actions_categories_highlight[i] = max(0,buildings_actions_categories_highlight[i] - 0.025)
+}
+
+}
+} else {
+for (i = 0;i < 9;i += 1) {
+if (buildings_actions_categories_button_count[i] != 0) {
+buildings_actions_categories_alpha[i] = 1
+} else {
+buildings_actions_categories_alpha[i] = 0
+}
+
+if (buildings_actions_categories_button_count[i] == 1) {
+if (instance_exists(buildings_actions_categories_button_list[i,0])) {
+if (buildings_actions_categories_button_list[i,0].destroy == true) {
+buildings_actions_categories_alpha[i] = 0
+}
+}
+}
+}
+}
+")
+
+object_event_add(global.obj_in_game_menu,ev_draw,0,"
+if (obj_minimap.enlarge_state != 90) {
+//Menu
+draw_sprite(obj_manager.spr_ingame_menu_background,-1,view_xview + global.screen_resolution_width - 260,view_yview + 31)
+
+//Buildings tab
+//Categories
+for (i = 0;i < 9;i += 1) {
+if (buildings_categories_alpha[i] * alpha_image2 > 0) {
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[60]); break;
+    case 1: l = string_width(obj_manager.text[61]); break;
+    case 2: l = string_width(obj_manager.text[62]); break;
+    case 3: l = string_width(obj_manager.text[63]); break;
+    case 4: l = string_width(obj_manager.text[64]); break;
+    case 5: l = string_width(obj_manager.text[65]); break;
+    case 6: l = string_width(obj_manager.text[66]); break;
+    case 7: l = string_width(obj_manager.text[67]); break;
+    case 8: l = string_width(obj_manager.text[68]); break;
+}
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + buildings_categories_y[i],1,1,c_white,buildings_categories_alpha[i] * alpha_image2)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + buildings_categories_y[i],1,1,c_white,buildings_categories_alpha[i] * alpha_image2)
+
+draw_set_blend_mode(bm_add)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + buildings_categories_y[i],1,1,c_white,buildings_categories_highlight[i] * buildings_categories_alpha[i] * alpha_image2)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + buildings_categories_y[i],1,1,c_white,buildings_categories_highlight[i] * buildings_categories_alpha[i] * alpha_image2)
+
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + buildings_categories_y[i],1,1,c_black,(buildings_categories_press_alpha[i] + buildings_categories_displayed_alpha[i]) * buildings_categories_alpha[i] * alpha_image2)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + buildings_categories_y[i],1,1,c_black,(buildings_categories_press_alpha[i] + buildings_categories_displayed_alpha[i]) * buildings_categories_alpha[i] * alpha_image2)
+
+draw_set_alpha(buildings_categories_alpha[i] * alpha_image2)
+
+switch (i) {
+    case 0: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[60]); break;
+    case 1: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[61]); break;
+    case 2: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[62]); break;
+    case 3: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[63]); break;
+    case 4: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[64]); break;
+    case 5: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[65]); break;
+    case 6: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[66]); break;
+    case 7: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[67]); break;
+    case 8: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_categories_y[i],obj_manager.text[68]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+}
+}
+
+//Research tab
+//Categories
+var l;
+
+for (i = 0;i < 9;i += 1) {
+if (technologies_categories_alpha[i] * alpha_image4 > 0) {
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[69]); break;
+    case 1: l = string_width(obj_manager.text[70]); break;
+    case 2: l = string_width(obj_manager.text[71]); break;
+}
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + technologies_categories_y[i],1,1,c_white,technologies_categories_alpha[i] * alpha_image4)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + technologies_categories_y[i],1,1,c_white,technologies_categories_alpha[i] * alpha_image4)
+
+draw_set_blend_mode(bm_add)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + technologies_categories_y[i],1,1,c_white,technologies_categories_highlight[i] * technologies_categories_alpha[i] * alpha_image4)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + technologies_categories_y[i],1,1,c_white,technologies_categories_highlight[i] * technologies_categories_alpha[i] * alpha_image4)
+
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + technologies_categories_y[i],1,1,c_black,(technologies_categories_press_alpha[i] + technologies_categories_displayed_alpha[i]) * technologies_categories_alpha[i] * alpha_image4)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + technologies_categories_y[i],1,1,c_black,(technologies_categories_press_alpha[i] + technologies_categories_displayed_alpha[i]) * technologies_categories_alpha[i] * alpha_image4)
+
+draw_set_alpha(technologies_categories_alpha[i] * alpha_image4)
+
+switch (i) {
+    case 0: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + technologies_categories_y[i],obj_manager.text[69]); break;
+    case 1: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + technologies_categories_y[i],obj_manager.text[70]); break;
+    case 2: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + technologies_categories_y[i],obj_manager.text[71]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+}
+}
+
+//Units orders
+//Categories
+var l;
+
+for (i = 0;i < 9;i += 1) {
+if (units_orders_categories_alpha[i] * alpha_image6 > 0) {
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[72]); break;
+    case 1: l = string_width(obj_manager.text[73]); break;
+    case 2: l = string_width(obj_manager.text[74]); break;
+}
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + units_orders_categories_y[i],1,1,c_white,units_orders_categories_alpha[i] * alpha_image6)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + units_orders_categories_y[i],1,1,c_white,units_orders_categories_alpha[i] * alpha_image6)
+
+draw_set_blend_mode(bm_add)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + units_orders_categories_y[i],1,1,c_white,units_orders_categories_highlight[i] * units_orders_categories_alpha[i] * alpha_image6)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + units_orders_categories_y[i],1,1,c_white,units_orders_categories_highlight[i] * units_orders_categories_alpha[i] * alpha_image6)
+
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + units_orders_categories_y[i],1,1,c_black,(units_orders_categories_press_alpha[i] + units_orders_categories_displayed_alpha[i]) * units_orders_categories_alpha[i] * alpha_image6)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + units_orders_categories_y[i],1,1,c_black,(units_orders_categories_press_alpha[i] + units_orders_categories_displayed_alpha[i]) * units_orders_categories_alpha[i] * alpha_image6)
+
+draw_set_alpha(units_orders_categories_alpha[i] * alpha_image6)
+
+switch (i) {
+    case 0: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + units_orders_categories_y[i],obj_manager.text[72]); break;
+    case 1: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + units_orders_categories_y[i],obj_manager.text[73]); break;
+    case 2: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + units_orders_categories_y[i],obj_manager.text[74]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+}
+}
+
+//City infos
+//Categories
+if (alpha_image7 > 0) {
+draw_sprite_ext(obj_manager.spr_separating_bar,-1,view_xview + global.screen_resolution_width - 129,view_yview + 474,1,1,0,c_white,alpha_image7)
+
+var unit;
+unit = obj_selection.unit[0]
+
+if (unit.object_index != obj_your_buildings || need_reset == true) {
+unit = obj_selection.old_unit[0]
+}
+
+if (unit.object_index == obj_your_buildings) {
+//Strings height
+var str,str1,str2;
+str = ''
+str1 = ''
+str2 = ''
+
+str += string_replace(string_replace(obj_manager.text[131],'%0',string(unit.city_centre_building.city_population)),'%1',string(unit.city_centre_building.city_population_max))
+str1 += obj_manager.text[160]
+str2 += obj_manager.text[161]
+
+//City name
+draw_set_halign(fa_center)
+draw_set_font(font_objects_name)
+
+draw_set_alpha(unit.city_centre_building.city_name_alpha * alpha_image7)
+draw_text_ext(view_xview + global.screen_resolution_width - 129,view_yview + 46,unit.city_centre_building.city_old_name,-1,146)
+
+draw_set_alpha((1 - unit.city_centre_building.city_name_alpha) * alpha_image7)
+draw_text_ext(view_xview + global.screen_resolution_width - 129,view_yview + 46,unit.city_centre_building.city_name_cut,-1,146)
+
+draw_sprite_ext(obj_manager.spr_make_capital_icon,-1,view_xview + global.screen_resolution_width - 157 - unit.city_centre_building.city_name_width/2,view_yview + 48 + unit.city_centre_building.city_name_height/2,1,1,0,c_white,unit.city_centre_building.city_is_capital_alpha * alpha_image7)
+draw_sprite_ext(obj_manager.spr_make_capital_icon,-1,view_xview + global.screen_resolution_width - 101 + unit.city_centre_building.city_name_width/2,view_yview + 48 + unit.city_centre_building.city_name_height/2,1,1,0,c_white,unit.city_centre_building.city_is_capital_alpha * alpha_image7)
+
+//Infos
+draw_set_halign(fa_left)
+draw_set_font(font_normal)
+
+draw_set_alpha((1 - city_categories_displayed_alpha[0] * 4) * alpha_image7)
+draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 54 + city_categories_y[0],str)
+
+draw_set_alpha((1 - city_categories_displayed_alpha[2] * 4) * alpha_image7)
+draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 54 + city_categories_y[2],str1)
+
+draw_set_alpha((1 - city_categories_displayed_alpha[3] * 4) * alpha_image7)
+draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 54 + city_categories_y[3],str2)
+}
+
+
+for (i = 0;i < 4;i += 1) {
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[130]); break;
+    case 1: l = string_width(obj_manager.text[132]); break;
+    case 2: l = string_width(obj_manager.text[158]); break;
+    case 3: l = string_width(obj_manager.text[159]); break;
+}
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + city_categories_y[i],1,1,c_white,alpha_image7)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + city_categories_y[i],1,1,c_white,alpha_image7)
+
+draw_set_blend_mode(bm_add)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + city_categories_y[i],1,1,c_white,city_categories_highlight[i] * alpha_image7)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + city_categories_y[i],1,1,c_white,city_categories_highlight[i] * alpha_image7)
+
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + city_categories_y[i],1,1,c_black,(city_categories_press_alpha[i] + city_categories_displayed_alpha[i]) * alpha_image7)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + city_categories_y[i],1,1,c_black,(city_categories_press_alpha[i] + city_categories_displayed_alpha[i]) * alpha_image7)
+
+draw_set_alpha(alpha_image7)
+
+switch (i) {
+    case 0: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + city_categories_y[i],obj_manager.text[130]); break;
+    case 1: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + city_categories_y[i],obj_manager.text[132]); break;
+    case 2: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + city_categories_y[i],obj_manager.text[158]); break;
+    case 3: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + city_categories_y[i],obj_manager.text[159]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+}
+
+}
+
+//Buildings actions
+//Categories
+var l;
+
+for (i = 0;i < 9;i += 1) {
+if (buildings_actions_categories_alpha[i] * alpha_image8 > 0) {
+draw_set_color(c_black)
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+draw_set_font(font_categories)
+
+switch (i) {
+    case 0: l = string_width(obj_manager.text[72]); break;
+    case 1: l = string_width(obj_manager.text[73]); break;
+    case 2: l = string_width(obj_manager.text[74]); break;
+}
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + buildings_actions_categories_y[i],1,1,c_white,buildings_actions_categories_alpha[i] * alpha_image8)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + buildings_actions_categories_y[i],1,1,c_white,buildings_actions_categories_alpha[i] * alpha_image8)
+
+draw_set_blend_mode(bm_add)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + buildings_actions_categories_y[i],1,1,c_white,buildings_actions_categories_highlight[i] * buildings_actions_categories_alpha[i] * alpha_image8)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + buildings_actions_categories_y[i],1,1,c_white,buildings_actions_categories_highlight[i] * buildings_actions_categories_alpha[i] * alpha_image8)
+
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,0,0,l + 11,30,view_xview + global.screen_resolution_width - 260,view_yview + 26 + buildings_actions_categories_y[i],1,1,c_black,(buildings_actions_categories_press_alpha[i] + buildings_actions_categories_displayed_alpha[i]) * buildings_actions_categories_alpha[i] * alpha_image8)
+draw_sprite_part_ext(obj_manager.spr_categories_background,-1,217,0,45,30,view_xview + global.screen_resolution_width - 249 + l,view_yview + 26 + buildings_actions_categories_y[i],1,1,c_black,(buildings_actions_categories_press_alpha[i] + buildings_actions_categories_displayed_alpha[i]) * buildings_actions_categories_alpha[i] * alpha_image8)
+
+draw_set_alpha(buildings_actions_categories_alpha[i] * alpha_image8)
+
+switch (i) {
+    case 0: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_actions_categories_y[i],obj_manager.text[72]); break;
+    case 1: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_actions_categories_y[i],obj_manager.text[73]); break;
+    case 2: draw_text(view_xview + global.screen_resolution_width - 241,view_yview + 41 + buildings_actions_categories_y[i],obj_manager.text[74]); break;
+}
+
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+}
+}
+
+//Tabs
+draw_sprite_ext(obj_manager.spr_unchosen_tab,-1,view_xview + global.screen_resolution_width - 260,view_yview,1,1,0,c_white,1)
+draw_sprite_ext(obj_manager.spr_chosen_tab,-1,view_xview + global.screen_resolution_width - 260,view_yview,1,1,0,c_white,alpha_image)
+
+draw_sprite_ext(obj_manager.spr_unchosen_tab,-1,view_xview + global.screen_resolution_width + 2,view_yview,-1,1,0,c_white,1)
+draw_sprite_ext(obj_manager.spr_chosen_tab,-1,view_xview + global.screen_resolution_width + 2,view_yview,-1,1,0,c_white,alpha_image3)
+
+draw_set_color(c_black)
+draw_set_halign(fa_center)
+draw_set_valign(fa_middle)
+draw_set_font(font_tabs)
+
+draw_set_alpha(image_alpha)
+draw_text(view_xview + global.screen_resolution_width - 192,view_yview + 18,obj_manager.text[27])
+draw_text(view_xview + global.screen_resolution_width - 65,view_yview + 18,obj_manager.text[28])
+
+draw_set_alpha(image_alpha2)
+draw_text(view_xview + global.screen_resolution_width - 192,view_yview + 18,obj_manager.text[35])
+draw_text(view_xview + global.screen_resolution_width - 65,view_yview + 18,obj_manager.text[36])
+
+draw_set_alpha(image_alpha3)
+draw_text(view_xview + global.screen_resolution_width - 192,view_yview + 18,obj_manager.text[54])
+draw_text(view_xview + global.screen_resolution_width - 65,view_yview + 18,obj_manager.text[55])
+
+draw_set_halign(fa_left)
+draw_set_valign(fa_top)
+draw_set_alpha(1)
+}
+")

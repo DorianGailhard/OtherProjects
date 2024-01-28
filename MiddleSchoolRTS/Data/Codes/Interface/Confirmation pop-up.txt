@@ -1,0 +1,212 @@
+//Create event
+global.obj_confirmation_popup = object_add()
+
+object_event_add(global.obj_confirmation_popup,ev_create,0,"
+//Graphics
+sprite_index = obj_manager.spr_pause_menu_small_button
+
+//Variables
+image_alpha = 0
+depth = -1006
+
+delete = false
+select = 3
+
+alpha_image1 = 0
+alpha_image2 = 0
+
+alpha_image3 = 0
+alpha_image4 = 0
+")
+
+object_event_add(global.obj_confirmation_popup,ev_step,ev_step_end,"
+//Button
+//Delete
+var pos_met;
+pos_met = false
+
+if (mouse_x > x - 155 && mouse_x < x + 155 && mouse_y > y - 20 && mouse_y < y + 20) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+pos_met = true
+}
+}
+
+//Alpha
+if (pos_met == false || select != 1 || mouse_check_button(mb_left))  {
+alpha_image1 = max(0,alpha_image1 - 0.025)
+}
+
+if (select != 1 || !mouse_check_button(mb_left)) {
+alpha_image2 = max(0,alpha_image2 - 0.05)
+}
+
+if (mouse_x < view_xview + xx || select == 1) {
+
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+select = 1
+}
+
+if (pos_met == false && !mouse_check_button(mb_left)) {
+select = 3
+}
+
+x = view_xview + xx - 97
+y = view_yview + yy + 63
+
+pos_met = false
+
+if (mouse_x > x - 155 && mouse_x < x + 155 && mouse_y > y - 20 && mouse_y < y + 20) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+pos_met = true
+}
+}
+
+if (mouse_check_button_released(mb_left) && pos_met == true && delete == false && select == 1) {
+execute_string(action)
+delete = true
+}
+
+//Alpha
+if (select == 1) {
+
+if (pos_met == true && !mouse_check_button(mb_left)) {
+alpha_image1 = min(0.25,alpha_image1 + 0.025)
+}
+
+if (mouse_check_button(mb_left)) {
+alpha_image2 = min(0.5,alpha_image2 + 0.05)
+}
+
+}
+
+}
+
+//Alpha
+if (delete == false) {
+image_alpha = min(1,image_alpha + 0.1)
+} else {
+image_alpha -= 0.1
+}
+
+if (image_alpha == 0 && delete == true) {
+instance_destroy()
+}
+
+//Cancel
+//Alpha
+if (pos_met == false || select != 2 || mouse_check_button(mb_left)) {
+alpha_image3 = max(0,alpha_image3 - 0.025)
+}
+
+if (select != 2 || !mouse_check_button(mb_left)) {
+alpha_image4 = max(0,alpha_image4 - 0.05)
+}
+
+if (mouse_x > view_xview + xx || select == 2) {
+x = view_xview + xx + 97
+y = view_yview + yy + 63
+
+pos_met = false
+
+if (mouse_x > x - 155 && mouse_x < x + 155 && mouse_y > y - 20 && mouse_y < y + 20) {
+if (position_meeting(mouse_x,mouse_y,self)) {
+pos_met = true
+}
+}
+
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button_released(mb_left)) {
+select = 2
+}
+
+if (pos_met == false && !mouse_check_button(mb_left)) {
+select = 3
+}
+
+if (pos_met == true && mouse_check_button_released(mb_left) && delete == false && select == 2) {
+delete = true
+}
+
+//Alpha
+if (select == 2) {
+
+if (pos_met == true && !mouse_check_button(mb_left)) {
+alpha_image3 = min(0.25,alpha_image3 + 0.025)
+}
+
+if (mouse_check_button(mb_left)) {
+alpha_image4 = min(0.5,alpha_image4 + 0.05)
+}
+
+}
+
+}
+
+//Shortcuts
+if (keyboard_check_released(obj_manager.key[2])) {
+execute_string(action)
+delete = true
+}
+
+if (keyboard_check_released(obj_manager.key[1])) {
+delete = true
+}
+")
+
+//Draw event
+object_event_add(global.obj_confirmation_popup,ev_draw,0,"
+//Draw
+//Background
+draw_sprite_ext(obj_manager.spr_event_background,0,view_xview + xx,view_yview + yy,1,1,0,c_white,image_alpha)
+
+//Text
+var name;
+if (is_real(parent.name)) {
+name = obj_manager.text[parent.name]
+} else {
+name = parent.name
+}
+
+draw_set_alpha(image_alpha)
+draw_set_font(font_menu)
+draw_set_halign(fa_center)
+
+draw_set_color(c_white)
+draw_text_ext(view_xview + xx,view_yview + yy - 75,string_replace(obj_manager.text[text],'%1',name),-1,400)
+
+draw_set_color(c_black)
+draw_text_ext(view_xview + xx,view_yview + yy - 76,string_replace(obj_manager.text[text],'%1',name),-1,400)
+
+//Delete
+draw_sprite_ext(sprite_index,0,view_xview + xx - 107,view_yview + yy + 63,1,1,0,c_white,image_alpha)
+
+//Text
+draw_set_color(c_white)
+draw_text(view_xview + xx - 107,view_yview + yy + 51,obj_manager.text[button_text])
+
+draw_set_color(c_black)
+draw_text(view_xview + xx - 107,view_yview + yy + 50,obj_manager.text[button_text])
+
+//Sprite
+draw_set_blend_mode(bm_add)
+draw_sprite_ext(sprite_index,0,view_xview + xx - 107,view_yview + yy + 63,1,1,0,c_white,alpha_image1 * image_alpha)
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_ext(sprite_index,0,view_xview + xx - 107,view_yview + yy + 63,1,1,0,c_black,alpha_image2 * image_alpha)
+
+//Cancel
+draw_sprite_ext(sprite_index,0,view_xview + xx + 107,view_yview + yy + 63,1,1,0,c_white,image_alpha)
+
+//Text
+draw_set_color(c_white)
+draw_text(view_xview + xx + 107,view_yview + yy + 51,obj_manager.text[15])
+
+draw_set_color(c_black)
+draw_text(view_xview + xx + 107,view_yview + yy + 50,obj_manager.text[15])
+
+//Sprite
+draw_set_blend_mode(bm_add)
+draw_sprite_ext(sprite_index,0,view_xview + xx + 107,view_yview + yy + 63,1,1,0,c_white,alpha_image3 * image_alpha)
+draw_set_blend_mode(bm_normal)
+
+draw_sprite_ext(sprite_index,0,view_xview + xx + 107,view_yview + yy + 63,1,1,0,c_black,alpha_image4 * image_alpha)
+")

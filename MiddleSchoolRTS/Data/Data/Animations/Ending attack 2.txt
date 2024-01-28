@@ -1,0 +1,198 @@
+animation_13_number_frame = 16
+animation_13_men_number = 0
+animation_13_current_frame = 0
+animation_13_current_time = 0
+animation_13_frame_frequency = 1
+
+current_type = 0
+
+repeat (min(max_diversity,global.unit_diversity)) {
+spr_animation_13[current_type] = -12
+surf_animation_13[current_type] = 0
+
+current_type += 1
+}
+
+animations_shadow_string += '
+if (sprite_index == unit.spr_animation_13[graphic_type]) {
+soldier_angle = 25.73 + max(image_index * unit.animation_13_frame_frequency * -1.80,-26.95)
+
+ratio = sin(degtorad((image_angle + soldier_angle + 360 - obj_sun.dir) mod 360))
+
+body_angle = ((180) * (image_index * unit.animation_13_frame_frequency >= 0)) * max(0,ratio) + ((180) * (image_index * unit.animation_13_frame_frequency >= 0)) * (1 - abs(ratio)) + ((180) * (image_index * unit.animation_13_frame_frequency >= 0)) * -min(0,ratio)
+body_size = (1) * (1 - abs(ratio)) + (1) * abs(ratio)
+
+left_arm_angle = ((-43.25 + min(image_index * unit.animation_13_frame_frequency * 1.35,20.25)) * (image_index * unit.animation_13_frame_frequency >= 0)) * max(0,ratio) + ((14.97) * (image_index * unit.animation_13_frame_frequency >= 0)) * (1 - abs(ratio)) + ((43.25 + max(image_index * unit.animation_13_frame_frequency * -1.35,-20.25)) * (image_index * unit.animation_13_frame_frequency >= 0)) * -min(0,ratio)
+left_arm_size = (1.40) * (1 - abs(ratio)) + (1.40) * abs(ratio)
+
+left_forearm_angle = ((406.01 + min(image_index * unit.animation_13_frame_frequency * 1.80,27.00)) * (image_index * unit.animation_13_frame_frequency >= 0)) * max(0,ratio) + ((328.54) * (image_index * unit.animation_13_frame_frequency >= 0)) * (1 - abs(ratio)) + ((313.99 + max(image_index * unit.animation_13_frame_frequency * -1.80,-27.00)) * (image_index * unit.animation_13_frame_frequency >= 0)) * -min(0,ratio)
+left_forearm_size = (1.40) * (1 - abs(ratio)) + (1.13 + min(image_index * unit.animation_13_frame_frequency * 0.02,0.27)) * abs(ratio)
+
+right_arm_angle = ((419.75 + max(image_index * unit.animation_13_frame_frequency * -2.37,-35.56)) * (image_index * unit.animation_13_frame_frequency >= 0)) * max(0,ratio) + ((336.31) * (image_index * unit.animation_13_frame_frequency >= 0)) * (1 - abs(ratio)) + ((300.25 + min(image_index * unit.animation_13_frame_frequency * 2.37,35.56)) * (image_index * unit.animation_13_frame_frequency >= 0)) * -min(0,ratio)
+right_arm_size = (0.81) * (1 - abs(ratio)) + (1.56 + max(image_index * unit.animation_13_frame_frequency * -0.06,-0.86)) * abs(ratio)
+
+right_forearm_angle = ((81.72 + max(image_index * unit.animation_13_frame_frequency * -1.35,-20.32)) * (image_index * unit.animation_13_frame_frequency >= 0)) * max(0,ratio) + ((31.37) * (image_index * unit.animation_13_frame_frequency >= 0)) * (1 - abs(ratio)) + ((-81.72 + min(image_index * unit.animation_13_frame_frequency * 1.35,20.32)) * (image_index * unit.animation_13_frame_frequency >= 0)) * -min(0,ratio)
+right_forearm_size = (1.05) * (1 - abs(ratio)) + (0.47 + min(image_index * unit.animation_13_frame_frequency * 0.04,0.54)) * abs(ratio)
+
+left_leg_angle = (0) * max(0,ratio) + (0) * (1 - abs(ratio)) + (0) * -min(0,ratio)
+left_leg_size = (0.75) * (1 - abs(ratio)) + (0.75) * abs(ratio)
+
+left_calf_angle = (0) * max(0,ratio) + (0) * (1 - abs(ratio)) + (0) * -min(0,ratio)
+left_calf_size = (0.75) * (1 - abs(ratio)) + (0.75) * abs(ratio)
+
+right_leg_angle = (0) * max(0,ratio) + (0) * (1 - abs(ratio)) + (0) * -min(0,ratio)
+right_leg_size = (0.75) * (1 - abs(ratio)) + (0.75) * abs(ratio)
+
+right_calf_angle = (0) * max(0,ratio) + (0) * (1 - abs(ratio)) + (0) * -min(0,ratio)
+right_calf_size = (0.75) * (1 - abs(ratio)) + (0.75) * abs(ratio)
+
+shield_angle = (0) * max(0,ratio) + (0) * (1 - abs(ratio)) + (0) * -min(0,ratio)
+shield_size = (0) * (1 - abs(ratio)) + (1) * abs(ratio)
+
+left_hand_weapon_angle = (0) * max(0,ratio) + (0) * (1 - abs(ratio)) + (0) * -min(0,ratio)
+left_hand_weapon_size = (0) * (1 - abs(ratio)) + (1) * abs(ratio)
+
+right_hand_weapon_angle = ((-61.54 + min(image_index * unit.animation_13_frame_frequency * 5.00,75.04)) * (image_index * unit.animation_13_frame_frequency >= 0)) * max(0,ratio) + ((89.86) * (image_index * unit.animation_13_frame_frequency >= 0)) * (1 - abs(ratio)) + ((61.54 + max(image_index * unit.animation_13_frame_frequency * -5.00,-75.04)) * (image_index * unit.animation_13_frame_frequency >= 0)) * -min(0,ratio)
+right_hand_weapon_size = (0.01) * (1 - abs(ratio)) + (1) * abs(ratio)
+}'
+
+animations_string += 'if (animation_13_men_number != 0) {
+animation_13_current_time = 0
+
+var surf,current_type,xoffset,im_speed;
+im_speed = 2
+
+var helmet_angle,left_arm_angle,left_arm_size,left_forearm_angle,left_forearm_size,right_arm_angle,right_arm_size,right_forearm_angle,right_forearm_size,left_leg_angle,left_leg_size,left_calf_angle,left_calf_size,right_leg_angle,right_leg_size,right_calf_angle,right_calf_size,shield_angle,shield_size,left_hand_weapon_angle,left_hand_weapon_size,right_hand_weapon_angle,right_hand_weapon_size;
+current_type = 0
+
+if (animation_13_current_frame == 0) {
+repeat (min(max_diversity,global.unit_diversity)) {
+surf_animation_13[current_type] = surface_create(ceil(max(25.99,max(3.49 + lengthdir_x((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),316.37),12.01 + lengthdir_x((sprite_get_xoffset(left_hand_weapons[current_type])),53.41),3.49 + lengthdir_x((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),316.37) + lengthdir_x(sprite_get_yoffset(left_hand_weapons[current_type]),226.37),12.01 + lengthdir_x((sprite_get_xoffset(left_hand_weapons[current_type])),53.41) + lengthdir_x(sprite_get_height(left_hand_weapons[current_type]) - sprite_get_yoffset(left_hand_weapons[current_type]),323.41)),max(3.49 + lengthdir_x((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),315.78),12.01 + lengthdir_x((sprite_get_xoffset(shield[current_type])),54.58),12.01 + lengthdir_x((sprite_get_xoffset(shield[current_type])),54.58) + lengthdir_x(sprite_get_yoffset(shield[current_type]),324.58),3.49 + lengthdir_x((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),315.78) + lengthdir_x(sprite_get_height(shield[current_type]) - sprite_get_yoffset(shield[current_type]),225.78)),max(25.40 + lengthdir_x((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,25.47),16.36 + lengthdir_x((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,225.37),21.21 + lengthdir_x((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,37.56) + lengthdir_x(sprite_get_yoffset(right_hand_weapons[current_type]),307.56),23.33 + lengthdir_x((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,24.06) + lengthdir_x(sprite_get_height(right_hand_weapons[current_type]) - sprite_get_yoffset(right_hand_weapons[current_type]),114.06),-5 + lengthdir_x(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),0.21),-4.50 + lengthdir_x(sprite_get_xoffset(quiver[current_type]),205.73),-4.63 + lengthdir_x(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),337.75) + lengthdir_x(sprite_get_yoffset(quiver[current_type]),67.75),-4.50 + lengthdir_x(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),25.73) + lengthdir_x(sprite_get_height(quiver[current_type]) - sprite_get_yoffset(quiver[current_type]),295.73)))) + ceil(max(12.92,max(-12.01 - lengthdir_x((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),233.41),-3.49 - lengthdir_x((sprite_get_xoffset(left_hand_weapons[current_type])),136.37),-3.49 - lengthdir_x((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),316.37) - lengthdir_x(sprite_get_yoffset(left_hand_weapons[current_type]),226.37),-3.49 - lengthdir_x((sprite_get_xoffset(left_hand_weapons[current_type])),136.37) - lengthdir_x(sprite_get_height(left_hand_weapons[current_type]) - sprite_get_yoffset(left_hand_weapons[current_type]),46.37)),max(-12.01 - lengthdir_x((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),234.58),-3.49 - lengthdir_x((sprite_get_xoffset(shield[current_type])),135.78),-3.49 - lengthdir_x((sprite_get_xoffset(shield[current_type])),135.78) - lengthdir_x(sprite_get_yoffset(shield[current_type]),45.78),-3.49 - lengthdir_x((sprite_get_xoffset(shield[current_type])),135.78) - lengthdir_x(sprite_get_height(shield[current_type]) - sprite_get_yoffset(shield[current_type]),225.78)),max(-16.36 - lengthdir_x((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,45.37),0.59 - lengthdir_x((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,198.43),0.59 - lengthdir_x((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,198.43) - lengthdir_x(sprite_get_yoffset(right_hand_weapons[current_type]),288.43),-4.03 - lengthdir_x((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,209.29) - lengthdir_x(sprite_get_height(right_hand_weapons[current_type]) - sprite_get_yoffset(right_hand_weapons[current_type]),119.29),4.50 - lengthdir_x(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),25.73),5 - lengthdir_x(sprite_get_xoffset(quiver[current_type]),180.21),4.50 - lengthdir_x(sprite_get_xoffset(quiver[current_type]),205.73) - lengthdir_x(sprite_get_yoffset(quiver[current_type]),115.73),4.63 - lengthdir_x(sprite_get_xoffset(quiver[current_type]),157.75) - lengthdir_x(sprite_get_height(quiver[current_type]) - sprite_get_yoffset(quiver[current_type]),247.75)))),ceil(max(25.98,max(-2.97 + lengthdir_y((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),263.49),2.69 + lengthdir_y((sprite_get_xoffset(left_hand_weapons[current_type])),53.41),-16.62 + lengthdir_y((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),303.79) + lengthdir_y(sprite_get_yoffset(left_hand_weapons[current_type]),226.37),2.69 + lengthdir_y((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),233.41) + lengthdir_y(sprite_get_height(left_hand_weapons[current_type]) - sprite_get_yoffset(left_hand_weapons[current_type]),323.41)),max(-2.97 + lengthdir_y((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),315.78),2.69 + lengthdir_y((sprite_get_xoffset(shield[current_type])),54.58),2.69 + lengthdir_y((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),234.58) + lengthdir_y(sprite_get_yoffset(shield[current_type]),324.58),-16.62 + lengthdir_y((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),303.20) + lengthdir_y(sprite_get_height(shield[current_type]) - sprite_get_yoffset(shield[current_type]),213.20)),max(22.98 + lengthdir_y((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,19.84),12.83 + lengthdir_y((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,225.37),19.70 + lengthdir_y((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,213.75) + lengthdir_y(sprite_get_yoffset(right_hand_weapons[current_type]),307.56),12.83 + lengthdir_y((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,225.37) + lengthdir_y(sprite_get_height(right_hand_weapons[current_type]) - sprite_get_yoffset(right_hand_weapons[current_type]),114.06),-1.89 + lengthdir_y(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),0.21),2.17 + lengthdir_y(sprite_get_xoffset(quiver[current_type]),205.73),2.17 + lengthdir_y(sprite_get_xoffset(quiver[current_type]),205.73) + lengthdir_y(sprite_get_yoffset(quiver[current_type]),67.75),2.17 + lengthdir_y(sprite_get_xoffset(quiver[current_type]),205.73) + lengthdir_y(sprite_get_height(quiver[current_type]) - sprite_get_yoffset(quiver[current_type]),295.73)))) + ceil(max(23.02,max(21.36 - lengthdir_y((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),316.37),11.38 - lengthdir_y((sprite_get_xoffset(left_hand_weapons[current_type])),101.34),16.62 - lengthdir_y((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),303.79) - lengthdir_y(sprite_get_yoffset(left_hand_weapons[current_type]),226.37),21.36 - lengthdir_y((sprite_get_xoffset(left_hand_weapons[current_type])),136.37) - lengthdir_y(sprite_get_height(left_hand_weapons[current_type]) - sprite_get_yoffset(left_hand_weapons[current_type]),46.37)),max(21.36 - lengthdir_y((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),315.78),11.38 - lengthdir_y((sprite_get_xoffset(shield[current_type])),101.46),21.36 - lengthdir_y((sprite_get_xoffset(shield[current_type])),135.78) - lengthdir_y(sprite_get_yoffset(shield[current_type]),45.78),-2.69 - lengthdir_y((sprite_get_xoffset(shield[current_type])),54.58) - lengthdir_y(sprite_get_height(shield[current_type]) - sprite_get_yoffset(shield[current_type]),144.58)),max(-12.83 - lengthdir_y((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,45.37),-5.82 - lengthdir_y((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,198.43),-12.83 - lengthdir_y((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,45.37) - lengthdir_y(sprite_get_yoffset(right_hand_weapons[current_type]),288.43),-2.33 - lengthdir_y((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,28.63) - lengthdir_y(sprite_get_height(right_hand_weapons[current_type]) - sprite_get_yoffset(right_hand_weapons[current_type]),119.29),-2.17 - lengthdir_y(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),25.73),1.89 - lengthdir_y(sprite_get_xoffset(quiver[current_type]),180.21),1.89 - lengthdir_y(sprite_get_xoffset(quiver[current_type]),157.75) - lengthdir_y(sprite_get_yoffset(quiver[current_type]),115.73),-2.17 - lengthdir_y(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),25.73) - lengthdir_y(sprite_get_height(quiver[current_type]) - sprite_get_yoffset(quiver[current_type]),247.75)))))
+
+current_type += 1
+}
+}
+
+repeat (ceil(im_speed/animation_13_frame_frequency)) {
+current_type = 0
+
+helmet_angle = 25.73 + max(abs(animation_13_current_frame) * -1.80,-26.95)
+
+left_arm_angle = 70.06 + max(abs(animation_13_current_frame) * -3.18,-47.72)
+left_arm_size = 0.63
+
+left_forearm_angle = 7.90 + max(abs(animation_13_current_frame) * -2.24,-33.56)
+left_forearm_size = 0.72
+
+right_arm_angle = 355.50 + max(abs(animation_13_current_frame) * -2.25,-33.68)
+right_arm_size = 0.98 + max(abs(animation_13_current_frame) * -0.03,-0.50)
+
+right_forearm_angle = 352.39 + min(abs(animation_13_current_frame) * 0.62,9.27)
+right_forearm_size = 0.91
+
+left_leg_angle = 350.98
+left_leg_size = 0
+
+left_calf_angle = 0
+left_calf_size = 0
+
+right_leg_angle = 0
+right_leg_size = 0
+
+right_calf_angle = 0
+right_calf_size = 0
+
+shield_angle = 290.05
+shield_size = 1
+
+right_hand_weapon_angle = 2.90 + min(abs(animation_13_current_frame) * 2.91,43.69)
+right_hand_weapon_size = 0.77
+
+left_hand_weapon_angle = 290.64
+left_hand_weapon_size = 1
+}
+
+if (animation_13_current_frame < 16) {
+repeat (min(max_diversity,global.unit_diversity)) {
+xoffset = ceil(max(12.92,max(-12.01 - lengthdir_x((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),233.41),-3.49 - lengthdir_x((sprite_get_xoffset(left_hand_weapons[current_type])),136.37),-3.49 - lengthdir_x((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),316.37) - lengthdir_x(sprite_get_yoffset(left_hand_weapons[current_type]),226.37),-3.49 - lengthdir_x((sprite_get_xoffset(left_hand_weapons[current_type])),136.37) - lengthdir_x(sprite_get_height(left_hand_weapons[current_type]) - sprite_get_yoffset(left_hand_weapons[current_type]),46.37)),max(-12.01 - lengthdir_x((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),234.58),-3.49 - lengthdir_x((sprite_get_xoffset(shield[current_type])),135.78),-3.49 - lengthdir_x((sprite_get_xoffset(shield[current_type])),135.78) - lengthdir_x(sprite_get_yoffset(shield[current_type]),45.78),-3.49 - lengthdir_x((sprite_get_xoffset(shield[current_type])),135.78) - lengthdir_x(sprite_get_height(shield[current_type]) - sprite_get_yoffset(shield[current_type]),225.78)),max(-16.36 - lengthdir_x((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,45.37),0.59 - lengthdir_x((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,198.43),0.59 - lengthdir_x((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,198.43) - lengthdir_x(sprite_get_yoffset(right_hand_weapons[current_type]),288.43),-4.03 - lengthdir_x((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,209.29) - lengthdir_x(sprite_get_height(right_hand_weapons[current_type]) - sprite_get_yoffset(right_hand_weapons[current_type]),119.29),4.50 - lengthdir_x(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),25.73),5 - lengthdir_x(sprite_get_xoffset(quiver[current_type]),180.21),4.50 - lengthdir_x(sprite_get_xoffset(quiver[current_type]),205.73) - lengthdir_x(sprite_get_yoffset(quiver[current_type]),115.73),4.63 - lengthdir_x(sprite_get_xoffset(quiver[current_type]),157.75) - lengthdir_x(sprite_get_height(quiver[current_type]) - sprite_get_yoffset(quiver[current_type]),247.75))))
+yoffset = ceil(max(23.02,max(21.36 - lengthdir_y((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),316.37),11.38 - lengthdir_y((sprite_get_xoffset(left_hand_weapons[current_type])),101.34),16.62 - lengthdir_y((sprite_get_width(left_hand_weapons[current_type]) - sprite_get_xoffset(left_hand_weapons[current_type])),303.79) - lengthdir_y(sprite_get_yoffset(left_hand_weapons[current_type]),226.37),21.36 - lengthdir_y((sprite_get_xoffset(left_hand_weapons[current_type])),136.37) - lengthdir_y(sprite_get_height(left_hand_weapons[current_type]) - sprite_get_yoffset(left_hand_weapons[current_type]),46.37)),max(21.36 - lengthdir_y((sprite_get_width(shield[current_type]) - sprite_get_xoffset(shield[current_type])),315.78),11.38 - lengthdir_y((sprite_get_xoffset(shield[current_type])),101.46),21.36 - lengthdir_y((sprite_get_xoffset(shield[current_type])),135.78) - lengthdir_y(sprite_get_yoffset(shield[current_type]),45.78),-2.69 - lengthdir_y((sprite_get_xoffset(shield[current_type])),54.58) - lengthdir_y(sprite_get_height(shield[current_type]) - sprite_get_yoffset(shield[current_type]),144.58)),max(-12.83 - lengthdir_y((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,45.37),-5.82 - lengthdir_y((sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,198.43),-12.83 - lengthdir_y((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,45.37) - lengthdir_y(sprite_get_yoffset(right_hand_weapons[current_type]),288.43),-2.33 - lengthdir_y((sprite_get_width(right_hand_weapons[current_type]) - sprite_get_xoffset(right_hand_weapons[current_type])) * 0.77,28.63) - lengthdir_y(sprite_get_height(right_hand_weapons[current_type]) - sprite_get_yoffset(right_hand_weapons[current_type]),119.29),-2.17 - lengthdir_y(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),25.73),1.89 - lengthdir_y(sprite_get_xoffset(quiver[current_type]),180.21),1.89 - lengthdir_y(sprite_get_xoffset(quiver[current_type]),157.75) - lengthdir_y(sprite_get_yoffset(quiver[current_type]),115.73),-2.17 - lengthdir_y(sprite_get_width(quiver[current_type]) - sprite_get_xoffset(quiver[current_type]),25.73) - lengthdir_y(sprite_get_height(quiver[current_type]) - sprite_get_yoffset(quiver[current_type]),247.75))))
+
+surface_set_target(surf_animation_13[current_type])
+
+draw_clear_alpha(c_black,0)
+
+if (sprite_exists(quiver[current_type])) {
+draw_sprite_ext(quiver[current_type],0,xoffset + lengthdir_x(5,helmet_angle + 180),yoffset + lengthdir_y(5,helmet_angle + 180),1,1,helmet_angle,c_white,image_alpha)
+}
+
+sprite_set_offset(armor[current_type],0,7)
+
+draw_sprite_ext(armor[current_type],4,xoffset + lengthdir_x(4,helmet_angle + 90),yoffset + lengthdir_y(4,helmet_angle + 90),left_leg_size,-1,helmet_angle + left_leg_angle,make_color_rgb(253,178,156),image_alpha)
+draw_sprite_ext(armor[current_type],4,xoffset + lengthdir_x(4,helmet_angle + 270),yoffset + lengthdir_y(4,helmet_angle + 270),right_leg_size,1,helmet_angle + right_leg_angle,make_color_rgb(253,178,156),image_alpha)
+
+draw_sprite_ext(armor[current_type],5,xoffset + lengthdir_x(4,helmet_angle + 90) + lengthdir_x(14 * left_leg_size,helmet_angle + left_leg_angle),yoffset + lengthdir_y(4,helmet_angle + 90) + lengthdir_y(14 * left_leg_size,helmet_angle + left_leg_angle),left_calf_size,-1,helmet_angle + left_calf_angle,make_color_rgb(253,178,156),image_alpha)
+draw_sprite_ext(armor[current_type],5,xoffset + lengthdir_x(4,helmet_angle + 270) + lengthdir_x(14 * right_leg_size,helmet_angle + right_leg_angle),yoffset + lengthdir_y(4,helmet_angle + 270) + lengthdir_y(14 * right_leg_size,helmet_angle + right_leg_angle),right_calf_size,1,helmet_angle + right_calf_angle,make_color_rgb(253,178,156),image_alpha)
+
+if (sprite_exists(shield[current_type])) {
+draw_sprite_ext(shield[current_type],0,xoffset + lengthdir_x(11.5,helmet_angle + 90) + lengthdir_x(8 * left_arm_size,helmet_angle + left_arm_angle) + lengthdir_x(15 * left_forearm_size,helmet_angle + left_forearm_angle),yoffset + lengthdir_y(11.5,helmet_angle + 90) + lengthdir_y(8 * left_arm_size,helmet_angle + left_arm_angle) + lengthdir_y(15 * left_forearm_size,helmet_angle + left_forearm_angle),shield_size,1,helmet_angle + shield_angle,c_white,image_alpha)
+}
+
+sprite_set_offset(armor[current_type],2,0)
+
+draw_sprite_ext(armor[current_type],2,xoffset + lengthdir_x(5,helmet_angle + 90),yoffset + lengthdir_y(5,helmet_angle + 90),1,-1,helmet_angle,color[current_type],image_alpha)
+draw_sprite_ext(armor[current_type],2,xoffset + lengthdir_x(5,helmet_angle + 270),yoffset + lengthdir_y(5,helmet_angle + 270),1,1,helmet_angle,color[current_type],image_alpha)
+
+draw_sprite_ext(helmet[current_type],0,xoffset,yoffset,1,1,helmet_angle,helmet_color[current_type],image_alpha)
+
+if (sprite_exists(left_hand_weapons[current_type])) {
+draw_sprite_ext(left_hand_weapons[current_type],0,xoffset + lengthdir_x(11.5,helmet_angle + 90) + lengthdir_x(8 * left_arm_size,helmet_angle + left_arm_angle) + lengthdir_x(15 * left_forearm_size,helmet_angle + left_forearm_angle),yoffset + lengthdir_y(11.5,helmet_angle + 90) + lengthdir_y(8 * left_arm_size,helmet_angle + left_arm_angle) + lengthdir_y(15 * left_forearm_size,helmet_angle + left_forearm_angle),left_hand_weapon_size,1,helmet_angle + left_hand_weapon_angle,c_white,image_alpha)
+}
+
+if (sprite_exists(right_hand_weapons[current_type])) {
+draw_sprite_ext(right_hand_weapons[current_type],0,xoffset + lengthdir_x(11.5,helmet_angle + 270) + lengthdir_x(8 * right_arm_size,helmet_angle + right_arm_angle) + lengthdir_x(15 * right_forearm_size,helmet_angle + right_forearm_angle) + lengthdir_x(1,right_forearm_angle + helmet_angle + 90),yoffset + lengthdir_y(11.5,helmet_angle + 270) + lengthdir_y(8 * right_arm_size,helmet_angle + right_arm_angle) + lengthdir_y(15 * right_forearm_size,helmet_angle + right_forearm_angle) + lengthdir_y(1,right_forearm_angle + helmet_angle + 90),right_hand_weapon_size,1,helmet_angle + right_hand_weapon_angle,c_white,image_alpha)
+}
+
+sprite_set_offset(armor[current_type],0,2)
+
+draw_sprite_ext(armor[current_type],3,xoffset + lengthdir_x(11.5,helmet_angle + 90) + lengthdir_x(8 * left_arm_size,helmet_angle + left_arm_angle),yoffset + lengthdir_y(11.5,helmet_angle + 90) + lengthdir_y(8 * left_arm_size,helmet_angle + left_arm_angle),left_forearm_size,-1,helmet_angle + left_forearm_angle,skin_color[current_type],image_alpha)
+draw_sprite_ext(armor[current_type],3,xoffset + lengthdir_x(11.5,helmet_angle + 270) + lengthdir_x(8 * right_arm_size,helmet_angle + right_arm_angle),yoffset + lengthdir_y(11.5,helmet_angle + 270) + lengthdir_y(8 * right_arm_size,helmet_angle + right_arm_angle),right_forearm_size,1,helmet_angle + right_forearm_angle,skin_color[current_type],image_alpha)
+
+sprite_set_offset(armor[current_type],0,3)
+
+draw_sprite_ext(armor[current_type],1,xoffset + lengthdir_x(12,helmet_angle + 90),yoffset + lengthdir_y(12,helmet_angle + 90),left_arm_size,-1,helmet_angle + left_arm_angle,color[current_type],image_alpha)
+draw_sprite_ext(armor[current_type],1,xoffset + lengthdir_x(12,helmet_angle + 270),yoffset + lengthdir_y(12,helmet_angle + 270),right_arm_size,1,helmet_angle + right_arm_angle,color[current_type],image_alpha)
+
+if (animation_13_current_frame == 0) {
+spr_animation_13[current_type] = sprite_create_from_surface(surf_animation_13[current_type],0,0,surface_get_width(surf_animation_13[current_type]),surface_get_height(surf_animation_13[current_type]),false,false,xoffset,yoffset)
+} else {
+sprite_add_from_surface(spr_animation_13[current_type],surf_animation_13[current_type],0,0,surface_get_width(surf_animation_13[current_type]),surface_get_height(surf_animation_13[current_type]),false,false)
+}
+
+surface_reset_target()
+
+current_type += 1
+}
+
+animation_13_current_frame += animation_13_frame_frequency
+}
+} else {
+animation_13_current_time += 1
+
+if (animation_13_current_time == global.keep_animations_loaded_time) {
+animation_13_current_frame = 0
+
+var current_type;
+current_type = 0
+
+if (sprite_exists(spr_animation_13[0])) {
+repeat (min(max_diversity,global.unit_diversity)) {
+sprite_delete(spr_animation_13[current_type])
+spr_animation_13[current_type] = -12
+surface_free(surf_animation_13[current_type])
+
+current_type += 1
+}
+}
+}
+}
+'

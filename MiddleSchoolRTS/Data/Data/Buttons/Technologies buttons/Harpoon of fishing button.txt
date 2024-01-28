@@ -1,0 +1,50 @@
+var obj;
+obj = object_add()
+
+object_set_parent(obj,obj_technologies_button)
+
+object_event_add(obj,ev_create,0,"
+//Graphics
+if (obj_manager.spr_research_harpoon_of_fishing_icon == -1) {
+obj_manager.spr_research_harpoon_of_fishing_icon = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\In game menu\Icons\Harpoon of fishing icon.png',0,false,false,25,25)
+}
+
+//Informations
+sprite_index = obj_manager.spr_research_harpoon_of_fishing_icon
+name = 18
+
+effects_text = 26
+effects_number = 20
+
+category = 0 /*Type a number of the following list
+0 : Improvements
+1 : Construction of buildings
+2 : Politics
+*/
+
+//Knowledge cost
+knowledge_cost = 20
+
+//Do not touch
+depth = -1002
+image_alpha = 1
+alpha_image1 = 0
+alpha_image2 = 0
+mask_index = obj_manager.spr_button_background
+technology_number = 0
+choosed = false
+hit = false
+number = global.obj_in_game_menu.technologies_categories_button_count[category]
+x_ = 43 + (number - floor(number/4) * 4) * 55
+y_ = 30 + floor(number/4) * 55
+list_number = global.obj_in_game_menu.technologies_categories_button_count[category]
+global.obj_in_game_menu.technologies_categories_button_list[category,global.obj_in_game_menu.technologies_categories_button_count[category]] = id
+global.obj_in_game_menu.technologies_categories_button_count[category] += 1
+")
+
+//Effects
+object_event_add(obj,ev_other,ev_user2,"
+")
+
+//Create the instance
+instance_create(0,0,obj)

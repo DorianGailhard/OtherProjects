@@ -1,0 +1,750 @@
+obj_hud.frame_goal = 0
+obj_hud.animation_type = 6
+
+with (obj_warriors) {
+animation_point_number = 5
+
+animation_point_frame[0] = 0
+
+animation_point_helmet_angle[0] = 0
+
+animation_point_left_arm_angle[0] = 0
+animation_point_left_arm_size[0] = 0.30
+
+animation_point_left_forearm_angle[0] = 0
+animation_point_left_forearm_size[0] = 0
+
+animation_point_right_arm_angle[0] = 315.64
+animation_point_right_arm_size[0] = 0.52
+
+animation_point_right_forearm_angle[0] = 359.07
+animation_point_right_forearm_size[0] = 0.91
+
+animation_point_left_leg_angle[0] = 350.98
+animation_point_left_leg_size[0] = 0
+
+animation_point_left_calf_angle[0] = 0
+animation_point_left_calf_size[0] = 0
+
+animation_point_right_leg_angle[0] = 0
+animation_point_right_leg_size[0] = 0
+
+animation_point_right_calf_angle[0] = 0
+animation_point_right_calf_size[0] = 0
+
+animation_point_shield_angle[0] = 0
+animation_point_shield_size[0] = 1
+
+animation_point_right_hand_weapon_angle[0] = 24.49
+animation_point_right_hand_weapon_size[0] = 0.70
+
+animation_point_left_hand_weapon_angle[0] = 0
+animation_point_left_hand_weapon_size[0] = 1
+
+animation_point_front_shadow_body_angle[0] = 180
+animation_point_front_shadow_body_size[0] = 1
+
+animation_point_front_shadow_left_arm_angle[0] = 0
+animation_point_front_shadow_left_arm_size[0] = 1.40
+
+animation_point_front_shadow_left_forearm_angle[0] = 0
+animation_point_front_shadow_left_forearm_size[0] = 1.40
+
+animation_point_front_shadow_right_arm_angle[0] = 4.85
+animation_point_front_shadow_right_arm_size[0] = 0.67
+
+animation_point_front_shadow_right_forearm_angle[0] = 356.75
+animation_point_front_shadow_right_forearm_size[0] = -0.70
+
+animation_point_front_shadow_left_leg_angle[0] = 0
+animation_point_front_shadow_left_leg_size[0] = 0.75
+
+animation_point_front_shadow_left_calf_angle[0] = 0
+animation_point_front_shadow_left_calf_size[0] = 0.75
+
+animation_point_front_shadow_right_leg_angle[0] = 0
+animation_point_front_shadow_right_leg_size[0] = 0.75
+
+animation_point_front_shadow_right_calf_angle[0] = 0
+animation_point_front_shadow_right_calf_size[0] = 0.75
+
+animation_point_front_shadow_shield_angle[0] = 0
+animation_point_front_shadow_shield_size[0] = 0
+
+animation_point_front_shadow_right_hand_weapon_angle[0] = 89.86
+animation_point_front_shadow_right_hand_weapon_size[0] = 0.01
+
+animation_point_front_shadow_left_hand_weapon_angle[0] = 0
+animation_point_front_shadow_left_hand_weapon_size[0] = 0
+
+animation_point_side_shadow_body_angle[0] = 180
+animation_point_side_shadow_body_size[0] = 1
+
+animation_point_side_shadow_left_arm_angle[0] = 0
+animation_point_side_shadow_left_arm_size[0] = 1.40
+
+animation_point_side_shadow_left_forearm_angle[0] = 0
+animation_point_side_shadow_left_forearm_size[0] = 1.40
+
+animation_point_side_shadow_right_arm_angle[0] = 56.58
+animation_point_side_shadow_right_arm_size[0] = 1.40
+
+animation_point_side_shadow_right_forearm_angle[0] = 127.95
+animation_point_side_shadow_right_forearm_size[0] = 1.40
+
+animation_point_side_shadow_left_leg_angle[0] = 0
+animation_point_side_shadow_left_leg_size[0] = 0.75
+
+animation_point_side_shadow_left_calf_angle[0] = 0
+animation_point_side_shadow_left_calf_size[0] = 0.75
+
+animation_point_side_shadow_right_leg_angle[0] = 0
+animation_point_side_shadow_right_leg_size[0] = 0.75
+
+animation_point_side_shadow_right_calf_angle[0] = 0
+animation_point_side_shadow_right_calf_size[0] = 0.75
+
+animation_point_side_shadow_shield_angle[0] = 0
+animation_point_side_shadow_shield_size[0] = 1
+
+animation_point_side_shadow_right_hand_weapon_angle[0] = 13.50
+animation_point_side_shadow_right_hand_weapon_size[0] = 1
+
+animation_point_side_shadow_left_hand_weapon_angle[0] = 0
+animation_point_side_shadow_left_hand_weapon_size[0] = 1
+
+animation_point_side_shadow2_body_angle[0] = 180
+animation_point_side_shadow2_body_size[0] = 1
+
+animation_point_side_shadow2_left_arm_angle[0] = 0
+animation_point_side_shadow2_left_arm_size[0] = 1.40
+
+animation_point_side_shadow2_left_forearm_angle[0] = 0
+animation_point_side_shadow2_left_forearm_size[0] = 1.40
+
+animation_point_side_shadow2_right_arm_angle[0] = 0
+animation_point_side_shadow2_right_arm_size[0] = 1.40
+
+animation_point_side_shadow2_right_forearm_angle[0] = 0
+animation_point_side_shadow2_right_forearm_size[0] = 1.40
+
+animation_point_side_shadow2_left_leg_angle[0] = 0
+animation_point_side_shadow2_left_leg_size[0] = 0.75
+
+animation_point_side_shadow2_left_calf_angle[0] = 0
+animation_point_side_shadow2_left_calf_size[0] = 0.75
+
+animation_point_side_shadow2_right_leg_angle[0] = 0
+animation_point_side_shadow2_right_leg_size[0] = 0.75
+
+animation_point_side_shadow2_right_calf_angle[0] = 0
+animation_point_side_shadow2_right_calf_size[0] = 0.75
+
+animation_point_side_shadow2_shield_angle[0] = 0
+animation_point_side_shadow2_shield_size[0] = 1
+
+animation_point_side_shadow2_right_hand_weapon_angle[0] = 0
+animation_point_side_shadow2_right_hand_weapon_size[0] = 1
+
+animation_point_side_shadow2_left_hand_weapon_angle[0] = 0
+animation_point_side_shadow2_left_hand_weapon_size[0] = 1
+
+obj_hud.animation_point_click[0] = false
+obj_hud.can_move_animation_point[0] = false
+
+
+animation_point_frame[1] = 10
+
+animation_point_helmet_angle[1] = 346.17
+
+animation_point_left_arm_angle[1] = 1.77
+animation_point_left_arm_size[1] = 0.70
+
+animation_point_left_forearm_angle[1] = 331.70
+animation_point_left_forearm_size[1] = 0.87
+
+animation_point_right_arm_angle[1] = 315.64
+animation_point_right_arm_size[1] = 0.29
+
+animation_point_right_forearm_angle[1] = 359.07
+animation_point_right_forearm_size[1] = 0.22
+
+animation_point_left_leg_angle[1] = 350.98
+animation_point_left_leg_size[1] = 0
+
+animation_point_left_calf_angle[1] = 0
+animation_point_left_calf_size[1] = 0
+
+animation_point_right_leg_angle[1] = 0
+animation_point_right_leg_size[1] = 0
+
+animation_point_right_calf_angle[1] = 0
+animation_point_right_calf_size[1] = 0
+
+animation_point_shield_angle[1] = 309.39
+animation_point_shield_size[1] = 1
+
+animation_point_right_hand_weapon_angle[1] = 24.49
+animation_point_right_hand_weapon_size[1] = 0.16
+
+animation_point_left_hand_weapon_angle[1] = 313.07
+animation_point_left_hand_weapon_size[1] = 1
+
+animation_point_front_shadow_body_angle[1] = 180
+animation_point_front_shadow_body_size[1] = 1
+
+animation_point_front_shadow_left_arm_angle[1] = 35.65
+animation_point_front_shadow_left_arm_size[1] = 1.40
+
+animation_point_front_shadow_left_forearm_angle[1] = 306.95
+animation_point_front_shadow_left_forearm_size[1] = 0.89
+
+animation_point_front_shadow_right_arm_angle[1] = 326.02
+animation_point_front_shadow_right_arm_size[1] = 0.67
+
+animation_point_front_shadow_right_forearm_angle[1] = 15.93
+animation_point_front_shadow_right_forearm_size[1] = -0.89
+
+animation_point_front_shadow_left_leg_angle[1] = 0
+animation_point_front_shadow_left_leg_size[1] = 0.75
+
+animation_point_front_shadow_left_calf_angle[1] = 0
+animation_point_front_shadow_left_calf_size[1] = 0.75
+
+animation_point_front_shadow_right_leg_angle[1] = 0
+animation_point_front_shadow_right_leg_size[1] = 0.75
+
+animation_point_front_shadow_right_calf_angle[1] = 0
+animation_point_front_shadow_right_calf_size[1] = 0.75
+
+animation_point_front_shadow_shield_angle[1] = 0
+animation_point_front_shadow_shield_size[1] = 0
+
+animation_point_front_shadow_right_hand_weapon_angle[1] = 89.86
+animation_point_front_shadow_right_hand_weapon_size[1] = 0.01
+
+animation_point_front_shadow_left_hand_weapon_angle[1] = 0
+animation_point_front_shadow_left_hand_weapon_size[1] = 0
+
+animation_point_side_shadow_body_angle[1] = 180
+animation_point_side_shadow_body_size[1] = 1
+
+animation_point_side_shadow_left_arm_angle[1] = 343.26
+animation_point_side_shadow_left_arm_size[1] = 1.40
+
+animation_point_side_shadow_left_forearm_angle[1] = 74.01
+animation_point_side_shadow_left_forearm_size[1] = 1.40
+
+animation_point_side_shadow_right_arm_angle[1] = 106.18
+animation_point_side_shadow_right_arm_size[1] = 0.45
+
+animation_point_side_shadow_right_forearm_angle[1] = 127.95
+animation_point_side_shadow_right_forearm_size[1] = 0.37
+
+animation_point_side_shadow_left_leg_angle[1] = 0
+animation_point_side_shadow_left_leg_size[1] = 0.75
+
+animation_point_side_shadow_left_calf_angle[1] = 0
+animation_point_side_shadow_left_calf_size[1] = 0.75
+
+animation_point_side_shadow_right_leg_angle[1] = 0
+animation_point_side_shadow_right_leg_size[1] = 0.75
+
+animation_point_side_shadow_right_calf_angle[1] = 0
+animation_point_side_shadow_right_calf_size[1] = 0.75
+
+animation_point_side_shadow_shield_angle[1] = 0
+animation_point_side_shadow_shield_size[1] = 1.00
+
+animation_point_side_shadow_right_hand_weapon_angle[1] = 294.10
+animation_point_side_shadow_right_hand_weapon_size[1] = 1
+
+animation_point_side_shadow_left_hand_weapon_angle[1] = 0
+animation_point_side_shadow_left_hand_weapon_size[1] = 1
+
+animation_point_side_shadow2_body_angle[1] = 180
+animation_point_side_shadow2_body_size[1] = 1
+
+animation_point_side_shadow2_left_arm_angle[1] = 0
+animation_point_side_shadow2_left_arm_size[1] = 1.40
+
+animation_point_side_shadow2_left_forearm_angle[1] = 0
+animation_point_side_shadow2_left_forearm_size[1] = 1.40
+
+animation_point_side_shadow2_right_arm_angle[1] = 0
+animation_point_side_shadow2_right_arm_size[1] = 1.40
+
+animation_point_side_shadow2_right_forearm_angle[1] = 0
+animation_point_side_shadow2_right_forearm_size[1] = 1.40
+
+animation_point_side_shadow2_left_leg_angle[1] = 0
+animation_point_side_shadow2_left_leg_size[1] = 0.75
+
+animation_point_side_shadow2_left_calf_angle[1] = 0
+animation_point_side_shadow2_left_calf_size[1] = 0.75
+
+animation_point_side_shadow2_right_leg_angle[1] = 0
+animation_point_side_shadow2_right_leg_size[1] = 0.75
+
+animation_point_side_shadow2_right_calf_angle[1] = 0
+animation_point_side_shadow2_right_calf_size[1] = 0.75
+
+animation_point_side_shadow2_shield_angle[1] = 0
+animation_point_side_shadow2_shield_size[1] = 1
+
+animation_point_side_shadow2_right_hand_weapon_angle[1] = 0
+animation_point_side_shadow2_right_hand_weapon_size[1] = 1
+
+animation_point_side_shadow2_left_hand_weapon_angle[1] = 0
+animation_point_side_shadow2_left_hand_weapon_size[1] = 1
+
+obj_hud.animation_point_click[1] = false
+obj_hud.can_move_animation_point[1] = false
+
+
+animation_point_frame[2] = 15
+
+animation_point_helmet_angle[2] = 343.50
+
+animation_point_left_arm_angle[2] = 353.25
+animation_point_left_arm_size[2] = 0.70
+
+animation_point_left_forearm_angle[2] = 326.76
+animation_point_left_forearm_size[2] = 0.87
+
+animation_point_right_arm_angle[2] = 315.64
+animation_point_right_arm_size[2] = 0.12
+
+animation_point_right_forearm_angle[2] = 359.07
+animation_point_right_forearm_size[2] = 0.07
+
+animation_point_left_leg_angle[2] = 350.98
+animation_point_left_leg_size[2] = 0
+
+animation_point_left_calf_angle[2] = 0
+animation_point_left_calf_size[2] = 0
+
+animation_point_right_leg_angle[2] = 0
+animation_point_right_leg_size[2] = 0
+
+animation_point_right_calf_angle[2] = 0
+animation_point_right_calf_size[2] = 0
+
+animation_point_shield_angle[2] = 308.73
+animation_point_shield_size[2] = 1
+
+animation_point_right_hand_weapon_angle[2] = 24.49
+animation_point_right_hand_weapon_size[2] = 0.09
+
+animation_point_left_hand_weapon_angle[2] = 310.76
+animation_point_left_hand_weapon_size[2] = 1
+
+animation_point_front_shadow_body_angle[2] = 180
+animation_point_front_shadow_body_size[2] = 1
+
+animation_point_front_shadow_left_arm_angle[2] = 47.83
+animation_point_front_shadow_left_arm_size[2] = 1.40
+
+animation_point_front_shadow_left_forearm_angle[2] = 306.73
+animation_point_front_shadow_left_forearm_size[2] = 0.91
+
+animation_point_front_shadow_right_arm_angle[2] = 336.87
+animation_point_front_shadow_right_arm_size[2] = 0.67
+
+animation_point_front_shadow_right_forearm_angle[2] = 13.70
+animation_point_front_shadow_right_forearm_size[2] = -0.78
+
+animation_point_front_shadow_left_leg_angle[2] = 0
+animation_point_front_shadow_left_leg_size[2] = 0.75
+
+animation_point_front_shadow_left_calf_angle[2] = 0
+animation_point_front_shadow_left_calf_size[2] = 0.75
+
+animation_point_front_shadow_right_leg_angle[2] = 0
+animation_point_front_shadow_right_leg_size[2] = 0.75
+
+animation_point_front_shadow_right_calf_angle[2] = 0
+animation_point_front_shadow_right_calf_size[2] = 0.75
+
+animation_point_front_shadow_shield_angle[2] = 0
+animation_point_front_shadow_shield_size[2] = 0
+
+animation_point_front_shadow_right_hand_weapon_angle[2] = 89.86
+animation_point_front_shadow_right_hand_weapon_size[2] = 0.01
+
+animation_point_front_shadow_left_hand_weapon_angle[2] = 0
+animation_point_front_shadow_left_hand_weapon_size[2] = 0
+
+animation_point_side_shadow_body_angle[2] = 180
+animation_point_side_shadow_body_size[2] = 1
+
+animation_point_side_shadow_left_arm_angle[2] = 324.11
+animation_point_side_shadow_left_arm_size[2] = 1.40
+
+animation_point_side_shadow_left_forearm_angle[2] = 68.84
+animation_point_side_shadow_left_forearm_size[2] = 1.40
+
+animation_point_side_shadow_right_arm_angle[2] = 90
+animation_point_side_shadow_right_arm_size[2] = 0.28
+
+animation_point_side_shadow_right_forearm_angle[2] = 142.54
+animation_point_side_shadow_right_forearm_size[2] = 0.17
+
+animation_point_side_shadow_left_leg_angle[2] = 0
+animation_point_side_shadow_left_leg_size[2] = 0.75
+
+animation_point_side_shadow_left_calf_angle[2] = 0
+animation_point_side_shadow_left_calf_size[2] = 0.75
+
+animation_point_side_shadow_right_leg_angle[2] = 0
+animation_point_side_shadow_right_leg_size[2] = 0.75
+
+animation_point_side_shadow_right_calf_angle[2] = 0
+animation_point_side_shadow_right_calf_size[2] = 0.75
+
+animation_point_side_shadow_shield_angle[2] = 0
+animation_point_side_shadow_shield_size[2] = 1
+
+animation_point_side_shadow_right_hand_weapon_angle[2] = 290.32
+animation_point_side_shadow_right_hand_weapon_size[2] = 1
+
+animation_point_side_shadow_left_hand_weapon_angle[2] = 0
+animation_point_side_shadow_left_hand_weapon_size[2] = 1
+
+animation_point_side_shadow2_body_angle[2] = 180
+animation_point_side_shadow2_body_size[2] = 1
+
+animation_point_side_shadow2_left_arm_angle[2] = 0
+animation_point_side_shadow2_left_arm_size[2] = 1.40
+
+animation_point_side_shadow2_left_forearm_angle[2] = 0
+animation_point_side_shadow2_left_forearm_size[2] = 1.40
+
+animation_point_side_shadow2_right_arm_angle[2] = 0
+animation_point_side_shadow2_right_arm_size[2] = 1.40
+
+animation_point_side_shadow2_right_forearm_angle[2] = 0
+animation_point_side_shadow2_right_forearm_size[2] = 1.40
+
+animation_point_side_shadow2_left_leg_angle[2] = 0
+animation_point_side_shadow2_left_leg_size[2] = 0.75
+
+animation_point_side_shadow2_left_calf_angle[2] = 0
+animation_point_side_shadow2_left_calf_size[2] = 0.75
+
+animation_point_side_shadow2_right_leg_angle[2] = 0
+animation_point_side_shadow2_right_leg_size[2] = 0.75
+
+animation_point_side_shadow2_right_calf_angle[2] = 0
+animation_point_side_shadow2_right_calf_size[2] = 0.75
+
+animation_point_side_shadow2_shield_angle[2] = 0
+animation_point_side_shadow2_shield_size[2] = 1
+
+animation_point_side_shadow2_right_hand_weapon_angle[2] = 0
+animation_point_side_shadow2_right_hand_weapon_size[2] = 1
+
+animation_point_side_shadow2_left_hand_weapon_angle[2] = 0
+animation_point_side_shadow2_left_hand_weapon_size[2] = 1
+
+obj_hud.animation_point_click[2] = false
+obj_hud.can_move_animation_point[2] = false
+
+
+animation_point_frame[3] = 25
+
+animation_point_helmet_angle[3] = 355.36
+
+animation_point_left_arm_angle[3] = 49.24
+animation_point_left_arm_size[3] = 0.45
+
+animation_point_left_forearm_angle[3] = 342.97
+animation_point_left_forearm_size[3] = 0.50
+
+animation_point_right_arm_angle[3] = 22.61
+animation_point_right_arm_size[3] = 1.18
+
+animation_point_right_forearm_angle[3] = 33.88
+animation_point_right_forearm_size[3] = 0.91
+
+animation_point_left_leg_angle[3] = 350.98
+animation_point_left_leg_size[3] = 0
+
+animation_point_left_calf_angle[3] = 0
+animation_point_left_calf_size[3] = 0
+
+animation_point_right_leg_angle[3] = 0
+animation_point_right_leg_size[3] = 0
+
+animation_point_right_calf_angle[3] = 0
+animation_point_right_calf_size[3] = 0
+
+animation_point_shield_angle[3] = 344.30
+animation_point_shield_size[3] = 1
+
+animation_point_right_hand_weapon_angle[3] = 58.31
+animation_point_right_hand_weapon_size[3] = 0.70
+
+animation_point_left_hand_weapon_angle[3] = 344.60
+animation_point_left_hand_weapon_size[3] = 1
+
+animation_point_front_shadow_body_angle[3] = 180
+animation_point_front_shadow_body_size[3] = 1
+
+animation_point_front_shadow_left_arm_angle[3] = 39.25
+animation_point_front_shadow_left_arm_size[3] = 1.40
+
+animation_point_front_shadow_left_forearm_angle[3] = 342.54
+animation_point_front_shadow_left_forearm_size[3] = 0.67
+
+animation_point_front_shadow_right_arm_angle[3] = 356.84
+animation_point_front_shadow_right_arm_size[3] = 1.45
+
+animation_point_front_shadow_right_forearm_angle[3] = 358.42
+animation_point_front_shadow_right_forearm_size[3] = 1.18
+
+animation_point_front_shadow_left_leg_angle[3] = 0
+animation_point_front_shadow_left_leg_size[3] = 0.75
+
+animation_point_front_shadow_left_calf_angle[3] = 0
+animation_point_front_shadow_left_calf_size[3] = 0.75
+
+animation_point_front_shadow_right_leg_angle[3] = 0
+animation_point_front_shadow_right_leg_size[3] = 0.75
+
+animation_point_front_shadow_right_calf_angle[3] = 0
+animation_point_front_shadow_right_calf_size[3] = 0.75
+
+animation_point_front_shadow_shield_angle[3] = 0
+animation_point_front_shadow_shield_size[3] = 0
+
+animation_point_front_shadow_right_hand_weapon_angle[3] = 89.86
+animation_point_front_shadow_right_hand_weapon_size[3] = 0.01
+
+animation_point_front_shadow_left_hand_weapon_angle[3] = 0
+animation_point_front_shadow_left_hand_weapon_size[3] = 0
+
+animation_point_side_shadow_body_angle[3] = 180
+animation_point_side_shadow_body_size[3] = 1
+
+animation_point_side_shadow_left_arm_angle[3] = 334.56
+animation_point_side_shadow_left_arm_size[3] = 1.40
+
+animation_point_side_shadow_left_forearm_angle[3] = 53.29
+animation_point_side_shadow_left_forearm_size[3] = 1.40
+
+animation_point_side_shadow_right_arm_angle[3] = 59.66
+animation_point_side_shadow_right_arm_size[3] = 1.40
+
+animation_point_side_shadow_right_forearm_angle[3] = 98.11
+animation_point_side_shadow_right_forearm_size[3] = 1.40
+
+animation_point_side_shadow_left_leg_angle[3] = 0
+animation_point_side_shadow_left_leg_size[3] = 0.75
+
+animation_point_side_shadow_left_calf_angle[3] = 0
+animation_point_side_shadow_left_calf_size[3] = 0.75
+
+animation_point_side_shadow_right_leg_angle[3] = 0
+animation_point_side_shadow_right_leg_size[3] = 0.75
+
+animation_point_side_shadow_right_calf_angle[3] = 0
+animation_point_side_shadow_right_calf_size[3] = 0.75
+
+animation_point_side_shadow_shield_angle[3] = 0
+animation_point_side_shadow_shield_size[3] = 1
+
+animation_point_side_shadow_right_hand_weapon_angle[3] = 294.55
+animation_point_side_shadow_right_hand_weapon_size[3] = 1
+
+animation_point_side_shadow_left_hand_weapon_angle[3] = 0
+animation_point_side_shadow_left_hand_weapon_size[3] = 1
+
+animation_point_side_shadow2_body_angle[3] = 180
+animation_point_side_shadow2_body_size[3] = 1
+
+animation_point_side_shadow2_left_arm_angle[3] = 0
+animation_point_side_shadow2_left_arm_size[3] = 1.40
+
+animation_point_side_shadow2_left_forearm_angle[3] = 0
+animation_point_side_shadow2_left_forearm_size[3] = 1.40
+
+animation_point_side_shadow2_right_arm_angle[3] = 0
+animation_point_side_shadow2_right_arm_size[3] = 1.40
+
+animation_point_side_shadow2_right_forearm_angle[3] = 0
+animation_point_side_shadow2_right_forearm_size[3] = 1.40
+
+animation_point_side_shadow2_left_leg_angle[3] = 0
+animation_point_side_shadow2_left_leg_size[3] = 0.75
+
+animation_point_side_shadow2_left_calf_angle[3] = 0
+animation_point_side_shadow2_left_calf_size[3] = 0.75
+
+animation_point_side_shadow2_right_leg_angle[3] = 0
+animation_point_side_shadow2_right_leg_size[3] = 0.75
+
+animation_point_side_shadow2_right_calf_angle[3] = 0
+animation_point_side_shadow2_right_calf_size[3] = 0.75
+
+animation_point_side_shadow2_shield_angle[3] = 0
+animation_point_side_shadow2_shield_size[3] = 1
+
+animation_point_side_shadow2_right_hand_weapon_angle[3] = 0
+animation_point_side_shadow2_right_hand_weapon_size[3] = 1
+
+animation_point_side_shadow2_left_hand_weapon_angle[3] = 0
+animation_point_side_shadow2_left_hand_weapon_size[3] = 1
+
+obj_hud.animation_point_click[3] = false
+obj_hud.can_move_animation_point[3] = false
+
+
+animation_point_frame[4] = 30
+
+animation_point_helmet_angle[4] = 358.71
+
+animation_point_left_arm_angle[4] = 93.25
+animation_point_left_arm_size[4] = 0.45
+
+animation_point_left_forearm_angle[4] = 18.10
+animation_point_left_forearm_size[4] = 0.50
+
+animation_point_right_arm_angle[4] = 29.48
+animation_point_right_arm_size[4] = 1.18
+
+animation_point_right_forearm_angle[4] = 52.52
+animation_point_right_forearm_size[4] = 0.91
+
+animation_point_left_leg_angle[4] = 350.98
+animation_point_left_leg_size[4] = 0
+
+animation_point_left_calf_angle[4] = 0
+animation_point_left_calf_size[4] = 0
+
+animation_point_right_leg_angle[4] = 0
+animation_point_right_leg_size[4] = 0
+
+animation_point_right_calf_angle[4] = 0
+animation_point_right_calf_size[4] = 0
+
+animation_point_shield_angle[4] = 9.40
+animation_point_shield_size[4] = 1
+
+animation_point_right_hand_weapon_angle[4] = 72.04
+animation_point_right_hand_weapon_size[4] = 0.70
+
+animation_point_left_hand_weapon_angle[4] = 6.85
+animation_point_left_hand_weapon_size[4] = 1
+
+animation_point_front_shadow_body_angle[4] = 180
+animation_point_front_shadow_body_size[4] = 1
+
+animation_point_front_shadow_left_arm_angle[4] = 30.62
+animation_point_front_shadow_left_arm_size[4] = 1.40
+
+animation_point_front_shadow_left_forearm_angle[4] = 341.08
+animation_point_front_shadow_left_forearm_size[4] = 0.60
+
+animation_point_front_shadow_right_arm_angle[4] = 351.45
+animation_point_front_shadow_right_arm_size[4] = 1.16
+
+animation_point_front_shadow_right_forearm_angle[4] = 7.55
+animation_point_front_shadow_right_forearm_size[4] = 1.36
+
+animation_point_front_shadow_left_leg_angle[4] = 0
+animation_point_front_shadow_left_leg_size[4] = 0.75
+
+animation_point_front_shadow_left_calf_angle[4] = 0
+animation_point_front_shadow_left_calf_size[4] = 0.75
+
+animation_point_front_shadow_right_leg_angle[4] = 0
+animation_point_front_shadow_right_leg_size[4] = 0.75
+
+animation_point_front_shadow_right_calf_angle[4] = 0
+animation_point_front_shadow_right_calf_size[4] = 0.75
+
+animation_point_front_shadow_shield_angle[4] = 0
+animation_point_front_shadow_shield_size[4] = 0
+
+animation_point_front_shadow_right_hand_weapon_angle[4] = 89.86
+animation_point_front_shadow_right_hand_weapon_size[4] = 0.01
+
+animation_point_front_shadow_left_hand_weapon_angle[4] = 0
+animation_point_front_shadow_left_hand_weapon_size[4] = 0
+
+animation_point_side_shadow_body_angle[4] = 180
+animation_point_side_shadow_body_size[4] = 1
+
+animation_point_side_shadow_left_arm_angle[4] = 333.42
+animation_point_side_shadow_left_arm_size[4] = 1.40
+
+animation_point_side_shadow_left_forearm_angle[4] = 53.61
+animation_point_side_shadow_left_forearm_size[4] = 1.40
+
+animation_point_side_shadow_right_arm_angle[4] = 56.58
+animation_point_side_shadow_right_arm_size[4] = 1.40
+
+animation_point_side_shadow_right_forearm_angle[4] = 93.26
+animation_point_side_shadow_right_forearm_size[4] = 1.40
+
+animation_point_side_shadow_left_leg_angle[4] = 0
+animation_point_side_shadow_left_leg_size[4] = 0.75
+
+animation_point_side_shadow_left_calf_angle[4] = 0
+animation_point_side_shadow_left_calf_size[4] = 0.75
+
+animation_point_side_shadow_right_leg_angle[4] = 0
+animation_point_side_shadow_right_leg_size[4] = 0.75
+
+animation_point_side_shadow_right_calf_angle[4] = 0
+animation_point_side_shadow_right_calf_size[4] = 0.75
+
+animation_point_side_shadow_shield_angle[4] = 0
+animation_point_side_shadow_shield_size[4] = 1
+
+animation_point_side_shadow_right_hand_weapon_angle[4] = 274.94
+animation_point_side_shadow_right_hand_weapon_size[4] = 1
+
+animation_point_side_shadow_left_hand_weapon_angle[4] = 0
+animation_point_side_shadow_left_hand_weapon_size[4] = 1
+
+animation_point_side_shadow2_body_angle[4] = 180
+animation_point_side_shadow2_body_size[4] = 1
+
+animation_point_side_shadow2_left_arm_angle[4] = 0
+animation_point_side_shadow2_left_arm_size[4] = 1.40
+
+animation_point_side_shadow2_left_forearm_angle[4] = 0
+animation_point_side_shadow2_left_forearm_size[4] = 1.40
+
+animation_point_side_shadow2_right_arm_angle[4] = 0
+animation_point_side_shadow2_right_arm_size[4] = 1.40
+
+animation_point_side_shadow2_right_forearm_angle[4] = 0
+animation_point_side_shadow2_right_forearm_size[4] = 1.40
+
+animation_point_side_shadow2_left_leg_angle[4] = 0
+animation_point_side_shadow2_left_leg_size[4] = 0.75
+
+animation_point_side_shadow2_left_calf_angle[4] = 0
+animation_point_side_shadow2_left_calf_size[4] = 0.75
+
+animation_point_side_shadow2_right_leg_angle[4] = 0
+animation_point_side_shadow2_right_leg_size[4] = 0.75
+
+animation_point_side_shadow2_right_calf_angle[4] = 0
+animation_point_side_shadow2_right_calf_size[4] = 0.75
+
+animation_point_side_shadow2_shield_angle[4] = 0
+animation_point_side_shadow2_shield_size[4] = 1
+
+animation_point_side_shadow2_right_hand_weapon_angle[4] = 0
+animation_point_side_shadow2_right_hand_weapon_size[4] = 1
+
+animation_point_side_shadow2_left_hand_weapon_angle[4] = 0
+animation_point_side_shadow2_left_hand_weapon_size[4] = 1
+
+obj_hud.animation_point_click[4] = false
+obj_hud.can_move_animation_point[4] = false
+}

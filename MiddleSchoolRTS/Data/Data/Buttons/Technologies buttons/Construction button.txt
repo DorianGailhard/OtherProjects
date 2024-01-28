@@ -1,0 +1,58 @@
+var obj;
+obj = object_add()
+
+object_set_parent(obj,obj_technologies_button)
+
+object_event_add(obj,ev_create,0,"
+//Graphics
+if (obj_manager.spr_chieftain_house_icon == -1) {
+obj_manager.spr_chieftain_house_icon = sprite_add(working_directory + '\Texturepacks\' + global.texturepack + '\Interface\In game menu\Icons\House of chieftain icon.png',1,false,false,25,25)
+}
+
+//Informations
+sprite_index = obj_manager.spr_chieftain_house_icon
+name = 33
+
+effects_text = 126017025.129
+effects_number = 0
+
+category = 1 /*Type a number of the following list
+0 : Improvements
+1 : Construction of buildings
+2 : Politics
+*/
+
+//Knowledge cost
+knowledge_cost = 2
+
+//Do not touch
+image_alpha = 0
+depth = -1002
+image_alpha = 1
+alpha_image1 = 0
+alpha_image2 = 0
+mask_index = obj_manager.spr_button_background
+technology_number = 0
+choosed = false
+hit = false
+number = global.obj_in_game_menu.technologies_categories_button_count[category]
+x_ = 43 + (number - floor(number/4) * 4) * 55
+y_ = 30 + floor(number/4) * 55
+list_number = global.obj_in_game_menu.technologies_categories_button_count[category]
+global.obj_in_game_menu.technologies_categories_button_list[category,global.obj_in_game_menu.technologies_categories_button_count[category]] = id
+global.obj_in_game_menu.technologies_categories_button_count[category] += 1
+")
+
+//Effects
+object_event_add(obj,ev_other,ev_user2,"var i;
+execute_file(working_directory + '\Data\Data\Buttons\Buildings buttons\House of the chieftain button.txt')
+execute_file(working_directory + '\Data\Data\Buttons\Buildings buttons\Grain store button.txt')
+
+with (obj_manager) {
+variable_local_set('House_of_the_chieftain_button',true)
+variable_local_set('Grain_store_button',true)
+Construction_button = false
+}")
+
+//Create the instance
+instance_create(0,0,obj)

@@ -1,0 +1,422 @@
+global.obj_units_buildings_tooltip = object_add()
+
+//Create event
+object_event_add(global.obj_units_buildings_tooltip,ev_create,0,"
+//Graphics
+sprite_index = obj_manager.spr_units_buildings_tooltip
+
+//Variables
+select_info = false
+image_alpha = 0
+text_alpha = 1
+
+height = 0
+
+id_select = 0
+id_select2 = 0
+id_select_type = 0
+
+depth = -1004
+")
+
+//Step event
+object_event_add(global.obj_units_buildings_tooltip,ev_step,ev_step_normal,"
+//X and Y
+x = mouse_x
+y = mouse_y
+
+//Units select
+var a,b;
+b = false
+
+a = instance_nearest(mouse_x,mouse_y,obj_your_warriors)
+
+if (mouse_x > a.x - a.unit.soldier_sprite_length/2 && mouse_x < a.x + a.unit.soldier_sprite_length/2 && mouse_y > a.y - a.unit.soldier_sprite_length/2 && mouse_y < a.y + a.unit.soldier_sprite_length/2) {
+if (position_meeting(mouse_x,mouse_y,a)) {
+b = true
+id_select = a
+id_select_type = 0
+}}
+
+if (b == false) {
+a = instance_nearest(mouse_x,mouse_y,obj_other_warriors)
+
+if (mouse_x > a.x - a.unit.soldier_sprite_length/2 && mouse_x < a.x + a.unit.soldier_sprite_length/2 && mouse_y > a.y - a.unit.soldier_sprite_length/2 && mouse_y < a.y + a.unit.soldier_sprite_length/2) {
+if (position_meeting(mouse_x,mouse_y,a)) {
+b = true
+id_select = a
+id_select_type = 0
+}}}
+
+if (b == false) {
+a = instance_nearest(mouse_x,mouse_y,obj_your_buildings)
+
+if (mouse_x > a.x - a.spr_length/2 && mouse_x < a.x + a.spr_length/2 && mouse_y > a.y - a.spr_length/2 && mouse_y < a.y + a.spr_length/2) {
+if (position_meeting(mouse_x,mouse_y,a)) {
+b = true
+id_select = a
+id_select_type = 1
+}}}
+
+if (b == false) {
+a = instance_nearest(mouse_x,mouse_y,obj_other_buildings)
+
+if (mouse_x > a.x - a.spr_length/2 && mouse_x < a.x + a.spr_length/2 && mouse_y > a.y - a.spr_length/2 && mouse_y < a.y + a.spr_length/2) {
+if (position_meeting(mouse_x,mouse_y,a)) {
+b = true
+id_select = a
+id_select_type = 1
+}}}
+
+if (text_alpha == 0) {
+id_select2 = id_select
+}
+
+if (image_alpha == 0) {
+text_alpha = 1
+id_select2 = id_select
+}
+
+if (instance_exists(id_select) && instance_exists(id_select2)) {
+if ((object_get_parent(id_select.object_index) == obj_your_warriors || object_get_parent(id_select.object_index) == obj_other_warriors) && (object_get_parent(id_select2.object_index) == obj_your_warriors || object_get_parent(id_select2.object_index) == obj_other_warriors)) {
+if (id_select.unit == id_select2.unit) {
+id_select2 = id_select
+}
+}
+} else {
+id_select2 = id_select
+}
+
+//Select
+var pos_met;
+pos_met = false
+
+if (instance_exists(id_select)) {
+if (id_select_type == 0) {
+if (mouse_x > id_select.x - id_select.unit.soldier_sprite_length/2 && mouse_x < id_select.x + id_select.unit.soldier_sprite_length/2 && mouse_y > id_select.y - id_select.unit.soldier_sprite_length/2 && mouse_y < id_select.y + id_select.unit.soldier_sprite_length/2) {
+if (position_meeting(mouse_x,mouse_y,id_select)) {
+pos_met = true
+}}} else {
+if (mouse_x > id_select.x - id_select.spr_length/2 && mouse_x < id_select.x + id_select.spr_length/2 && mouse_y > id_select.y - id_select.spr_length/2 && mouse_y < id_select.y + id_select.spr_length/2) {
+if (position_meeting(mouse_x,mouse_y,id_select)) {
+pos_met = true
+}}}}
+
+if (pos_met == true && !mouse_check_button(mb_left) && !mouse_check_button(mb_right)) {
+select_info = true
+}
+
+if (obj_selection.is_hovering_event == true) {
+select_info = false
+}
+
+if (instance_exists(id_select)) {
+
+if ((point_distance(id_select.x,id_select.y,mouse_x,mouse_y) > 40 && pos_met == false) || mouse_check_button(mb_left) || mouse_check_button(mb_right)) {
+select_info = false
+}
+
+} else {
+select_info = false
+}
+
+if (instance_exists(id_select)) {
+
+if (object_get_parent(id_select.object_index) == obj_your_warriors) {
+//String height
+var name_height,action_height,tiredness_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(id_select.unit.name,-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select.unit.obj_action],-1,170)
+
+draw_set_font(font_action)
+tiredness_height = string_height_ext(string_replace(obj_manager.text[6],'%1',obj_manager.text[45 + floor(id_select.unit.tiredness)]),-1,170)
+
+if (height > name_height + action_height + tiredness_height - 9) {
+height = max(29,height - 2,name_height + action_height + tiredness_height - 9)
+}
+
+if (height < name_height + action_height + tiredness_height - 9) {
+height = min(height + 2,name_height + action_height + tiredness_height - 9)
+}
+
+if (image_alpha == 0) {
+height = max(29,name_height + action_height + tiredness_height - 9)
+}
+
+}
+
+if (object_get_parent(id_select.object_index) == obj_other_warriors) {
+//String height
+var name_height,action_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(id_select.unit.name,-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select.unit.obj_action],-1,170)
+
+if (height > name_height + action_height - 9) {
+height = max(29,height - 2,name_height + action_height - 9)
+}
+
+if (height < name_height + action_height - 9) {
+height = min(height + 2,name_height + action_height - 9)
+}
+
+if (image_alpha == 0) {
+height = max(29,name_height + action_height - 9)
+}
+
+}
+
+if (id_select.object_index == obj_your_buildings) {
+//String height
+var name_height,action_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[id_select.name],-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select.obj_action],-1,170)
+
+if (height > name_height + action_height - 9) {
+height = max(29,height - 2,name_height + action_height - 9)
+}
+
+if (height < name_height + action_height - 9) {
+height = min(height + 2,name_height + action_height - 9)
+}
+
+if (image_alpha == 0) {
+height = max(29,name_height + action_height - 9)
+}
+
+}
+
+if (id_select.object_index == obj_other_buildings) {
+//String height
+var name_height,action_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[id_select.name],-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select.obj_action],-1,170)
+
+if (height > name_height + action_height - 9) {
+height = max(29,height - 2,name_height + action_height - 9)
+}
+
+if (height < name_height + action_height - 9) {
+height = min(height + 2,name_height + action_height - 9)
+}
+
+if (image_alpha == 0) {
+height = max(29,name_height + action_height - 9)
+}
+
+}
+
+}
+
+//Alpha
+if (instance_exists(id_select)) {
+
+if (id_select.object_index == obj_your_buildings) {
+
+if (id_select.placed == true && select_info == true && obj_selection.is_hovering_event == false && global.pause == false && obj_minimap.enlarge == false && obj_resources_block.alpha_image1 < 1 && obj_selection.is_placing_building == false) {
+image_alpha = min(1,image_alpha + 0.1)
+}
+
+} else {
+
+if (select_info == true && global.pause == false && obj_minimap.enlarge == false && obj_selection.is_hovering_event == false && obj_resources_block.alpha_image1 < 1 && obj_selection.is_placing_building == false) {
+image_alpha = min(1,image_alpha + 0.1)
+}
+
+}
+
+if (id_select.object_index == obj_your_buildings) {
+
+if (id_select.placed == false || select_info == false || obj_selection.is_hovering_event == true || global.pause == true || obj_minimap.enlarge == true || obj_resources_block.alpha_image1 == 1 || obj_selection.is_placing_building == true) {
+image_alpha = max(0,image_alpha - 0.1)
+}
+
+} else {
+
+if (select_info == false || global.pause == true || obj_minimap.enlarge == true || obj_selection.is_hovering_event == true || obj_resources_block.alpha_image1 == 1 || obj_selection.is_placing_building == true) {
+image_alpha = max(0,image_alpha - 0.1)
+}
+
+}
+
+}
+
+if (id_select2 == id_select) {
+text_alpha = min(1,text_alpha + 0.1)
+}
+
+if (id_select != id_select2) {
+text_alpha = max(0,text_alpha - 0.1)
+}
+")
+
+object_event_add(global.obj_units_buildings_tooltip,ev_draw,0,"
+//Draw
+if (instance_exists(id_select2)) {
+//Background
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip,0,0,33,190,34,mouse_x + 8,mouse_y + 15 + height,1,1,c_white,image_alpha)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip,0,0,0,190,33,mouse_x + 8,mouse_y + 10,1,1,c_white,image_alpha)
+
+for (i = 0;i * 20 < height - 28;i += 1) {
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip,-1,0,33,190,min(20,height - 28 - i * 20),mouse_x + 8,mouse_y + 43 + i * 20,1,1,c_white,image_alpha)
+}
+
+if (object_get_parent(id_select2.object_index) == obj_your_warriors) {
+//Strings height
+var name_height,action_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(id_select2.unit.name,-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select2.unit.obj_action],-1,170)
+
+//Informations
+draw_set_font(font_objects_name)
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_halign(fa_center)
+draw_text_ext(mouse_x + 105,mouse_y + 20,id_select2.unit.name,-1,170)
+
+draw_set_font(font_action)
+draw_set_halign(false)
+draw_text_justified(mouse_x + 20,mouse_y + 20 + name_height,obj_manager.text[id_select2.unit.obj_action],-1,170,0)
+
+draw_set_font(font_action)
+draw_text_justified(mouse_x + 20,mouse_y + 20 + name_height + action_height,string_replace(obj_manager.text[6],'%1',obj_manager.text[45 + floor(id_select2.unit.tiredness)]),-1,170,0)
+
+//Health
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.unit.men_number_max/id_select2.unit.men_number_now)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_black,image_alpha * text_alpha)
+
+draw_set_blend_mode(bm_add)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.unit.men_number_max/id_select2.unit.men_number_now)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_green,image_alpha * (id_select2.unit.men_number_now/id_select2.unit.men_number_max) * text_alpha)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.unit.men_number_max/id_select2.unit.men_number_now)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_red,image_alpha * (1 - (id_select2.unit.men_number_now/id_select2.unit.men_number_max)) * text_alpha)
+
+draw_set_blend_mode(bm_normal)
+draw_sprite_ext(obj_manager.spr_units_buildings_tooltip_health_display_outline,0,mouse_x + 20,mouse_y + 31 + height,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_font(font_life)
+draw_text_ext(mouse_x + 25,mouse_y + 30 + height,string_replace(string_replace(obj_manager.text[7],'%1',string(ceil(id_select2.unit.men_number_now))),'%2',string(id_select2.unit.men_number_max)),-1,170)
+}
+
+if (object_get_parent(id_select2.object_index) == obj_other_warriors) {
+//Strings height
+var name_height,action_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(id_select2.unit.name,-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select2.unit.obj_action],-1,170)
+
+//Informations
+draw_set_font(font_objects_name)
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_halign(fa_center)
+draw_text_ext(mouse_x + 105,mouse_y + 20,id_select2.unit.name,-1,170)
+
+draw_set_font(font_action)
+draw_set_halign(false)
+draw_text_justified(mouse_x + 20,mouse_y + 20 + name_height,obj_manager.text[id_select2.unit.obj_action],-1,170,0)
+
+//Health
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.unit.men_number_max/id_select2.unit.men_number_now)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_black,image_alpha * text_alpha)
+
+draw_set_blend_mode(bm_add)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.unit.men_number_max/id_select2.unit.men_number_now)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_green,image_alpha * (id_select2.unit.men_number_now/id_select2.unit.men_number_max) * text_alpha)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.unit.men_number_max/id_select2.unit.men_number_now)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_red,image_alpha * (1 - (id_select2.unit.men_number_now/id_select2.unit.men_number_max)) * text_alpha)
+
+draw_set_blend_mode(bm_normal)
+draw_sprite_ext(obj_manager.spr_units_buildings_tooltip_health_display_outline,0,mouse_x + 20,mouse_y + 31 + height,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_font(font_life)
+draw_text_ext(mouse_x + 25,mouse_y + 30 + height,string_replace(string_replace(obj_manager.text[7],'%1',string(ceil(id_select2.unit.men_number_now))),'%2',string(id_select2.unit.men_number_max)),-1,170)
+}
+
+if (id_select2.object_index == obj_your_buildings) {
+//Strings height
+var name_height,action_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[id_select2.name],-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select2.obj_action],-1,170)
+
+//Informations
+draw_set_font(font_objects_name)
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_halign(fa_center)
+draw_text_ext(mouse_x + 105,mouse_y + 20,obj_manager.text[id_select2.name],-1,170)
+
+draw_set_font(font_action)
+draw_set_halign(false)
+draw_text_justified(mouse_x + 20,mouse_y + 20 + name_height,obj_manager.text[id_select2.obj_action],-1,170,0)
+
+//Health
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.max_health_/id_select2.health_)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_black,image_alpha * text_alpha)
+
+draw_set_blend_mode(bm_add)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.max_health_/id_select2.health_)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_green,image_alpha * (id_select2.health_/id_select2.max_health_) * text_alpha)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.max_health_/id_select2.health_)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_red,image_alpha * (1 - (id_select2.health_/id_select2.max_health_)) * text_alpha)
+
+draw_set_blend_mode(bm_normal)
+draw_sprite_ext(obj_manager.spr_units_buildings_tooltip_health_display_outline,0,mouse_x + 20,mouse_y + 31 + height,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_font(font_life)
+draw_text_ext(mouse_x + 25,mouse_y + 30 + height,string_replace(string_replace(obj_manager.text[8],'%1',string(ceil(id_select2.health_))),'%2',string(id_select2.max_health_)),-1,170)
+}
+
+if (id_select2.object_index == obj_other_buildings) {
+//Strings height
+var name_height,action_height;
+
+draw_set_font(font_objects_name)
+name_height = string_height_ext(obj_manager.text[id_select2.name],-1,170)
+
+draw_set_font(font_action)
+action_height = string_height_ext(obj_manager.text[id_select2.obj_action],-1,170)
+
+//Informations
+draw_set_font(font_objects_name)
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_halign(fa_center)
+draw_text_ext(mouse_x + 105,mouse_y + 20,obj_manager.text[id_select2.name],-1,170)
+
+draw_set_font(font_action)
+draw_set_halign(false)
+draw_text_ext(mouse_x + 20,mouse_y + 20 + name_height,obj_manager.text[id_select2.obj_action],-1,170)
+
+//Health
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.max_health_/id_select2.health_)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_black,image_alpha * text_alpha)
+
+draw_set_blend_mode(bm_add)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.max_health_/id_select2.health_)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_green,image_alpha * (id_select2.health_/id_select2.max_health_) * text_alpha)
+draw_sprite_part_ext(obj_manager.spr_units_buildings_tooltip_health_display_background,0,0,0,(165/(id_select2.max_health_/id_select2.health_)),9,mouse_x + 20,mouse_y + 31 + height,1,1,c_red,image_alpha * (1 - (id_select2.health_/id_select2.max_health_)) * text_alpha)
+
+draw_set_blend_mode(bm_normal)
+draw_sprite_ext(obj_manager.spr_units_buildings_tooltip_health_display_outline,0,mouse_x + 20,mouse_y + 31 + height,1,1,0,c_white,image_alpha)
+
+draw_set_alpha(text_alpha * image_alpha)
+draw_set_font(font_life)
+draw_text_ext(mouse_x + 25,mouse_y + 30 + height,string_replace(string_replace(obj_manager.text[8],'%1',string(ceil(id_select2.health_))),'%2',string(id_select2.max_health_)),-1,170)
+}
+
+}")
